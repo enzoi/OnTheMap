@@ -8,20 +8,36 @@
 
 /* Begin PBXBuildFile section */
 		CFAD84781EE68F2600E40FE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD84771EE68F2600E40FE0 /* AppDelegate.swift */; };
-		CFAD847A1EE68F2600E40FE0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD84791EE68F2600E40FE0 /* ViewController.swift */; };
+		CFAD847A1EE68F2600E40FE0 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD84791EE68F2600E40FE0 /* LoginVC.swift */; };
 		CFAD847D1EE68F2600E40FE0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAD847B1EE68F2600E40FE0 /* Main.storyboard */; };
 		CFAD847F1EE68F2600E40FE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFAD847E1EE68F2600E40FE0 /* Assets.xcassets */; };
 		CFAD84821EE68F2600E40FE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAD84801EE68F2600E40FE0 /* LaunchScreen.storyboard */; };
+		CFAD848B1EE7479400E40FE0 /* LocationMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD848A1EE7479400E40FE0 /* LocationMapVC.swift */; };
+		CFAD848D1EE747BA00E40FE0 /* UserTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD848C1EE747BA00E40FE0 /* UserTableVC.swift */; };
+		CFAD848F1EE747F300E40FE0 /* AddLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD848E1EE747F300E40FE0 /* AddLocationVC.swift */; };
+		CFAD84911EE7483100E40FE0 /* UserTableDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD84901EE7483100E40FE0 /* UserTableDetailVC.swift */; };
+		CFAD84991EE74DEB00E40FE0 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD84981EE74DEB00E40FE0 /* UdacityConstants.swift */; };
+		CFAD849B1EE74F1C00E40FE0 /* UdacityLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD849A1EE74F1C00E40FE0 /* UdacityLocation.swift */; };
+		CFAD84A01EE759DF00E40FE0 /* FBAuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD849F1EE759DF00E40FE0 /* FBAuthVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		34AF499FB6D0E28307747413 /* Pods-OnTheMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMap.release.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap.release.xcconfig"; sourceTree = "<group>"; };
+		BD38F5C9BF03DE68563783C6 /* Pods-OnTheMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap.debug.xcconfig"; sourceTree = "<group>"; };
 		CFAD84741EE68F2600E40FE0 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFAD84771EE68F2600E40FE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CFAD84791EE68F2600E40FE0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CFAD84791EE68F2600E40FE0 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		CFAD847C1EE68F2600E40FE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CFAD847E1EE68F2600E40FE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CFAD84811EE68F2600E40FE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CFAD84831EE68F2600E40FE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFAD848A1EE7479400E40FE0 /* LocationMapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationMapVC.swift; path = ../LocationMapVC.swift; sourceTree = "<group>"; };
+		CFAD848C1EE747BA00E40FE0 /* UserTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserTableVC.swift; path = ../UserTableVC.swift; sourceTree = "<group>"; };
+		CFAD848E1EE747F300E40FE0 /* AddLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddLocationVC.swift; path = ../AddLocationVC.swift; sourceTree = "<group>"; };
+		CFAD84901EE7483100E40FE0 /* UserTableDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserTableDetailVC.swift; path = ../UserTableDetailVC.swift; sourceTree = "<group>"; };
+		CFAD84981EE74DEB00E40FE0 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
+		CFAD849A1EE74F1C00E40FE0 /* UdacityLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityLocation.swift; sourceTree = "<group>"; };
+		CFAD849F1EE759DF00E40FE0 /* FBAuthVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBAuthVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,11 +51,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5098EC31358466E76843E6AB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BD38F5C9BF03DE68563783C6 /* Pods-OnTheMap.debug.xcconfig */,
+				34AF499FB6D0E28307747413 /* Pods-OnTheMap.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		CFAD846B1EE68F2600E40FE0 = {
 			isa = PBXGroup;
 			children = (
 				CFAD84761EE68F2600E40FE0 /* OnTheMap */,
 				CFAD84751EE68F2600E40FE0 /* Products */,
+				5098EC31358466E76843E6AB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,13 +81,76 @@
 			isa = PBXGroup;
 			children = (
 				CFAD84771EE68F2600E40FE0 /* AppDelegate.swift */,
-				CFAD84791EE68F2600E40FE0 /* ViewController.swift */,
+				CFAD84921EE7495400E40FE0 /* Model */,
+				CFAD84891EE7477000E40FE0 /* Controller */,
+				CFAD84941EE74BE100E40FE0 /* Assets */,
+				CFAD84951EE74C0600E40FE0 /* Supporting Files */,
+			);
+			path = OnTheMap;
+			sourceTree = "<group>";
+		};
+		CFAD84891EE7477000E40FE0 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CFAD84791EE68F2600E40FE0 /* LoginVC.swift */,
+				CFAD848A1EE7479400E40FE0 /* LocationMapVC.swift */,
+				CFAD848C1EE747BA00E40FE0 /* UserTableVC.swift */,
+				CFAD84901EE7483100E40FE0 /* UserTableDetailVC.swift */,
+				CFAD848E1EE747F300E40FE0 /* AddLocationVC.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		CFAD84921EE7495400E40FE0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CFAD84931EE7496300E40FE0 /* Clients */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		CFAD84931EE7496300E40FE0 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				CFAD84971EE74DCD00E40FE0 /* FBAuth */,
+				CFAD84961EE74DC500E40FE0 /* Udacity */,
+			);
+			name = Clients;
+			sourceTree = "<group>";
+		};
+		CFAD84941EE74BE100E40FE0 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
 				CFAD847B1EE68F2600E40FE0 /* Main.storyboard */,
 				CFAD847E1EE68F2600E40FE0 /* Assets.xcassets */,
 				CFAD84801EE68F2600E40FE0 /* LaunchScreen.storyboard */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+		CFAD84951EE74C0600E40FE0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
 				CFAD84831EE68F2600E40FE0 /* Info.plist */,
 			);
-			path = OnTheMap;
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CFAD84961EE74DC500E40FE0 /* Udacity */ = {
+			isa = PBXGroup;
+			children = (
+				CFAD84981EE74DEB00E40FE0 /* UdacityConstants.swift */,
+				CFAD849A1EE74F1C00E40FE0 /* UdacityLocation.swift */,
+			);
+			name = Udacity;
+			sourceTree = "<group>";
+		};
+		CFAD84971EE74DCD00E40FE0 /* FBAuth */ = {
+			isa = PBXGroup;
+			children = (
+				CFAD849F1EE759DF00E40FE0 /* FBAuthVC.swift */,
+			);
+			name = FBAuth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +160,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CFAD84861EE68F2600E40FE0 /* Build configuration list for PBXNativeTarget "OnTheMap" */;
 			buildPhases = (
+				075A8C06773C53B93A186067 /* [CP] Check Pods Manifest.lock */,
 				CFAD84701EE68F2600E40FE0 /* Sources */,
 				CFAD84711EE68F2600E40FE0 /* Frameworks */,
 				CFAD84721EE68F2600E40FE0 /* Resources */,
+				34F9BEC06B54813B3D4BBC14 /* [CP] Embed Pods Frameworks */,
+				CE4CAEF0E6BC96D214F5B665 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -132,12 +224,67 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		075A8C06773C53B93A186067 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		34F9BEC06B54813B3D4BBC14 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CE4CAEF0E6BC96D214F5B665 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CFAD84701EE68F2600E40FE0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CFAD847A1EE68F2600E40FE0 /* ViewController.swift in Sources */,
+				CFAD847A1EE68F2600E40FE0 /* LoginVC.swift in Sources */,
+				CFAD84991EE74DEB00E40FE0 /* UdacityConstants.swift in Sources */,
+				CFAD84A01EE759DF00E40FE0 /* FBAuthVC.swift in Sources */,
+				CFAD848D1EE747BA00E40FE0 /* UserTableVC.swift in Sources */,
+				CFAD84911EE7483100E40FE0 /* UserTableDetailVC.swift in Sources */,
+				CFAD849B1EE74F1C00E40FE0 /* UdacityLocation.swift in Sources */,
+				CFAD848B1EE7479400E40FE0 /* LocationMapVC.swift in Sources */,
+				CFAD848F1EE747F300E40FE0 /* AddLocationVC.swift in Sources */,
 				CFAD84781EE68F2600E40FE0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,9 +406,11 @@
 		};
 		CFAD84871EE68F2600E40FE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD38F5C9BF03DE68563783C6 /* Pods-OnTheMap.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = UM7C9A659H;
+				FRAMEWORK_SEARCH_PATHS = "/Users/yeontaekim/Downloads/FacebookSDKs-iOS-4.23.0/**";
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ytk.OnTheMap;
@@ -272,9 +421,11 @@
 		};
 		CFAD84881EE68F2600E40FE0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34AF499FB6D0E28307747413 /* Pods-OnTheMap.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = UM7C9A659H;
+				FRAMEWORK_SEARCH_PATHS = "/Users/yeontaekim/Downloads/FacebookSDKs-iOS-4.23.0/**";
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ytk.OnTheMap;
@@ -302,6 +453,7 @@
 				CFAD84881EE68F2600E40FE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
