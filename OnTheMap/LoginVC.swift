@@ -10,25 +10,227 @@ import UIKit
 
 class LoginVC: UIViewController {
     
+    // MARK: Properties
+    
+    var appDelegate: AppDelegate!
+    var keyboardOnScreen = false
+    
+    // MARK: Outlets
+    
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var debugTextLabel: UILabel!
+    @IBOutlet weak var logoImageView: UIImageView!
+    
+    // MARK: Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureBackground()
+        
+        // get the app delegate
+        // appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        configureUI()
+        
+        subscribeToNotification(.UIKeyboardWillShow, selector: #selector(keyboardWillShow))
+        subscribeToNotification(.UIKeyboardWillHide, selector: #selector(keyboardWillHide))
+        subscribeToNotification(.UIKeyboardDidShow, selector: #selector(keyboardDidShow))
+        subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide))
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromAllNotifications()
     }
+    
+    // MARK: Login
+    @IBAction func loginPressed(_ sender: Any) {
+        userDidTapView(self)
+        
+        if usernameTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
+            debugTextLabel.text = "Username or Password Empty."
+        } else {
+            setUIEnabled(false)
+            
+            // posting a session
+            postSession()
+        }
+    }
+    
+    private func completeLogin() {
+        performUIUpdatesOnMain {
+            self.debugTextLabel.text = ""
+            self.setUIEnabled(true)
+            let controller = self.storyboard!.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+            self.present(controller, animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: TheMovieDB
+    
+    private func postSession() {
+        
+        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = "{\"udacity\": {\"username\": \"\(self.usernameTextField.text!)\", \"password\": \"\(self.passwordTextField.text!)\"}}".data(using: String.Encoding.utf8)
+        
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            
+            // if an error occurs, print it and re-enable the UI
+            func displayError(_ error: String) {
+                print(error)
+                performUIUpdatesOnMain {
+                    self.setUIEnabled(true)
+                    self.debugTextLabel.text = "Login Failed."
+                }
+            }
+            
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                displayError("There was an error with your request: \(error!)")
+                return
+            }
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                displayError("Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                displayError("No data was returned by the request!")
+                return
+            }
+            
+            let range = Range(5..<data.count)
+            let newData = data.subdata(in: range) /* subset response data! */
+            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
 
-    func configureBackground() {
+            self.completeLogin()
+        }
+        
+        // Start the request
+        task.resume()
+    }
+    
+
+    
+}
+
+// MARK: - LoginVC: UITextFieldDelegate
+
+extension LoginVC: UITextFieldDelegate {
+    
+    // MARK: UITextFieldDelegate
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // MARK: Show/Hide Keyboard
+    
+    func keyboardWillShow(_ notification: Notification) {
+        if !keyboardOnScreen {
+            view.frame.origin.y -= keyboardHeight(notification)
+            logoImageView.isHidden = true
+        }
+    }
+    
+    func keyboardWillHide(_ notification: Notification) {
+        if keyboardOnScreen {
+            view.frame.origin.y += keyboardHeight(notification)
+            logoImageView.isHidden = false
+        }
+    }
+    
+    func keyboardDidShow(_ notification: Notification) {
+        keyboardOnScreen = true
+    }
+    
+    func keyboardDidHide(_ notification: Notification) {
+        keyboardOnScreen = false
+    }
+    
+    private func keyboardHeight(_ notification: Notification) -> CGFloat {
+        let userInfo = (notification as NSNotification).userInfo
+        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.cgRectValue.height
+    }
+    
+    private func resignIfFirstResponder(_ textField: UITextField) {
+        if textField.isFirstResponder {
+            textField.resignFirstResponder()
+        }
+    }
+    
+    @IBAction func userDidTapView(_ sender: AnyObject) {
+        resignIfFirstResponder(usernameTextField)
+        resignIfFirstResponder(passwordTextField)
+    }
+}
+
+// MARK: - LoginViewController (Configure UI)
+
+private extension LoginVC {
+    
+    func setUIEnabled(_ enabled: Bool) {
+        usernameTextField.isEnabled = enabled
+        passwordTextField.isEnabled = enabled
+        loginButton.isEnabled = enabled
+        debugTextLabel.text = ""
+        debugTextLabel.isEnabled = enabled
+        
+        // adjust login button alpha
+        if enabled {
+            loginButton.alpha = 1.0
+        } else {
+            loginButton.alpha = 0.5
+        }
+    }
+    
+    func configureUI() {
+        
+        // configure background gradient
         let backgroundGradient = CAGradientLayer()
-        let colorTop = UIColor(red: 0.345, green: 0.839, blue: 0.988, alpha: 1.0).cgColor
-        let colorBottom = UIColor(red: 0.023, green: 0.569, blue: 0.910, alpha: 1.0).cgColor
-        backgroundGradient.colors = [colorTop, colorBottom]
+        backgroundGradient.colors = [Constants.UI.LoginColorTop, Constants.UI.LoginColorBottom]
         backgroundGradient.locations = [0.0, 1.0]
         backgroundGradient.frame = view.frame
         view.layer.insertSublayer(backgroundGradient, at: 0)
+        
+        configureTextField(usernameTextField)
+        configureTextField(passwordTextField)
     }
+    
+    func configureTextField(_ textField: UITextField) {
+        let textFieldPaddingViewFrame = CGRect(x: 0.0, y: 0.0, width: 13.0, height: 0.0)
+        let textFieldPaddingView = UIView(frame: textFieldPaddingViewFrame)
+        textField.leftView = textFieldPaddingView
+        textField.leftViewMode = .always
+        textField.backgroundColor = Constants.UI.GreyColor
+        textField.textColor = Constants.UI.BlueColor
+        textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder!, attributes: [NSForegroundColorAttributeName: UIColor.white])
+        textField.tintColor = Constants.UI.BlueColor
+        textField.delegate = self
+    }
+}
 
+// MARK: - LoginVC (Notifications)
+
+private extension LoginVC {
+    
+    func subscribeToNotification(_ notification: NSNotification.Name, selector: Selector) {
+        NotificationCenter.default.addObserver(self, selector: selector, name: notification, object: nil)
+    }
+    
+    func unsubscribeFromAllNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
