@@ -62,12 +62,13 @@ class LoginVC: UIViewController {
         performUIUpdatesOnMain {
             self.debugTextLabel.text = ""
             self.setUIEnabled(true)
-            let controller = self.storyboard!.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+            let controller = self.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
+            
             self.present(controller, animated: true, completion: nil)
         }
     }
     
-    // MARK: TheMovieDB
+    // MARK: Udacity Get a Session
     
     private func postSession() {
         
