@@ -232,8 +232,17 @@
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="soq-pu-YMN"/>
-                            <barButtonItem systemItem="refresh" id="6xc-kc-YpZ"/>
+                            <barButtonItem systemItem="add" id="soq-pu-YMN">
+                                <connections>
+                                    <action selector="addButtonPressed:" destination="qPI-dc-yno" id="cBG-ld-cX3"/>
+                                    <segue destination="cfJ-mp-5Ww" kind="show" id="Hji-Mp-YOW"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="refresh" id="6xc-kc-YpZ">
+                                <connections>
+                                    <action selector="refreshButtonPressed:" destination="qPI-dc-yno" id="MGz-uc-U5m"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>

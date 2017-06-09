@@ -86,11 +86,24 @@ class LocationMapVC: UIViewController {
         
         task.resume()
     }
-
+    
     @IBAction func logoutButtonPressed(_ sender: Any) {
-        print("button pressed")
+        
         deleteSession()
+    
     }
 
+    @IBAction func refreshButtonPressed(_ sender: Any) {
+        
+        
+    }
 
+    @IBAction func addButtonPressed(_ sender: Any) {
+        
+        let storyboard = UIStoryboard (name: "Main", bundle: nil)
+        let addLocationVC = storyboard.instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
+        
+        self.navigationController?.pushViewController(addLocationVC, animated: true)
+        
+    }
 }
