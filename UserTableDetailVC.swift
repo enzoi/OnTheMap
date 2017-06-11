@@ -10,6 +10,8 @@ import UIKit
 
 class UserTableDetailVC: UIViewController {
 
+    var studentLocation: StudentLocation?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

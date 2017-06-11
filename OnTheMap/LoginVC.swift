@@ -177,7 +177,7 @@ extension LoginVC: UITextFieldDelegate {
     }
 }
 
-// MARK: - LoginViewController (Configure UI)
+// MARK: - LoginVC (Configure UI)
 
 private extension LoginVC {
     
