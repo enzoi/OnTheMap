@@ -117,10 +117,10 @@
             </objects>
             <point key="canvasLocation" x="1025" y="152"/>
         </scene>
-        <!--User Table DetailVC-->
+        <!--URL Web ViewVC-->
         <scene sceneID="hTh-kD-eYN">
             <objects>
-                <viewController id="Vak-lv-E7h" customClass="UserTableDetailVC" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="URLWebViewVC" id="Vak-lv-E7h" customClass="URLWebViewVC" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Z0l-Dm-Z0f"/>
                         <viewControllerLayoutGuide type="bottom" id="R0N-aG-M3Q"/>
@@ -128,12 +128,27 @@
                     <view key="view" contentMode="scaleToFill" id="iAS-jl-8Ti">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fO7-QE-YwW">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </webView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="R0N-aG-M3Q" firstAttribute="top" secondItem="fO7-QE-YwW" secondAttribute="bottom" id="AtS-oN-byX"/>
+                            <constraint firstAttribute="trailing" secondItem="fO7-QE-YwW" secondAttribute="trailing" id="Awg-Oz-48n"/>
+                            <constraint firstItem="fO7-QE-YwW" firstAttribute="leading" secondItem="iAS-jl-8Ti" secondAttribute="leading" id="r4q-aN-uCN"/>
+                            <constraint firstItem="fO7-QE-YwW" firstAttribute="top" secondItem="Z0l-Dm-Z0f" secondAttribute="bottom" id="xrt-ej-Brt"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="webView" destination="fO7-QE-YwW" id="xsH-gd-VYc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BMN-of-IVB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4337" y="711"/>
+            <point key="canvasLocation" x="4293.6000000000004" y="498.80059970014997"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="4CX-4L-LMW">
@@ -275,7 +290,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YCG-qv-UZW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4338" y="30"/>
+            <point key="canvasLocation" x="4294" y="-170"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="w3k-nF-zQ8">
@@ -359,7 +374,11 @@
                     <navigationItem key="navigationItem" title="On the Map" id="lDi-4b-yZL">
                         <barButtonItem key="leftBarButtonItem" title="LOGOUT" id="h3H-xD-ojC"/>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="aoc-y8-Vdy"/>
+                            <barButtonItem systemItem="add" id="aoc-y8-Vdy">
+                                <connections>
+                                    <segue destination="cfJ-mp-5Ww" kind="show" id="ztV-59-CnR"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem systemItem="refresh" id="8zy-qA-sIb"/>
                         </rightBarButtonItems>
                     </navigationItem>
@@ -401,4 +420,7 @@
         <image name="icon_pin" width="24" height="24"/>
         <image name="logo-u" width="62" height="62"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ztV-59-CnR"/>
+    </inferredMetricsTieBreakers>
 </document>

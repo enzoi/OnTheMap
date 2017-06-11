@@ -110,12 +110,10 @@ class UserTableVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        /* Push the movie detail view */
-        let controller = storyboard!.instantiateViewController(withIdentifier: "UserTableDetailVC") as! UserTableDetailVC
-        controller.studentLocation = studentLocations[(indexPath as NSIndexPath).row]
-        navigationController!.pushViewController(controller, animated: true)
+        let webViewController = storyboard!.instantiateViewController(withIdentifier: "URLWebViewVC") as! URLWebViewVC
+        webViewController.studentLocation = studentLocations[(indexPath as NSIndexPath).row]
+        present(webViewController, animated: true, completion: nil)
 
     }
-
 
 }
