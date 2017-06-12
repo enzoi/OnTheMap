@@ -84,7 +84,6 @@
 		CFAD84761EE68F2600E40FE0 /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
-				CFAD84771EE68F2600E40FE0 /* AppDelegate.swift */,
 				CF2C7C911EEB2EB900D5CB34 /* Constants.swift */,
 				CFAD84921EE7495400E40FE0 /* Model */,
 				CFAD84891EE7477000E40FE0 /* Controller */,
@@ -154,6 +153,7 @@
 		CFAD84971EE74DCD00E40FE0 /* FBAuth */ = {
 			isa = PBXGroup;
 			children = (
+				CFAD84771EE68F2600E40FE0 /* AppDelegate.swift */,
 				CFAD849F1EE759DF00E40FE0 /* FBAuthVC.swift */,
 			);
 			name = FBAuth;

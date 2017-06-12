@@ -9,38 +9,18 @@
 import UIKit
 import MapKit
 
-class LocationMapVC: UIViewController {
+class LocationMapVC: UIViewController, MKMapViewDelegate {
 
+    var studentLocations: [StudentLocation] = [StudentLocation]()
+    
+    // The map. See the setup in the Storyboard file. Note particularly that the view controller
+    // is set up as the map view's delegate.
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        getStudentLocations()
-        // Do any additional setup after loading the view.
     
-        
-    }
-
-    private func getStudentLocations() {
-    
-        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
-        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-    
-        let session = URLSession.shared
-    
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error...
-                return
-            }
-            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
-        }
-    
-        task.resume()
-    }
-    
-    private func getStudentLocation() {
+        mapView.delegate = self
         
         let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
@@ -53,10 +33,108 @@ class LocationMapVC: UIViewController {
                 return
             }
             print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+            
+            /* Parse the data */
+            let parsedResult: [String:AnyObject]!
+            do {
+                parsedResult = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:AnyObject]
+            } catch {
+                print("Could not parse the data as JSON: '\(data)'")
+                return
+            }
+            
+            /* GUARD: Did TheMovieDB return an error? */
+            if let _ = parsedResult["status_code"] as? Int {
+                print("Udacity returned an error. See the Status Code")
+                return
+            }
+            
+            /* GUARD: Is the "results" key in parsedResult? */
+            guard let results = parsedResult["results"] as? [[String:AnyObject]] else {
+                print("Cannot find key results")
+                return
+            }
+            
+            /* Use the data! */
+            self.studentLocations = StudentLocation.locationsFromResults(results)
+            
+            DispatchQueue.global(qos: .background).async {
+                
+                // We will create an MKPointAnnotation for each dictionary in "locations". The
+                // point annotations will be stored in this array, and then provided to the map view.
+                var annotations = [MKPointAnnotation]()
+                
+                for location in self.studentLocations {
+                    
+                    // Notice that the float values are being used to create CLLocationDegree values.
+                    // This is a version of the Double type.
+                    let lat = CLLocationDegrees(location.latitude)
+                    let long = CLLocationDegrees(location.longitude)
+                    
+                    // The lat and long are used to create a CLLocationCoordinates2D instance.
+                    let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                    
+                    let first = location.firstName
+                    let last = location.lastName
+                    let mediaURL = location.mediaURL
+                    
+                    // Here we create the annotation and set its coordiate, title, and subtitle properties
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = coordinate
+                    annotation.title = "\(first) \(last)"
+                    annotation.subtitle = mediaURL
+                    
+                    // Finally we place the annotation in an array of annotations.
+                    annotations.append(annotation)
+                }
+                
+                DispatchQueue.main.async {
+                    // When the array is complete, we add the annotations to the map.
+                    self.mapView.addAnnotations(annotations)
+                }
+            }
         }
         
         task.resume()
+        
     }
+    
+    // MARK: - MKMapViewDelegate
+    
+    // Here we create a view with a "right callout accessory view". You might choose to look into other
+    // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
+    // method in TableViewDataSource.
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let reuseId = "pin"
+        
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.pinTintColor = .red
+            pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        else {
+            pinView!.annotation = annotation
+        }
+        
+        return pinView
+    }
+    
+    
+    // This delegate method is implemented to respond to taps. It opens the system browser
+    // to the URL specified in the annotationViews subtitle property.
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            let app = UIApplication.shared
+            if let toOpen = view.annotation?.subtitle! {
+                app.openURL(URL(string: toOpen)!)
+            }
+        }
+    }
+    
     
     private func deleteSession() {
         
