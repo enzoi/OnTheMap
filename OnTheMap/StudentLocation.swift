@@ -20,18 +20,20 @@ struct StudentLocation {
     let latitude: Double
     let longitude: Double
     let mediaURL: String
-    // let createdAt:
-    // let updatedAt:
+    let createdAt: String
+    let updatedAt: String
     
     // MARK: Initializers
     
     init(dictionary: [String:AnyObject]) {
         objectID = dictionary["objectId"] as! String
-        firstName = dictionary["firstName"] as! String
-        lastName = dictionary["lastName"] as! String
-        latitude = dictionary["latitude"] as! Double
-        longitude = dictionary["longitude"] as! Double
-        mediaURL = dictionary["mediaURL"] as! String
+        firstName = dictionary["firstName"] as? String ?? ""
+        lastName = dictionary["lastName"] as? String ?? ""
+        latitude = dictionary["latitude"] as? Double ?? 0.0
+        longitude = dictionary["longitude"] as? Double ?? 0.0
+        mediaURL = dictionary["mediaURL"] as? String ?? ""
+        createdAt = dictionary["createdAt"] as? String ?? ""
+        updatedAt = dictionary["updatedAt"] as? String ?? ""
     }
     
     static func locationsFromResults(_ results: [[String:AnyObject]]) -> [StudentLocation] {

@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF0D14471EF249CE0075D81B /* LocationConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D14461EF249CE0075D81B /* LocationConfirmVC.swift */; };
 		CF175AB91EE8CF7C00F5D32A /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF175AB81EE8CF7C00F5D32A /* GCDBlackBox.swift */; };
 		CF2C7C921EEB2EB900D5CB34 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2C7C911EEB2EB900D5CB34 /* Constants.swift */; };
+		CF83EE791EEFA1FF00CD8C8C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF83EE781EEFA1FF00CD8C8C /* MapKit.framework */; };
 		CFAD84781EE68F2600E40FE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD84771EE68F2600E40FE0 /* AppDelegate.swift */; };
 		CFAD847A1EE68F2600E40FE0 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD84791EE68F2600E40FE0 /* LoginVC.swift */; };
 		CFAD847D1EE68F2600E40FE0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAD847B1EE68F2600E40FE0 /* Main.storyboard */; };
@@ -26,8 +28,10 @@
 /* Begin PBXFileReference section */
 		34AF499FB6D0E28307747413 /* Pods-OnTheMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMap.release.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap.release.xcconfig"; sourceTree = "<group>"; };
 		BD38F5C9BF03DE68563783C6 /* Pods-OnTheMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap.debug.xcconfig"; sourceTree = "<group>"; };
+		CF0D14461EF249CE0075D81B /* LocationConfirmVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationConfirmVC.swift; sourceTree = "<group>"; };
 		CF175AB81EE8CF7C00F5D32A /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 		CF2C7C911EEB2EB900D5CB34 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CF83EE781EEFA1FF00CD8C8C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		CFAD84741EE68F2600E40FE0 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFAD84771EE68F2600E40FE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFAD84791EE68F2600E40FE0 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -49,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF83EE791EEFA1FF00CD8C8C /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,12 +69,21 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		CF83EE771EEFA1FE00CD8C8C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CF83EE781EEFA1FF00CD8C8C /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CFAD846B1EE68F2600E40FE0 = {
 			isa = PBXGroup;
 			children = (
 				CFAD84761EE68F2600E40FE0 /* OnTheMap */,
 				CFAD84751EE68F2600E40FE0 /* Products */,
 				5098EC31358466E76843E6AB /* Pods */,
+				CF83EE771EEFA1FE00CD8C8C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,6 +116,7 @@
 				CFAD848C1EE747BA00E40FE0 /* UserTableVC.swift */,
 				CFAD84901EE7483100E40FE0 /* URLWebViewVC.swift */,
 				CFAD848E1EE747F300E40FE0 /* AddLocationVC.swift */,
+				CF0D14461EF249CE0075D81B /* LocationConfirmVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -285,6 +300,7 @@
 			files = (
 				CFAD847A1EE68F2600E40FE0 /* LoginVC.swift in Sources */,
 				CF2C7C921EEB2EB900D5CB34 /* Constants.swift in Sources */,
+				CF0D14471EF249CE0075D81B /* LocationConfirmVC.swift in Sources */,
 				CFAD84991EE74DEB00E40FE0 /* UdacityConstants.swift in Sources */,
 				CFAD84A01EE759DF00E40FE0 /* FBAuthVC.swift in Sources */,
 				CFAD848D1EE747BA00E40FE0 /* UserTableVC.swift in Sources */,
