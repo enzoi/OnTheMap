@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class LoginVC: UIViewController {
     
@@ -14,6 +15,7 @@ class LoginVC: UIViewController {
     
     var appDelegate: AppDelegate!
     var keyboardOnScreen = false
+    var user_id: String?
     
     // MARK: Outlets
     
@@ -119,7 +121,23 @@ class LoginVC: UIViewController {
             let range = Range(5..<data.count)
             let newData = data.subdata(in: range) /* subset response data! */
             print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
+            
+            let json = try? JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
+            
+            if let dictionary = json {
+                if let account = dictionary["account"] as? [String: Any] {
+                    // access individual value in dictionary
+                    print(account["key"]!)
+                }
 
+            }
+            
+            
+            
+//            let user_account = newData["account"]
+//            let key = user_account["key"]
+//            print(user_account, key)
+            
             self.completeLogin()
         }
         
