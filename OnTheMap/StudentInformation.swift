@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - Movie
 
-struct StudentLocation {
+struct StudentInformation {
     
     // MARK: Properties
     
@@ -36,16 +36,16 @@ struct StudentLocation {
         updatedAt = dictionary["updatedAt"] as? String ?? ""
     }
     
-    static func locationsFromResults(_ results: [[String:AnyObject]]) -> [StudentLocation] {
+    static func locationsFromResults(_ results: [[String:AnyObject]]) -> [StudentInformation] {
         
-        var studentLocations = [StudentLocation]()
+        var studentInformations = [StudentInformation]()
         
         // iterate through array of dictionaries, each Movie is a dictionary
         for result in results {
-            studentLocations.append(StudentLocation(dictionary: result))
+            studentInformations.append(StudentInformation(dictionary: result))
         }
         
-        return studentLocations
+        return studentInformations
     }
     
 }

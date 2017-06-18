@@ -12,7 +12,8 @@ class URLWebViewVC: UIViewController, UIWebViewDelegate {
 
     @IBOutlet weak var webView: UIWebView!
     
-    var studentLocation: StudentLocation?
+    var request: URLRequest?
+    var studentInformation: StudentInformation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,11 +27,8 @@ class URLWebViewVC: UIViewController, UIWebViewDelegate {
         self.navigationController?.isNavigationBarHidden = true
         
         webView.delegate = self
-        if let url = URL(string: (self.studentLocation?.mediaURL)!) {
-            let request = URLRequest(url: url)
-            webView.loadRequest(request)
-        }
-        
+        webView.loadRequest(self.request!)
+
     }
 
 }

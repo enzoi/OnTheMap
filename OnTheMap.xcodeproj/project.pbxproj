@@ -21,7 +21,7 @@
 		CFAD848F1EE747F300E40FE0 /* AddLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD848E1EE747F300E40FE0 /* AddLocationVC.swift */; };
 		CFAD84911EE7483100E40FE0 /* URLWebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD84901EE7483100E40FE0 /* URLWebViewVC.swift */; };
 		CFAD84991EE74DEB00E40FE0 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD84981EE74DEB00E40FE0 /* UdacityConstants.swift */; };
-		CFAD849B1EE74F1C00E40FE0 /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD849A1EE74F1C00E40FE0 /* StudentLocation.swift */; };
+		CFAD849B1EE74F1C00E40FE0 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD849A1EE74F1C00E40FE0 /* StudentInformation.swift */; };
 		CFAD84A01EE759DF00E40FE0 /* FBAuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD849F1EE759DF00E40FE0 /* FBAuthVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +44,7 @@
 		CFAD848E1EE747F300E40FE0 /* AddLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddLocationVC.swift; path = ../AddLocationVC.swift; sourceTree = "<group>"; };
 		CFAD84901EE7483100E40FE0 /* URLWebViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URLWebViewVC.swift; path = ../URLWebViewVC.swift; sourceTree = "<group>"; };
 		CFAD84981EE74DEB00E40FE0 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
-		CFAD849A1EE74F1C00E40FE0 /* StudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
+		CFAD849A1EE74F1C00E40FE0 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		CFAD849F1EE759DF00E40FE0 /* FBAuthVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBAuthVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,7 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				CFAD84981EE74DEB00E40FE0 /* UdacityConstants.swift */,
-				CFAD849A1EE74F1C00E40FE0 /* StudentLocation.swift */,
+				CFAD849A1EE74F1C00E40FE0 /* StudentInformation.swift */,
 			);
 			name = Udacity;
 			sourceTree = "<group>";
@@ -306,7 +306,7 @@
 				CFAD848D1EE747BA00E40FE0 /* UserTableVC.swift in Sources */,
 				CF175AB91EE8CF7C00F5D32A /* GCDBlackBox.swift in Sources */,
 				CFAD84911EE7483100E40FE0 /* URLWebViewVC.swift in Sources */,
-				CFAD849B1EE74F1C00E40FE0 /* StudentLocation.swift in Sources */,
+				CFAD849B1EE74F1C00E40FE0 /* StudentInformation.swift in Sources */,
 				CFAD848B1EE7479400E40FE0 /* LocationMapVC.swift in Sources */,
 				CFAD848F1EE747F300E40FE0 /* AddLocationVC.swift in Sources */,
 				CFAD84781EE68F2600E40FE0 /* AppDelegate.swift in Sources */,

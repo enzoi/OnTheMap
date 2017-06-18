@@ -261,7 +261,6 @@
                                 </state>
                                 <connections>
                                     <action selector="findLocationButtonPressed:" destination="cfJ-mp-5Ww" eventType="touchUpInside" id="uX2-8t-Le3"/>
-                                    <segue destination="8T1-r8-69h" kind="show" identifier="LocationConfirm" id="g4I-gj-1Jc"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DCF-ve-p1e">
@@ -311,7 +310,7 @@
         <!--Add Location-->
         <scene sceneID="LB8-UF-VAF">
             <objects>
-                <viewController title="Add Location" id="8T1-r8-69h" customClass="LocationConfirmVC" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LocationConfirmVC" title="Add Location" id="8T1-r8-69h" customClass="LocationConfirmVC" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WMk-xj-TJR"/>
                         <viewControllerLayoutGuide type="bottom" id="pGJ-4E-Jbq"/>
@@ -321,10 +320,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="CTc-fC-inX">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t2X-nB-aco">
-                                <rect key="frame" x="16" y="546" width="343" height="44"/>
+                                <rect key="frame" x="16" y="595" width="343" height="44"/>
                                 <color key="backgroundColor" red="0.30588235294117649" green="0.71764705882352942" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Qhp-Gn-E0y"/>
@@ -344,7 +343,9 @@
                             <constraint firstItem="CTc-fC-inX" firstAttribute="leading" secondItem="Jzg-YW-D4q" secondAttribute="leading" id="Fe2-xP-oqR"/>
                             <constraint firstItem="CTc-fC-inX" firstAttribute="top" secondItem="WMk-xj-TJR" secondAttribute="bottom" id="Rwo-I3-PbL"/>
                             <constraint firstAttribute="trailing" secondItem="CTc-fC-inX" secondAttribute="trailing" id="TCR-pu-VLK"/>
-                            <constraint firstItem="pGJ-4E-Jbq" firstAttribute="top" secondItem="CTc-fC-inX" secondAttribute="bottom" constant="-49" id="VOJ-9E-FMM"/>
+                            <constraint firstItem="CTc-fC-inX" firstAttribute="leading" secondItem="Jzg-YW-D4q" secondAttribute="leading" id="dTq-Zs-NPk"/>
+                            <constraint firstItem="pGJ-4E-Jbq" firstAttribute="top" secondItem="CTc-fC-inX" secondAttribute="bottom" id="lS6-tK-qXY"/>
+                            <constraint firstAttribute="trailing" secondItem="CTc-fC-inX" secondAttribute="trailing" id="lvD-tY-Ioa"/>
                             <constraint firstItem="t2X-nB-aco" firstAttribute="leading" secondItem="Jzg-YW-D4q" secondAttribute="leadingMargin" id="oek-iR-If6"/>
                             <constraint firstItem="pGJ-4E-Jbq" firstAttribute="top" secondItem="t2X-nB-aco" secondAttribute="bottom" constant="28" id="uEE-zA-1bX"/>
                         </constraints>
@@ -385,7 +386,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="StudentLocationTableViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentLocationTableViewCell" rowHeight="68" id="cUG-NY-XGz" customClass="StudentLocationTableViewCell" customModule="OnTheMap" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="StudentInformationTableViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentInformationTableViewCell" rowHeight="68" id="cUG-NY-XGz" userLabel="StudentInformationTableViewCell" customClass="StudentInformationTableViewCell" customModule="OnTheMap" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="68"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cUG-NY-XGz" id="BPl-WF-1CY">
@@ -487,6 +488,6 @@
         <image name="logo-u" width="62" height="62"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Hji-Mp-YOW"/>
+        <segue reference="ztV-59-CnR"/>
     </inferredMetricsTieBreakers>
 </document>

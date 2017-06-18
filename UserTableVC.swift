@@ -8,9 +8,9 @@
 
 import UIKit
 
-class StudentLocationTableViewCell: UITableViewCell {
+class StudentInformationTableViewCell: UITableViewCell {
     
-    // @IBOutlet weak var studentLocationTableView: UITableView!
+    // @IBOutlet weak var studentInformationTableView: UITableView!
     @IBOutlet weak var studentNameLabel: UILabel!
     @IBOutlet weak var mediaURLLabel: UILabel!
     
@@ -18,8 +18,9 @@ class StudentLocationTableViewCell: UITableViewCell {
 
 
 class UserTableVC: UITableViewController {
-
-    var studentLocations: [StudentLocation] = [StudentLocation]()
+    
+    var alertController: UIAlertController?
+    var studentInformations: [StudentInformation] = [StudentInformation]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +69,7 @@ class UserTableVC: UITableViewController {
             }
             
             /* Use the data! */
-            self.studentLocations = StudentLocation.locationsFromResults(results)
+            self.studentInformations = StudentInformation.locationsFromResults(results)
             performUIUpdatesOnMain {
                 self.tableView.reloadData()
             }
@@ -89,21 +90,21 @@ class UserTableVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return studentLocations.count
+        return studentInformations.count
     }
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         // get cell type
-        let cellReuseIdentifier = "StudentLocationTableViewCell"
-        let studentLocation = studentLocations[(indexPath as NSIndexPath).row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! StudentLocationTableViewCell
+        let cellReuseIdentifier = "StudentInformationTableViewCell"
+        let studentInformation = studentInformations[(indexPath as NSIndexPath).row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! StudentInformationTableViewCell
         
         // set cell defaults
-        print(studentLocation)
-        cell.studentNameLabel!.text = studentLocation.firstName
-        cell.mediaURLLabel!.text = studentLocation.mediaURL
+        print(studentInformation)
+        cell.studentNameLabel!.text = studentInformation.firstName
+        cell.mediaURLLabel!.text = studentInformation.mediaURL
         
         return cell
     }
@@ -111,9 +112,28 @@ class UserTableVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let webViewController = storyboard!.instantiateViewController(withIdentifier: "URLWebViewVC") as! URLWebViewVC
-        webViewController.studentLocation = studentLocations[(indexPath as NSIndexPath).row]
-        present(webViewController, animated: true, completion: nil)
-
+        webViewController.studentInformation = studentInformations[(indexPath as NSIndexPath).row]
+        
+        if let website = webViewController.studentInformation?.mediaURL {
+            
+            let regexp = "((https)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
+            if let range = website.range(of:regexp, options: .regularExpression) {
+                let validURL = website.substring(with:range)
+                let request = URLRequest(url: URL(string: validURL)!)
+                webViewController.request = request
+                print("Valid?")
+                
+            }  else {
+                // print error message
+                print("Alert")
+                self.alertController = UIAlertController(title: "Invalid URL", message: "Website", preferredStyle: .alert)
+                let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
+            
+                self.alertController!.addAction(dismissAction)
+                self.present(self.alertController!, animated: true, completion: nil)
+            }
+        
+            present(webViewController, animated: true, completion: nil)
+        }
     }
-
 }

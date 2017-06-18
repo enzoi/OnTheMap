@@ -34,6 +34,8 @@ class AddLocationVC: UIViewController {
         subscribeToNotification(.UIKeyboardWillHide, selector: #selector(keyboardWillHide))
         subscribeToNotification(.UIKeyboardDidShow, selector: #selector(keyboardDidShow))
         subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide))
+        
+        debugTextLabel.text = ""
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -45,42 +47,56 @@ class AddLocationVC: UIViewController {
         
         userDidTapView(self)
         
-        if locationTextField.text!.isEmpty {
+        guard let coord = locationTextField.text, !coord.isEmpty else {
             debugTextLabel.text = "Location is Empty."
-        } else if websiteTextField.text!.isEmpty {
+            return
+        }
+        
+        guard let website = websiteTextField.text, !website.isEmpty else {
             debugTextLabel.text = "Website is Empty."
+            return
+        }
+            
+        // Get location info (lat, long) from text field
+        guard let coordinate = locationTextField.text, !coordinate.isEmpty else {
+            debugTextLabel.text = "Invalid Coordinate...Please enter valid Coordinate"
+            return
+        }
+        
+        guard let url = websiteTextField.text, !url.isEmpty else {
+            debugTextLabel.text = "Invalid URL...Please enter valid URL"
+            return
+        }
+        
+        // Get a coordinate from locationTextField
+        let array = coordinate.components(separatedBy: ",")
+        self.latitude = (array[0].trimmingCharacters(in: .whitespaces) as NSString).doubleValue
+        self.longitude = (array[1].trimmingCharacters(in: .whitespaces) as NSString).doubleValue
+            
+        // Validate the coordinate
+        if (latitude < -90 || latitude > 90) || (longitude < -180 || longitude > 180) {
+            debugTextLabel.text = "Invalid Coordinate"
         } else {
-            setUIEnabled(false)
-            
-            // Get location info (lat, long) from text field
-            if let array = locationTextField.text?.components(separatedBy: ",") {
-                self.latitude = (array[0].trimmingCharacters(in: .whitespaces) as NSString).doubleValue
-                self.longitude = (array[1].trimmingCharacters(in: .whitespaces) as NSString).doubleValue
-            } else {
-                debugTextLabel.text = "Invalid Coordinate"
-            }
-            
+            // Validate URL
             let regexp = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
             if let range = websiteTextField.text?.range(of:regexp, options: .regularExpression) {
-                let result = websiteTextField.text?.substring(with:range)
-                self.website = result!
+                let result = websiteTextField.text!.substring(with:range)
+                self.website = result
             } else {
                 debugTextLabel.text = "Invalid Website"
             }
+        
+            // Get the storyboard and LocationConfirmVC
+            let storyboard = UIStoryboard (name: "Main", bundle: nil)
+            let controller = storyboard.instantiateViewController(withIdentifier: "LocationConfirmVC") as! LocationConfirmVC
             
-            performSegue(withIdentifier: "LocationConfirm", sender: self)
+            // Pass data from text field to LocationConfirmVC
+            controller.latitude = self.latitude
+            controller.longitude = self.longitude
+            controller.website = self.website
+            
+            self.navigationController?.pushViewController(controller,animated: true)
         }
-        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        // pass data from text field to LocationConfirmVC
-        let controller = segue.destination as! LocationConfirmVC
-        controller.latitude = self.latitude
-        controller.longitude = self.longitude
-        controller.website = self.website
-        
     }
 
 }

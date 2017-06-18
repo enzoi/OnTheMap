@@ -34,16 +34,29 @@ class LocationConfirmVC: UIViewController {
         // annotation.title = name
         // annotation.subtitle = self.websiteTextField.text
         
-        
         self.mapView.addAnnotation(annotation)
     }
 
 
     @IBAction func finishButtonPressed(_ sender: Any) {
-        // save data
+        // Create Student Information instant)
+        let dictionary = [String: Any]()
+        let objectID: String = UUID().uuidString
+        let uniqueKey: String = "12345678910"
+        let firstName: String = ""
+        let lastName: String = ""
+        let latitude: Double = self.latitude
+        let longitude: Double = self.longitude
+        let mediaURL: String = self.website
+//        let createdAt: String  ex) "createdAt":"2017-06-15T06:44:24.225Z"
+//        let updatedAt: String  ex) "updatedAt":"2017-06-15T06:44:24.225Z"
+        
+        // Post data with the new location using Udacity API
+        
+
         
         
         // go back to location map view
-        
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }

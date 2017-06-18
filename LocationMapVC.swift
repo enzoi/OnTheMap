@@ -11,7 +11,7 @@ import MapKit
 
 class LocationMapVC: UIViewController, MKMapViewDelegate {
 
-    var studentLocations: [StudentLocation] = [StudentLocation]()
+    var studentInformations: [StudentInformation] = [StudentInformation]()
     
     // The map. See the setup in the Storyboard file. Note particularly that the view controller
     // is set up as the map view's delegate.
@@ -56,7 +56,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
             }
             
             /* Use the data! */
-            self.studentLocations = StudentLocation.locationsFromResults(results)
+            self.studentInformations = StudentInformation.locationsFromResults(results)
             
             DispatchQueue.global(qos: .background).async {
                 
@@ -64,19 +64,19 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
                 // point annotations will be stored in this array, and then provided to the map view.
                 var annotations = [MKPointAnnotation]()
                 
-                for location in self.studentLocations {
+                for information in self.studentInformations {
                     
                     // Notice that the float values are being used to create CLLocationDegree values.
                     // This is a version of the Double type.
-                    let lat = CLLocationDegrees(location.latitude)
-                    let long = CLLocationDegrees(location.longitude)
+                    let lat = CLLocationDegrees(information.latitude)
+                    let long = CLLocationDegrees(information.longitude)
                     
                     // The lat and long are used to create a CLLocationCoordinates2D instance.
                     let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
                     
-                    let first = location.firstName
-                    let last = location.lastName
-                    let mediaURL = location.mediaURL
+                    let first = information.firstName
+                    let last = information.lastName
+                    let mediaURL = information.mediaURL
                     
                     // Here we create the annotation and set its coordiate, title, and subtitle properties
                     let annotation = MKPointAnnotation()
@@ -128,9 +128,10 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
     // to the URL specified in the annotationViews subtitle property.
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
-            let app = UIApplication.shared
             if let toOpen = view.annotation?.subtitle! {
-                app.openURL(URL(string: toOpen)!)
+                
+                UIApplication.shared.open(URL(string: toOpen)!, options: [:], completionHandler: nil)
+                
             }
         }
     }
