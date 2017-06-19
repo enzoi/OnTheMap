@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+class AccountKey {
+    
+    var key: [ String: String ] = [ "uniqueKey": "" ]
+    
+}

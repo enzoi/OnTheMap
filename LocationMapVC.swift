@@ -43,7 +43,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
                 return
             }
             
-            /* GUARD: Did TheMovieDB return an error? */
+            /* GUARD: Did Udacity return an error? */
             if let _ = parsedResult["status_code"] as? Int {
                 print("Udacity returned an error. See the Status Code")
                 return

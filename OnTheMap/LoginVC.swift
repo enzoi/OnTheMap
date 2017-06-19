@@ -127,17 +127,12 @@ class LoginVC: UIViewController {
             if let dictionary = json {
                 if let account = dictionary["account"] as? [String: Any] {
                     // access individual value in dictionary
-                    print(account["key"]!)
+                    
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.myAccountKey.key["uniqueKey"] = account["key"] as? String
                 }
-
             }
-            
-            
-            
-//            let user_account = newData["account"]
-//            let key = user_account["key"]
-//            print(user_account, key)
-            
+
             self.completeLogin()
         }
         

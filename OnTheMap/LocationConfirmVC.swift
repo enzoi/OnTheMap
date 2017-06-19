@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 
 class LocationConfirmVC: UIViewController {
-
+    
     var website: String = ""
     var annotation = MKPointAnnotation()
     var latitude: Double = 0.0
@@ -20,7 +20,7 @@ class LocationConfirmVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.tabBarController?.tabBar.isHidden = true
         
         // set sapn, region, and pin location
@@ -39,15 +39,17 @@ class LocationConfirmVC: UIViewController {
 
     private func getStudentInformation() {
         
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let accountKey = try? JSONSerialization.data(withJSONObject: appDelegate.myAccountKey.key, options: [])
         
+        let urlString = "https://parse.udacity.com/parse/classes/StudentLocation"
+        let url = URL(string: urlString)
 
-        
-        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/users/")!)
-        request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        // request.httpBody = "{\"\(user_id)\"}}".data(using: String.Encoding.utf8)
-        
+        let request = NSMutableURLRequest(url: url!)
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.httpBody = "{?where=\(accountKey!)}".data(using: String.Encoding.utf8)
+            
         let session = URLSession.shared
         
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
@@ -82,11 +84,13 @@ class LocationConfirmVC: UIViewController {
             let newData = data.subdata(in: range) /* subset response data! */
             print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
             
-            // self.completeLogin()
+            // if existing data --> Alert if user wants to overwrite the existing data
+            // post data using POST api
         }
         
         // Start the request
         task.resume()
+        
     }
     
 
@@ -106,8 +110,10 @@ class LocationConfirmVC: UIViewController {
         // Get user data to update
         getStudentInformation()
         
-        // Post data with the new location using Udacity API
 
+        
+        // Post the new location using Udacity API with the user account key
+        
         
         
         // go back to location map view
