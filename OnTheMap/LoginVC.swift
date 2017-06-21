@@ -128,8 +128,8 @@ class LoginVC: UIViewController {
                 if let account = dictionary["account"] as? [String: Any] {
                     // access individual value in dictionary
                     
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    appDelegate.myAccountKey.key["uniqueKey"] = account["key"] as? String
+                    self.getPublicUserData(user_id: account["key"] as! String)
+                    
                 }
             }
 
@@ -140,7 +140,36 @@ class LoginVC: UIViewController {
         task.resume()
     }
     
+    private func getPublicUserData(user_id: String) {
+        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/users/\(user_id)")!)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil { // Handle error...
+                return
+            }
+            
+            let range = Range(5..<data!.count)
+            let newData = data?.subdata(in: range) /* subset response data! */
+            print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue)!)
+            
+            let json = try? JSONSerialization.jsonObject(with: newData!, options: []) as! [String: Any]
+            
+            if let dictionary = json {
+                if let account = dictionary["user"] as? [String: Any] {
+                    // access individual value in dictionary
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.udacityClient.key["uniqueKey"] = (account["key"] as? String)!
+                    appDelegate.udacityClient.firstName = (account["first_name"] as? String)!
+                    appDelegate.udacityClient.lastName = (account["last_name"] as? String)!
 
+                }
+                
+            }
+        }
+        
+        task.resume()
+    
+    }
     
 }
 

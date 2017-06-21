@@ -32,7 +32,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
             if error != nil { // Handle error...
                 return
             }
-            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+            // print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
             
             /* Parse the data */
             let parsedResult: [String:AnyObject]!

@@ -8,8 +8,10 @@
 
 import Foundation
 
-class AccountKey {
+class UdacityClient {
     
     var key: [ String: String ] = [ "uniqueKey": "" ]
+    var firstName: String = ""
+    var lastName: String = ""
     
 }
