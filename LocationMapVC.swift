@@ -48,6 +48,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
                 print("Udacity returned an error. See the Status Code")
                 return
             }
+            print("parsedResult", parsedResult)
             
             /* GUARD: Is the "results" key in parsedResult? */
             guard let results = parsedResult["results"] as? [[String:AnyObject]] else {

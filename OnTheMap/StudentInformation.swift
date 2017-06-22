@@ -14,7 +14,7 @@ struct StudentInformation {
     
     // MARK: Properties
     
-    let objectID: String
+    let objectId: String
     let uniqueKey: String
     let firstName: String
     let lastName: String
@@ -27,7 +27,7 @@ struct StudentInformation {
     // MARK: Initializers
     
     init(dictionary: [String:AnyObject]) {
-        objectID = dictionary["objectId"] as! String
+        objectId = dictionary["objectId"] as! String
         uniqueKey = dictionary["uniqueKey"] as! String
         firstName = dictionary["firstName"] as? String ?? ""
         lastName = dictionary["lastName"] as? String ?? ""
