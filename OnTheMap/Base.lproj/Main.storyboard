@@ -472,13 +472,6 @@
             </objects>
             <point key="canvasLocation" x="2625" y="499"/>
         </scene>
-        <!--AV Player View Controller-->
-        <scene sceneID="ARb-oY-LCO">
-            <objects>
-                <avPlayerViewController videoGravity="AVLayerVideoGravityResizeAspect" id="l9P-XL-UF5" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6XK-nH-pab" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
     </scenes>
     <resources>
         <image name="icon_listview-selected" width="75" height="50"/>
