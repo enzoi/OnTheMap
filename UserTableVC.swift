@@ -10,6 +10,8 @@ import UIKit
 
 class StudentInformationTableViewCell: UITableViewCell {
     
+    var alertController: UIAlertController?
+    
     // @IBOutlet weak var studentInformationTableView: UITableView!
     @IBOutlet weak var studentNameLabel: UILabel!
     @IBOutlet weak var mediaURLLabel: UILabel!
@@ -136,4 +138,96 @@ class UserTableVC: UITableViewController {
             present(webViewController, animated: true, completion: nil)
         }
     }
+    
+    
+    @IBAction func addButtonPressed(_ sender: Any) {
+        
+        // Get Student Information
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let studentInformations = appDelegate.studentInformations
+        let uniqueKey = appDelegate.udacityClient.key["uniqueKey"]
+        
+        var urlString = "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(uniqueKey!)%22%7D"
+        let url = URL(string: urlString)
+        
+        let request = NSMutableURLRequest(url: url!)
+        request.httpMethod = "GET"
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            
+            // if an error occurs, print it and re-enable the UI
+            func displayError(_ error: String) {
+                print(error)
+                performUIUpdatesOnMain {
+                    
+                }
+            }
+            
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                displayError("There was an error with your request: \(error!)")
+                return
+            }
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                displayError("Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                displayError("No data was returned by the request!")
+                return
+            }
+            
+            /* Parse the data */
+            let parsedResult: [String:AnyObject]!
+            do {
+                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String:AnyObject]
+            } catch {
+                print("Could not parse the data as JSON: '\(data)'")
+                return
+            }
+            
+            /* GUARD: Is the "results" key in parsedResult? */
+            guard let results = parsedResult["results"] as? [[String:AnyObject]] else {
+                print("Cannot find key results") // no existing data
+                // Present AddLocationVC
+                let storyboard = UIStoryboard (name: "Main", bundle: nil)
+                let addLocationVC = storyboard.instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
+                self.navigationController?.pushViewController(addLocationVC, animated: true)
+                return
+            }
+            
+            /* Use the data! */
+            let studentInformation = StudentInformation.locationsFromResults(results)
+            
+            // Alert if location info already exists on the account
+            self.alertController = UIAlertController(title: "Location already exists", message: "Would you like to overwrite the data?", preferredStyle: .alert)
+            let overwriteAction = UIAlertAction(title: "Overwrite", style: .default, handler: {(action:UIAlertAction) in
+                
+                let storyboard = UIStoryboard (name: "Main", bundle: nil)
+                let addLocationVC = storyboard.instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
+                
+                /* Send the data to next VC */
+                addLocationVC.results = results[0]
+                self.navigationController?.pushViewController(addLocationVC, animated: true)
+                
+            })
+            let cancelAction = UIAlertAction(title: "Dismiss", style: .cancel)
+            
+            self.alertController!.addAction(overwriteAction)
+            self.alertController!.addAction(cancelAction)
+            self.present(self.alertController!, animated: true, completion: nil)
+            
+        }
+        // Start the request
+        task.resume()
+    }
+    
 }

@@ -11,14 +11,14 @@ import MapKit
 
 class AddLocationVC: UIViewController {
 
-    var coordinate = 0
+    var results: [String: Any]?
+    var coordinate: String = ""
     var website: String = ""
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     
     var manager = CLLocationManager()
 
-    
     var keyboardOnScreen = false
     
     @IBOutlet weak var locationTextField: UITextField!
@@ -76,27 +76,60 @@ class AddLocationVC: UIViewController {
         // Validate the coordinate
         if (latitude < -90 || latitude > 90) || (longitude < -180 || longitude > 180) {
             debugTextLabel.text = "Invalid Coordinate"
-        } else {
-            // Validate URL
-            let regexp = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
-            if let range = websiteTextField.text?.range(of:regexp, options: .regularExpression) {
-                let result = websiteTextField.text!.substring(with:range)
-                self.website = result
-            } else {
-                debugTextLabel.text = "Invalid Website"
-            }
-        
-            // Get the storyboard and LocationConfirmVC
-            let storyboard = UIStoryboard (name: "Main", bundle: nil)
-            let controller = storyboard.instantiateViewController(withIdentifier: "LocationConfirmVC") as! LocationConfirmVC
-            
-            // Pass data from text field to LocationConfirmVC
-            controller.latitude = self.latitude
-            controller.longitude = self.longitude
-            controller.website = self.website
-            
-            self.navigationController?.pushViewController(controller,animated: true)
+            return
         }
+        
+        // Validate URL
+        let regexp = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
+        guard let range = websiteTextField.text?.range(of:regexp, options: .regularExpression) else {
+            debugTextLabel.text = "Invalid Website"
+            return
+        }
+        
+        self.website = websiteTextField.text!.substring(with:range)
+        
+        if self.results != nil {
+            
+            // Update new data
+            self.results?["latitude"] = self.latitude
+            self.results?["longitude"] = self.longitude
+            self.results?["mediaURL"] = self.website
+            print("put:", self.results!)
+            
+        } else {
+            
+            // Create new Student Information and send it to LocationConfirmVC 
+            self.results = getStudentInformationDictionary()
+            self.results?["latitude"] = self.latitude
+            self.results?["longitude"] = self.longitude
+            self.results?["mediaURL"] = self.website
+            print("post:", self.results!)
+            
+        }
+
+        // Pass data to next VC
+        // Get the storyboard and LocationConfirmVC
+        let storyboard = UIStoryboard (name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "LocationConfirmVC") as! LocationConfirmVC
+        
+        controller.results = self.results!
+        self.navigationController?.pushViewController(controller,animated: true)
+
+    }
+    
+    private func getStudentInformationDictionary() -> [String: Any] {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let uniqueKey: String = appDelegate.udacityClient.key["uniqueKey"]!
+        let firstName: String = appDelegate.udacityClient.firstName
+        let lastName: String = appDelegate.udacityClient.lastName
+        let latitude: Double = self.latitude
+        let longitude: Double = self.longitude
+        let mediaURL: String = self.website
+        
+        return ["uniqueKey": uniqueKey, "firstName": firstName, "lastName": lastName, "latitude": latitude, "longitude": longitude, "mediaURL": mediaURL] as [String: Any]
+        
     }
 
 }

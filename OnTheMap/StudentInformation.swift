@@ -13,7 +13,6 @@ import Foundation
 struct StudentInformation {
     
     // MARK: Properties
-    
     let objectId: String
     let uniqueKey: String
     let firstName: String
@@ -21,21 +20,21 @@ struct StudentInformation {
     let latitude: Double
     let longitude: Double
     let mediaURL: String
-    let createdAt: String
-    let updatedAt: String
+    let mapString: String
     
     // MARK: Initializers
     
-    init(dictionary: [String:AnyObject]) {
+    init(dictionary: [String:Any]) {
+
         objectId = dictionary["objectId"] as! String
-        uniqueKey = dictionary["uniqueKey"] as! String
+        uniqueKey = dictionary["uniqueKey"] as? String ?? ""
         firstName = dictionary["firstName"] as? String ?? ""
         lastName = dictionary["lastName"] as? String ?? ""
         latitude = dictionary["latitude"] as? Double ?? 0.0
         longitude = dictionary["longitude"] as? Double ?? 0.0
         mediaURL = dictionary["mediaURL"] as? String ?? ""
-        createdAt = dictionary["createdAt"] as? String ?? ""
-        updatedAt = dictionary["updatedAt"] as? String ?? ""
+        mapString = dictionary["mapString"] as? String ?? ""
+
     }
     
     static func locationsFromResults(_ results: [[String:AnyObject]]) -> [StudentInformation] {

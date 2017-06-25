@@ -203,8 +203,7 @@
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="soq-pu-YMN">
                                 <connections>
-                                    <action selector="addButtonPressed:" destination="qPI-dc-yno" id="cBG-ld-cX3"/>
-                                    <segue destination="cfJ-mp-5Ww" kind="show" id="Hji-Mp-YOW"/>
+                                    <action selector="addButtonPressed:" destination="qPI-dc-yno" id="sOI-Xg-VMk"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="refresh" id="6xc-kc-YpZ">
@@ -225,7 +224,7 @@
         <!--Add Location-->
         <scene sceneID="eI8-2Z-0V6">
             <objects>
-                <viewController title="Add Location" id="cfJ-mp-5Ww" customClass="AddLocationVC" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddLocationVC" title="Add Location" id="cfJ-mp-5Ww" customClass="AddLocationVC" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yZ1-Ug-uo0"/>
                         <viewControllerLayoutGuide type="bottom" id="Erq-lZ-WW1"/>
@@ -480,7 +479,4 @@
         <image name="icon_world" width="52" height="67"/>
         <image name="logo-u" width="62" height="62"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="ztV-59-CnR"/>
-    </inferredMetricsTieBreakers>
 </document>
