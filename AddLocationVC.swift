@@ -12,6 +12,7 @@ import MapKit
 class AddLocationVC: UIViewController {
 
     var results: [String: Any]?
+    var studdentInformation: StudentInformation?
     var coordinate: String = ""
     var website: String = ""
     var latitude: Double = 0.0

@@ -22,7 +22,7 @@ class LocationConfirmVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tabBarController?.tabBar.isHidden = true
+        
         
         self.latitude = self.results["latitude"] as! Double
         self.longitude = self.results["longitude"] as! Double
@@ -40,6 +40,14 @@ class LocationConfirmVC: UIViewController {
         // annotation.subtitle = self.websiteTextField.text
         
         self.mapView.addAnnotation(annotation)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     @IBAction func finishButtonPressed(_ sender: Any) {
@@ -126,7 +134,11 @@ class LocationConfirmVC: UIViewController {
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let httpBodyString = "{\"uniqueKey\": \"\(dict["uniqueKey"]!)\", \"mapString\": \"\(dict["mapString"]!)\", \"firstName\": \"\(dict["firstName"]!)\", \"lastName\": \"\(dict["lastName"]!)\", \"mediaURL\": \"\(dict["mediaURL"]!)\",\"latitude\": \(dict["latitude"]!), \"longitude\": \(dict["longitude"]!)}"
+        var httpBodyString = ""
+        if let uniqueKey = dict["uniqueKey"], let mapString = dict["mapString"], let firstName = dict["firstName"], let lastName = dict["lastName"], let latitude = dict["latitude"], let longitude = dict["longitude"], let mediaURL = dict["mediaURL"] {
+            httpBodyString = "{\"uniqueKey\": \"\(uniqueKey)\", \"mapString\": \"\(mapString)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(latitude), \"longitude\": \(longitude)}"
+        }
+
         print(httpBodyString)
         request.httpBody = httpBodyString.data(using: String.Encoding.utf8)
         print(request.httpBody!)
