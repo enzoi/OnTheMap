@@ -46,10 +46,6 @@ class LocationConfirmVC: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
     @IBAction func finishButtonPressed(_ sender: Any) {
         
         if let objectId = self.results["objectId"] { // Update data with new information

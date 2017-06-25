@@ -25,6 +25,12 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+        self.tabBarController?.tabBar.isHidden = false
+        
+    }
+    
     private func getStudentInformations() {
         
         mapView.delegate = self
