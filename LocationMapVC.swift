@@ -21,6 +21,12 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        getStudentInformations()
+        
+    }
+    
+    private func getStudentInformations() {
+        
         mapView.delegate = self
         
         // Get Student Locations
@@ -100,7 +106,6 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
         }
         
         task.resume()
-        
     }
     
     // MARK: - MKMapViewDelegate
@@ -179,6 +184,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
     @IBAction func refreshButtonPressed(_ sender: Any) {
         
         print("refresh button pressed")
+        getStudentInformations()
         
     }
 
