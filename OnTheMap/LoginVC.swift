@@ -11,7 +11,7 @@ import Foundation
 import FacebookCore
 import FacebookLogin
 
-class LoginVC: UIViewController {
+class LoginVC: UIViewController, LoginButtonDelegate {
     
     // MARK: Properties
     
@@ -46,9 +46,19 @@ class LoginVC: UIViewController {
         
         let loginButton = LoginButton(readPermissions: [ .publicProfile ])
         loginButton.center = view.center
-        
+        // loginButton.frame = CGRect(x: 16, y: view.frame.height-50, width: view.frame.width-32, height: 50)
         view.addSubview(loginButton)
         
+        loginButton.delegate = self
+        
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: LoginButton) {
+        print("logged out of facebook")
+    }
+    
+    func loginButtonDidCompleteLogin(_ loginButton: LoginButton, result: LoginResult) {
+        print("successfully logged in")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,6 +105,11 @@ class LoginVC: UIViewController {
                 print("User cancelled login.")
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 print("Logged in!")
+                
+                
+                
+                
+                self.completeLogin()
             }
         }
     }
