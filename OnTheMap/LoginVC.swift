@@ -8,6 +8,8 @@
 
 import UIKit
 import Foundation
+import FacebookCore
+import FacebookLogin
 
 class LoginVC: UIViewController {
     
@@ -41,6 +43,11 @@ class LoginVC: UIViewController {
         subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide))
         
         debugTextLabel.text = ""
+        
+        let loginButton = LoginButton(readPermissions: [ .publicProfile ])
+        loginButton.center = view.center
+        
+        view.addSubview(loginButton)
         
     }
     
@@ -76,6 +83,20 @@ class LoginVC: UIViewController {
         webViewController.request = request
         
         present(webViewController, animated: true, completion: nil)
+    }
+    
+    @IBAction func FBLoginButtonClicked() {
+        let loginManager = LoginManager()
+        loginManager.logIn([ .publicProfile ], viewController: self) { loginResult in
+            switch loginResult {
+            case .failed(let error):
+                print(error)
+            case .cancelled:
+                print("User cancelled login.")
+            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
+                print("Logged in!")
+            }
+        }
     }
     
     private func completeLogin() {

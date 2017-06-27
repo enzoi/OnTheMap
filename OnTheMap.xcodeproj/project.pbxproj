@@ -72,13 +72,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		CF6465C01F0094BB006E870D /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "New Group";
-			sourceTree = "<group>";
-		};
 		CF83EE771EEFA1FE00CD8C8C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,7 +102,6 @@
 		CFAD84761EE68F2600E40FE0 /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
-				CF6465C01F0094BB006E870D /* New Group */,
 				CF2C7C911EEB2EB900D5CB34 /* Constants.swift */,
 				CFAD84921EE7495400E40FE0 /* Model */,
 				CFAD84891EE7477000E40FE0 /* Controller */,
@@ -374,6 +366,11 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"/Users/yeontaekim/Downloads/facebook-sdk-swift-0.2.0",
+					"$(inherited)",
+					"$(SRCROOT)",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -424,6 +421,11 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"/Users/yeontaekim/Downloads/facebook-sdk-swift-0.2.0",
+					"$(inherited)",
+					"$(SRCROOT)",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -448,7 +450,11 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = UM7C9A659H;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+					"/Users/yeontaekim/Downloads/facebook-sdk-swift-0.2.0",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
@@ -465,7 +471,11 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = UM7C9A659H;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+					"/Users/yeontaekim/Downloads/facebook-sdk-swift-0.2.0",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
