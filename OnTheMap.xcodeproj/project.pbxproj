@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1DDB52AB17AF59D7C2BB6573 /* Pods_OnTheMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49A7CBDC52A835C5A3D3E7C /* Pods_OnTheMap.framework */; };
 		CF0D14471EF249CE0075D81B /* LocationConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D14461EF249CE0075D81B /* LocationConfirmVC.swift */; };
 		CF175AB91EE8CF7C00F5D32A /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF175AB81EE8CF7C00F5D32A /* GCDBlackBox.swift */; };
 		CF2C7C921EEB2EB900D5CB34 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2C7C911EEB2EB900D5CB34 /* Constants.swift */; };
@@ -46,6 +47,7 @@
 		CFAD84981EE74DEB00E40FE0 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
 		CFAD849A1EE74F1C00E40FE0 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		CFAD849F1EE759DF00E40FE0 /* FBAuthVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBAuthVC.swift; sourceTree = "<group>"; };
+		F49A7CBDC52A835C5A3D3E7C /* Pods_OnTheMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnTheMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF83EE791EEFA1FF00CD8C8C /* MapKit.framework in Frameworks */,
+				1DDB52AB17AF59D7C2BB6573 /* Pods_OnTheMap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,10 +72,18 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		CF6465C01F0094BB006E870D /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 		CF83EE771EEFA1FE00CD8C8C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				CF83EE781EEFA1FF00CD8C8C /* MapKit.framework */,
+				F49A7CBDC52A835C5A3D3E7C /* Pods_OnTheMap.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -98,6 +109,7 @@
 		CFAD84761EE68F2600E40FE0 /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				CF6465C01F0094BB006E870D /* New Group */,
 				CF2C7C911EEB2EB900D5CB34 /* Constants.swift */,
 				CFAD84921EE7495400E40FE0 /* Model */,
 				CFAD84891EE7477000E40FE0 /* Controller */,
@@ -422,6 +434,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
@@ -432,11 +445,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BD38F5C9BF03DE68563783C6 /* Pods-OnTheMap.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = UM7C9A659H;
-				FRAMEWORK_SEARCH_PATHS = "/Users/yeontaekim/Downloads/FacebookSDKs-iOS-4.23.0/**";
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ytk.OnTheMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -447,11 +462,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 34AF499FB6D0E28307747413 /* Pods-OnTheMap.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = UM7C9A659H;
-				FRAMEWORK_SEARCH_PATHS = "/Users/yeontaekim/Downloads/FacebookSDKs-iOS-4.23.0/**";
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ytk.OnTheMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;

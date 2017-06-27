@@ -53,7 +53,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
             do {
                 parsedResult = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:AnyObject]
             } catch {
-                print("Could not parse the data as JSON: '\(data)'")
+                print("Could not parse the data as JSON: '\(String(describing: data))'")
                 return
             }
             

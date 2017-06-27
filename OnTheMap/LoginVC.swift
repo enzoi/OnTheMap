@@ -41,6 +41,7 @@ class LoginVC: UIViewController {
         subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide))
         
         debugTextLabel.text = ""
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,6 +66,16 @@ class LoginVC: UIViewController {
             // posting a session
             postSession()
         }
+    }
+    
+    @IBAction func signupButtonPressed(_ sender: Any) {
+        
+        let webViewController = storyboard!.instantiateViewController(withIdentifier: "URLWebViewVC") as! URLWebViewVC
+        let signupURL: String = "https://www.udacity.com/account/auth#!/signup"
+        let request = URLRequest(url: URL(string: signupURL)!)
+        webViewController.request = request
+        
+        present(webViewController, animated: true, completion: nil)
     }
     
     private func completeLogin() {
@@ -224,6 +235,8 @@ extension LoginVC: UITextFieldDelegate {
         resignIfFirstResponder(usernameTextField)
         resignIfFirstResponder(passwordTextField)
     }
+    
+    
 }
 
 // MARK: - LoginVC (Configure UI)
