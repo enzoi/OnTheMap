@@ -196,15 +196,12 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
 
     @IBAction func addButtonPressed(_ sender: Any) {
         
-        print("add button pressed")
-        
-        // Check if Student Information already exists by getting Student Information from Parse
+        // Get Student Information
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let studentInformations = appDelegate.studentInformations
         let uniqueKey = appDelegate.udacityClient.key["uniqueKey"]
         
         var urlString = "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(uniqueKey!)%22%7D"
-        
         let url = URL(string: urlString)
         
         let request = NSMutableURLRequest(url: url!)
@@ -245,28 +242,25 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
             /* Parse the data */
             let parsedResult: [String:AnyObject]!
             do {
-                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String:AnyObject] // JSON Object ==> [String:AnyObject]
+                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String:AnyObject]
             } catch {
                 print("Could not parse the data as JSON: '\(data)'")
                 return
             }
             
-            print("result:", parsedResult)
-            
             /* GUARD: Is the "results" key in parsedResult? */
-            guard let results = parsedResult["results"]?[0] as? [String:AnyObject] else {
-                print("Cannot find key results") // No existing Student Information data
-                
+            guard let results = parsedResult["results"] as? [[String:AnyObject]] else {
+                print("Cannot find key results") // no existing data
                 // Present AddLocationVC
                 let storyboard = UIStoryboard (name: "Main", bundle: nil)
                 let addLocationVC = storyboard.instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
-                
                 self.navigationController?.pushViewController(addLocationVC, animated: true)
                 return
             }
             
-            // let studentInformation = StudentInformation.locationsFromResults(results)
-        
+            /* Use the data! */
+            let studentInformation = StudentInformation.locationsFromResults(results)
+            
             // Alert if location info already exists on the account
             self.alertController = UIAlertController(title: "Location already exists", message: "Would you like to overwrite the data?", preferredStyle: .alert)
             let overwriteAction = UIAlertAction(title: "Overwrite", style: .default, handler: {(action:UIAlertAction) in
@@ -275,17 +269,16 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
                 let addLocationVC = storyboard.instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
                 
                 /* Send the data to next VC */
-                addLocationVC.results = results
-                print("result:", results)
+                addLocationVC.results = results[0]
                 self.navigationController?.pushViewController(addLocationVC, animated: true)
                 
             })
             let cancelAction = UIAlertAction(title: "Dismiss", style: .cancel)
-        
+            
             self.alertController!.addAction(overwriteAction)
             self.alertController!.addAction(cancelAction)
             self.present(self.alertController!, animated: true, completion: nil)
-
+            
         }
         // Start the request
         task.resume()

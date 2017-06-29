@@ -46,7 +46,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         
         let loginButton = LoginButton(readPermissions: [ .publicProfile ])
         loginButton.center = view.center
-        // loginButton.frame = CGRect(x: 16, y: view.frame.height-50, width: view.frame.width-32, height: 50)
+        loginButton.frame = CGRect(x: 16, y: view.frame.height-75, width: view.frame.width-32, height: 50)
         view.addSubview(loginButton)
         
         loginButton.delegate = self
@@ -59,6 +59,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     
     func loginButtonDidCompleteLogin(_ loginButton: LoginButton, result: LoginResult) {
         print("successfully logged in")
+        self.completeLogin()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -105,10 +106,6 @@ class LoginVC: UIViewController, LoginButtonDelegate {
                 print("User cancelled login.")
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 print("Logged in!")
-                
-                
-                
-                
                 self.completeLogin()
             }
         }

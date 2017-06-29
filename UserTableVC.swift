@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class StudentInformationTableViewCell: UITableViewCell {
     
@@ -115,31 +116,28 @@ class UserTableVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let webViewController = storyboard!.instantiateViewController(withIdentifier: "URLWebViewVC") as! URLWebViewVC
-        webViewController.studentInformation = studentInformations[(indexPath as NSIndexPath).row]
-        
-        if let website = webViewController.studentInformation?.mediaURL {
+        let studentInformation = studentInformations[(indexPath as NSIndexPath).row]
+        let website = studentInformation.mediaURL
+        let regexp = "((https)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
             
-            let regexp = "((https)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
-            if let range = website.range(of:regexp, options: .regularExpression) {
-                let validURL = website.substring(with:range)
-                let request = URLRequest(url: URL(string: validURL)!)
-                webViewController.request = request
-                print("Valid?")
+        if let range = website.range(of:regexp, options: .regularExpression) {
+            let validURL = website.substring(with:range)
+            UIApplication.shared.open(URL(string: validURL)!)
                 
-            }  else {
+        }  else {
                 // print error message
-                print("Alert")
-                self.alertController = UIAlertController(title: "Invalid URL", message: "Website", preferredStyle: .alert)
-                let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
+            print("Alert")
+            self.alertController = UIAlertController(title: "Invalid URL", message: "Website", preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
             
-                self.alertController!.addAction(dismissAction)
-                self.present(self.alertController!, animated: true, completion: nil)
-            }
-        
-            present(webViewController, animated: true, completion: nil)
+            self.alertController!.addAction(dismissAction)
+            self.present(self.alertController!, animated: true, completion: nil)
         }
+        
+            
+            // present(webViewController, animated: true, completion: nil)
     }
+
     
     
     @IBAction func addButtonPressed(_ sender: Any) {
