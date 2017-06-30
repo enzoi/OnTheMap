@@ -151,7 +151,6 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
         }
     }
     
-    
     private func deleteSession() {
         
         let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)

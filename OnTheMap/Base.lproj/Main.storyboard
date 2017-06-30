@@ -440,7 +440,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="On the Map" id="lDi-4b-yZL">
-                        <barButtonItem key="leftBarButtonItem" title="LOGOUT" id="h3H-xD-ojC"/>
+                        <barButtonItem key="leftBarButtonItem" title="LOGOUT" id="h3H-xD-ojC">
+                            <connections>
+                                <action selector="logoutButtonPressed:" destination="PSU-ZP-5jF" id="DrM-pK-yPm"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="aoc-y8-Vdy">
                                 <connections>
