@@ -95,10 +95,11 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         
         let webViewController = storyboard!.instantiateViewController(withIdentifier: "URLWebViewVC") as! URLWebViewVC
         let signupURL: String = "https://www.udacity.com/account/auth#!/signup"
-        let request = URLRequest(url: URL(string: signupURL)!)
-        webViewController.request = request
+        UIApplication.shared.open(URL(string: signupURL)!)
+        // let request = URLRequest(url: URL(string: signupURL)!)
+        // webViewController.request = request
         
-        present(webViewController, animated: true, completion: nil)
+        // present(webViewController, animated: true, completion: nil)
     }
     
     @IBAction func FBLoginButtonClicked() {
