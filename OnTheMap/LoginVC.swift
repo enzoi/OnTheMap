@@ -47,7 +47,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         // Facebook Login Button Setup
         let loginButton = LoginButton(readPermissions: [ .publicProfile ])
         loginButton.center = view.center
-        loginButton.frame = CGRect(x: 16, y: view.frame.height-75, width: view.frame.width-32, height: 50)
+        loginButton.frame = CGRect(x: 16, y: view.frame.height-55, width: view.frame.width-32, height: 35)
         view.addSubview(loginButton)
         
         loginButton.delegate = self
