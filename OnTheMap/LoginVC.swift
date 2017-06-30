@@ -44,6 +44,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         
         debugTextLabel.text = ""
         
+        // Facebook Login Button Setup
         let loginButton = LoginButton(readPermissions: [ .publicProfile ])
         loginButton.center = view.center
         loginButton.frame = CGRect(x: 16, y: view.frame.height-75, width: view.frame.width-32, height: 50)
@@ -51,6 +52,10 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         
         loginButton.delegate = self
         
+        // If logged in with Facebook access token, navigate to LocationMapVC
+        if AccessToken.current != nil {
+            self.completeLogin()
+        }
     }
     
     func loginButtonDidLogOut(_ loginButton: LoginButton) {
@@ -98,6 +103,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     
     @IBAction func FBLoginButtonClicked() {
         let loginManager = LoginManager()
+        
         loginManager.logIn([ .publicProfile ], viewController: self) { loginResult in
             switch loginResult {
             case .failed(let error):
