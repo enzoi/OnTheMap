@@ -114,6 +114,11 @@ class AddLocationVC: UIViewController {
         let controller = storyboard.instantiateViewController(withIdentifier: "LocationConfirmVC") as! LocationConfirmVC
         
         controller.results = self.results!
+        
+        let backItem = UIBarButtonItem()
+        backItem.title = "Cancel"
+        controller.navigationItem.backBarButtonItem = backItem
+        
         self.navigationController?.pushViewController(controller,animated: true)
 
     }

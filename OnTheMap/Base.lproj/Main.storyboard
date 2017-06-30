@@ -300,6 +300,9 @@
                             <constraint firstItem="DCF-ve-p1e" firstAttribute="trailing" secondItem="K6q-wJ-Fgf" secondAttribute="trailing" id="vGO-tN-Nga"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="On the Map" id="z3f-xe-TVE">
+                        <barButtonItem key="backBarButtonItem" title="Cancel" id="Nlg-RC-ugX"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="debugTextLabel" destination="DCF-ve-p1e" id="Abp-cT-WfE"/>
                         <outlet property="findLocationButton" destination="K6q-wJ-Fgf" id="Kpj-hQ-agW"/>

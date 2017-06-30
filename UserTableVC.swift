@@ -153,7 +153,7 @@ class UserTableVC: UITableViewController {
             UIApplication.shared.open(URL(string: validURL)!)
                 
         }  else {
-                // print error message
+            // print error message
             print("Alert")
             self.alertController = UIAlertController(title: "Invalid URL", message: "Website", preferredStyle: .alert)
             let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
@@ -161,9 +161,6 @@ class UserTableVC: UITableViewController {
             self.alertController!.addAction(dismissAction)
             self.present(self.alertController!, animated: true, completion: nil)
         }
-        
-            
-            // present(webViewController, animated: true, completion: nil)
     }
 
     
@@ -228,6 +225,7 @@ class UserTableVC: UITableViewController {
                 // Present AddLocationVC
                 let storyboard = UIStoryboard (name: "Main", bundle: nil)
                 let addLocationVC = storyboard.instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
+                
                 self.navigationController?.pushViewController(addLocationVC, animated: true)
                 return
             }

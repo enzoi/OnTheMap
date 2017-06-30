@@ -223,18 +223,39 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
             /* GUARD: Was there an error? */
             guard (error == nil) else {
                 displayError("There was an error with your request: \(error!)")
+                
+                self.alertController = UIAlertController(title: "Request Error", message: "There was an error with your request", preferredStyle: .alert)
+                let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
+                
+                self.alertController!.addAction(dismissAction)
+                self.present(self.alertController!, animated: true, completion: nil)
+                
                 return
             }
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
                 displayError("Your request returned a status code other than 2xx!")
+                
+                self.alertController = UIAlertController(title: "Failed Response", message: "Your request returned a status code other than 2xx!", preferredStyle: .alert)
+                let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
+                
+                self.alertController!.addAction(dismissAction)
+                self.present(self.alertController!, animated: true, completion: nil)
+                
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
                 displayError("No data was returned by the request!")
+                
+                self.alertController = UIAlertController(title: "Data Error", message: "No data was returned by the request!", preferredStyle: .alert)
+                let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
+                
+                self.alertController!.addAction(dismissAction)
+                self.present(self.alertController!, animated: true, completion: nil)
+
                 return
             }
             

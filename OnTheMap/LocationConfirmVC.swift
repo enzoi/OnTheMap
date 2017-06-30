@@ -22,8 +22,6 @@ class LocationConfirmVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         self.latitude = self.results["latitude"] as! Double
         self.longitude = self.results["longitude"] as! Double
         print(self.latitude, self.longitude)
