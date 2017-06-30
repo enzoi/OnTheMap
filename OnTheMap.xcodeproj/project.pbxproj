@@ -23,7 +23,6 @@
 		CFAD84911EE7483100E40FE0 /* URLWebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD84901EE7483100E40FE0 /* URLWebViewVC.swift */; };
 		CFAD84991EE74DEB00E40FE0 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD84981EE74DEB00E40FE0 /* UdacityConstants.swift */; };
 		CFAD849B1EE74F1C00E40FE0 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD849A1EE74F1C00E40FE0 /* StudentInformation.swift */; };
-		CFAD84A01EE759DF00E40FE0 /* FBAuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD849F1EE759DF00E40FE0 /* FBAuthVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,7 +45,6 @@
 		CFAD84901EE7483100E40FE0 /* URLWebViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URLWebViewVC.swift; path = ../URLWebViewVC.swift; sourceTree = "<group>"; };
 		CFAD84981EE74DEB00E40FE0 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
 		CFAD849A1EE74F1C00E40FE0 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
-		CFAD849F1EE759DF00E40FE0 /* FBAuthVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBAuthVC.swift; sourceTree = "<group>"; };
 		F49A7CBDC52A835C5A3D3E7C /* Pods_OnTheMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnTheMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -103,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				CF2C7C911EEB2EB900D5CB34 /* Constants.swift */,
+				CFAD84771EE68F2600E40FE0 /* AppDelegate.swift */,
 				CFAD84921EE7495400E40FE0 /* Model */,
 				CFAD84891EE7477000E40FE0 /* Controller */,
 				CFAD84941EE74BE100E40FE0 /* Assets */,
@@ -136,7 +135,6 @@
 		CFAD84931EE7496300E40FE0 /* Clients */ = {
 			isa = PBXGroup;
 			children = (
-				CFAD84971EE74DCD00E40FE0 /* FBAuth */,
 				CFAD84961EE74DC500E40FE0 /* Udacity */,
 			);
 			name = Clients;
@@ -167,15 +165,6 @@
 				CFAD849A1EE74F1C00E40FE0 /* StudentInformation.swift */,
 			);
 			name = Udacity;
-			sourceTree = "<group>";
-		};
-		CFAD84971EE74DCD00E40FE0 /* FBAuth */ = {
-			isa = PBXGroup;
-			children = (
-				CFAD84771EE68F2600E40FE0 /* AppDelegate.swift */,
-				CFAD849F1EE759DF00E40FE0 /* FBAuthVC.swift */,
-			);
-			name = FBAuth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,7 +295,6 @@
 				CF2C7C921EEB2EB900D5CB34 /* Constants.swift in Sources */,
 				CF0D14471EF249CE0075D81B /* LocationConfirmVC.swift in Sources */,
 				CFAD84991EE74DEB00E40FE0 /* UdacityConstants.swift in Sources */,
-				CFAD84A01EE759DF00E40FE0 /* FBAuthVC.swift in Sources */,
 				CFAD848D1EE747BA00E40FE0 /* UserTableVC.swift in Sources */,
 				CF175AB91EE8CF7C00F5D32A /* GCDBlackBox.swift in Sources */,
 				CFAD84911EE7483100E40FE0 /* URLWebViewVC.swift in Sources */,
