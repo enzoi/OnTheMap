@@ -11,6 +11,7 @@ import MapKit
 
 class LocationConfirmVC: UIViewController {
     
+    var alertController: UIAlertController?
     var results: Dictionary<String, Any> = [:]
     var website: String = ""
     var annotation = MKPointAnnotation()
@@ -83,6 +84,13 @@ class LocationConfirmVC: UIViewController {
             // if an error occurs, print it and re-enable the UI
             func displayError(_ error: String) {
                 print(error)
+                
+                // Alert if posting fails
+                self.alertController = UIAlertController(title: "Posting Failed", message: "Please try again!!", preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "Okay", style: .cancel)
+                
+                self.alertController!.addAction(okayAction)
+                self.present(self.alertController!, animated: true, completion: nil)
                 performUIUpdatesOnMain {
 
                     }

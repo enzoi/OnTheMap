@@ -8,19 +8,24 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class AddLocationVC: UIViewController {
 
+    var alertController: UIAlertController?
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     var results: [String: Any]?
     var studdentInformation: StudentInformation?
-    var coordinate: String = ""
+    var mapString: String = ""
     var website: String = ""
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     
     var manager = CLLocationManager()
+    lazy var geocoder = CLGeocoder()
 
     var keyboardOnScreen = false
+    
     
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var websiteTextField: UITextField!
@@ -48,7 +53,7 @@ class AddLocationVC: UIViewController {
         
         userDidTapView(self)
         
-        guard let coord = locationTextField.text, !coord.isEmpty else {
+        guard let mapString = locationTextField.text, !mapString.isEmpty else {
             debugTextLabel.text = "Location is Empty."
             return
         }
@@ -57,26 +62,9 @@ class AddLocationVC: UIViewController {
             debugTextLabel.text = "Website is Empty."
             return
         }
-            
-        // Get location info (lat, long) from text field
-        guard let coordinate = locationTextField.text, !coordinate.isEmpty else {
-            debugTextLabel.text = "Invalid Coordinate...Please enter valid Coordinate"
-            return
-        }
         
         guard let url = websiteTextField.text, !url.isEmpty else {
             debugTextLabel.text = "Invalid URL...Please enter valid URL"
-            return
-        }
-        
-        // Get a coordinate from locationTextField
-        let array = coordinate.components(separatedBy: ",")
-        self.latitude = (array[0].trimmingCharacters(in: .whitespaces) as NSString).doubleValue
-        self.longitude = (array[1].trimmingCharacters(in: .whitespaces) as NSString).doubleValue
-            
-        // Validate the coordinate
-        if (latitude < -90 || latitude > 90) || (longitude < -180 || longitude > 180) {
-            debugTextLabel.text = "Invalid Coordinate"
             return
         }
         
@@ -88,24 +76,18 @@ class AddLocationVC: UIViewController {
         }
         
         self.website = websiteTextField.text!.substring(with:range)
+        self.mapString = locationTextField.text!
         
-        if self.results != nil {
-            
-            // Update new data
-            self.results?["latitude"] = self.latitude
-            self.results?["longitude"] = self.longitude
-            self.results?["mediaURL"] = self.website
-            print("put:", self.results!)
-            
-        } else {
-            
-            // Create new Student Information and send it to LocationConfirmVC 
-            self.results = getStudentInformationDictionary()
-            self.results?["latitude"] = self.latitude
-            self.results?["longitude"] = self.longitude
-            self.results?["mediaURL"] = self.website
-            print("post:", self.results!)
-            
+        // Update View
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = self.view.center
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+
+        // Geocode Address String
+        geocoder.geocodeAddressString(self.mapString) { (placemarks, error) in
+            // Process Response
+            self.processResponse(withPlacemarks: placemarks, error: error)
         }
 
         // Pass data to next VC
@@ -114,10 +96,6 @@ class AddLocationVC: UIViewController {
         let controller = storyboard.instantiateViewController(withIdentifier: "LocationConfirmVC") as! LocationConfirmVC
         
         controller.results = self.results!
-        
-        let backItem = UIBarButtonItem()
-        backItem.title = "Cancel"
-        controller.navigationItem.backBarButtonItem = backItem
         
         self.navigationController?.pushViewController(controller,animated: true)
 
@@ -133,11 +111,69 @@ class AddLocationVC: UIViewController {
         let latitude: Double = self.latitude
         let longitude: Double = self.longitude
         let mediaURL: String = self.website
+        let mapString: String = self.mapString
         
-        return ["uniqueKey": uniqueKey, "firstName": firstName, "lastName": lastName, "latitude": latitude, "longitude": longitude, "mediaURL": mediaURL] as [String: Any]
+        return ["uniqueKey": uniqueKey, "firstName": firstName, "lastName": lastName, "latitude": latitude, "longitude": longitude, "mediaURL": mediaURL, "mapString": mapString] as [String: Any]
         
     }
-
+    
+    // forward geocoding reference used in the codes: https://cocoacasts.com/forward-and-reverse-geocoding-with-clgeocoder-part-1/
+    private func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
+        
+        // Update View
+        activityIndicator.stopAnimating()
+        
+        if let error = error {
+            print("Unable to Forward Geocode Address (\(error))")
+            
+            // Alert if geocoding fails
+            self.alertController = UIAlertController(title: "Geocoding Failed", message: "Please enter a valid address", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .cancel)
+            
+            self.alertController!.addAction(okayAction)
+            self.present(self.alertController!, animated: true, completion: nil)
+            
+            return
+            
+        } else {
+            var location: CLLocation?
+            
+            if let placemarks = placemarks, placemarks.count > 0 {
+                location = placemarks.first?.location
+            }
+            
+            if let location = location {
+                let coordinate = location.coordinate
+                self.latitude = coordinate.latitude
+                self.longitude = coordinate.longitude
+                print(self.latitude, self.longitude)
+                
+                if self.results != nil {
+                    
+                    // Update new data
+                    self.results?["mapString"] = self.mapString
+                    self.results?["latitude"] = self.latitude
+                    self.results?["longitude"] = self.longitude
+                    self.results?["mediaURL"] = self.website
+                    print("put:", self.results!)
+                    
+                } else {
+                    
+                    // Create new Student Information and send it to LocationConfirmVC
+                    self.results = getStudentInformationDictionary()
+                    self.results?["mapString"] = self.mapString
+                    self.results?["latitude"] = self.latitude
+                    self.results?["longitude"] = self.longitude
+                    self.results?["mediaURL"] = self.website
+                    print("post:", self.results!)
+                    
+                }
+                
+            } else {
+                debugTextLabel.text = "No Matching Location Found"
+            }
+        }
+    }
 }
 
 // MARK: - AddLocationVC: UITextFieldDelegate
