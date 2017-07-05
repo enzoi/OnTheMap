@@ -200,6 +200,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="On the Map" id="AZb-6E-YSm">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="WeZ-DE-VQP"/>
                         <barButtonItem key="leftBarButtonItem" title="LOGOUT" id="Gzq-BO-55D">
                             <connections>
                                 <action selector="logoutButtonPressed:" destination="qPI-dc-yno" id="c5y-UY-6Zx"/>
@@ -209,6 +210,7 @@
                             <barButtonItem systemItem="add" id="soq-pu-YMN">
                                 <connections>
                                     <action selector="addButtonPressed:" destination="qPI-dc-yno" id="sOI-Xg-VMk"/>
+                                    <segue destination="cfJ-mp-5Ww" kind="show" id="pmN-Ai-SHK"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="refresh" id="6xc-kc-YpZ">
@@ -445,6 +447,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="On the Map" id="lDi-4b-yZL">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="tbj-di-Qcc"/>
                         <barButtonItem key="leftBarButtonItem" title="LOGOUT" id="h3H-xD-ojC">
                             <connections>
                                 <action selector="logoutButtonPressed:" destination="PSU-ZP-5jF" id="DrM-pK-yPm"/>
@@ -491,4 +494,7 @@
         <image name="icon_world" width="52" height="67"/>
         <image name="logo-u" width="62" height="62"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ztV-59-CnR"/>
+    </inferredMetricsTieBreakers>
 </document>
