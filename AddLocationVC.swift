@@ -89,9 +89,8 @@ class AddLocationVC: UIViewController {
             // Process Response
             self.processResponse(withPlacemarks: placemarks, error: error)
         }
-
-        // Pass data to next VC
-        // Get the storyboard and LocationConfirmVC
+        
+        // Get the storyboard and LocationConfirmVC. Pass data to the VC
         let storyboard = UIStoryboard (name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "LocationConfirmVC") as! LocationConfirmVC
         
@@ -119,7 +118,7 @@ class AddLocationVC: UIViewController {
     
     // forward geocoding reference used in the codes: https://cocoacasts.com/forward-and-reverse-geocoding-with-clgeocoder-part-1/
     private func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
-        
+
         // Update View
         activityIndicator.stopAnimating()
         

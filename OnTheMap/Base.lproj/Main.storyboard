@@ -210,7 +210,6 @@
                             <barButtonItem systemItem="add" id="soq-pu-YMN">
                                 <connections>
                                     <action selector="addButtonPressed:" destination="qPI-dc-yno" id="sOI-Xg-VMk"/>
-                                    <segue destination="cfJ-mp-5Ww" kind="show" id="pmN-Ai-SHK"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="refresh" id="6xc-kc-YpZ">
@@ -454,11 +453,7 @@
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="aoc-y8-Vdy">
-                                <connections>
-                                    <segue destination="cfJ-mp-5Ww" kind="show" id="ztV-59-CnR"/>
-                                </connections>
-                            </barButtonItem>
+                            <barButtonItem systemItem="add" id="aoc-y8-Vdy"/>
                             <barButtonItem systemItem="refresh" id="8zy-qA-sIb"/>
                         </rightBarButtonItems>
                     </navigationItem>
@@ -494,7 +489,4 @@
         <image name="icon_world" width="52" height="67"/>
         <image name="logo-u" width="62" height="62"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="ztV-59-CnR"/>
-    </inferredMetricsTieBreakers>
 </document>
