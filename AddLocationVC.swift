@@ -12,8 +12,8 @@ import CoreLocation
 
 class AddLocationVC: UIViewController {
 
-    var alertController: UIAlertController?
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    var alertController: UIAlertController?
     var results: [String: Any]?
     var studdentInformation: StudentInformation?
     var mapString: String = ""
