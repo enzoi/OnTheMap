@@ -245,10 +245,11 @@ class UserTableVC: UITableViewController {
                 self.navigationController?.pushViewController(addLocationVC, animated: true)
                 
             })
-            let cancelAction = UIAlertAction(title: "Dismiss", style: .cancel)
+            let cancelAction = UIAlertAction(title: "Dismiss", style: .default)
             
             self.alertController!.addAction(overwriteAction)
             self.alertController!.addAction(cancelAction)
+            
             self.present(self.alertController!, animated: true, completion: nil)
             
         }

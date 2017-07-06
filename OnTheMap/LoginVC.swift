@@ -300,13 +300,6 @@ private extension LoginVC {
     
     func configureUI() {
         
-        // configure background gradient
-        // let backgroundGradient = CAGradientLayer()
-        // backgroundGradient.colors = [Constants.UI.LoginColorTop, Constants.UI.LoginColorBottom]
-        // backgroundGradient.locations = [0.0, 1.0]
-        // backgroundGradient.frame = view.frame
-        // view.layer.insertSublayer(backgroundGradient, at: 0)
-        
         configureTextField(usernameTextField)
         configureTextField(passwordTextField)
     }
