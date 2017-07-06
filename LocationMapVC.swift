@@ -27,6 +27,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
         
         getStudentInformations()
         
+        // Activity Indicator Setup
         activityIndicator.center = view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.color = UIColor.lightGray
@@ -38,6 +39,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         
         self.tabBarController?.tabBar.isHidden = false
+        self.activityIndicator.startAnimating()
         
     }
     
@@ -84,7 +86,6 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
             
             DispatchQueue.global(qos: .background).async {
                 
-                self.activityIndicator.startAnimating()
                 // We will create an MKPointAnnotation for each dictionary in "locations". The
                 // point annotations will be stored in this array, and then provided to the map view.
                 var annotations = [MKPointAnnotation]()

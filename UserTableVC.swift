@@ -24,24 +24,33 @@ class StudentInformationTableViewCell: UITableViewCell {
 
 class UserTableVC: UITableViewController {
     
+    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var alertController: UIAlertController?
     var studentInformations: [StudentInformation] = [StudentInformation]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        // Activity Indicator Setup
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = UIColor.lightGray
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityIndicator)
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.activityIndicator.startAnimating()
         self.tabBarController?.tabBar.isHidden = false
-
+        self.getStudentInformations()
+        
+    }
+    
+    private func getStudentInformations() {
+        
         let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
@@ -49,6 +58,7 @@ class UserTableVC: UITableViewController {
         let session = URLSession.shared
         
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            
             if error != nil { // Handle error...
                 return
             }
@@ -79,12 +89,12 @@ class UserTableVC: UITableViewController {
             self.studentInformations = StudentInformation.locationsFromResults(results)
             performUIUpdatesOnMain {
                 self.tableView.reloadData()
+                self.activityIndicator.stopAnimating()
             }
             
         }
         
         task.resume()
-        
     }
 
     private func deleteSession() {
