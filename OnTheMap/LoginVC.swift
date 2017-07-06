@@ -54,6 +54,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         
         // If logged in with Facebook access token, navigate to LocationMapVC
         if AccessToken.current != nil {
+            self.postSessionWithFB()
             self.completeLogin()
         }
     }

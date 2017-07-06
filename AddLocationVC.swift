@@ -147,7 +147,6 @@ class AddLocationVC: UIViewController {
                 let coordinate = location.coordinate
                 self.latitude = coordinate.latitude
                 self.longitude = coordinate.longitude
-                print(self.latitude, self.longitude)
                 
                 if self.results?["uniqueKey"] as! String != "" {
                     
@@ -156,7 +155,6 @@ class AddLocationVC: UIViewController {
                     self.results?["latitude"] = self.latitude
                     self.results?["longitude"] = self.longitude
                     self.results?["mediaURL"] = self.website
-                    print("put:", self.results!)
                     
                 } else {
                     
@@ -166,7 +164,6 @@ class AddLocationVC: UIViewController {
                     self.results?["latitude"] = self.latitude
                     self.results?["longitude"] = self.longitude
                     self.results?["mediaURL"] = self.website
-                    print("post:", self.results!)
                     
                 }
                 
