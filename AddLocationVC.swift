@@ -53,25 +53,22 @@ class AddLocationVC: UIViewController {
         
         userDidTapView(self)
         
+        /* GUARD: Is the location input empty? */
         guard let mapString = locationTextField.text, !mapString.isEmpty else {
             debugTextLabel.text = "Location is Empty."
             return
         }
         
+        /* GUARD: Is the website input empty? */
         guard let website = websiteTextField.text, !website.isEmpty else {
             debugTextLabel.text = "Website is Empty."
             return
         }
         
-        guard let url = websiteTextField.text, !url.isEmpty else {
-            debugTextLabel.text = "Invalid URL...Please enter valid URL"
-            return
-        }
-        
-        // Validate URL
+        /* Validate URL input by user */
         let regexp = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
         guard let range = websiteTextField.text?.range(of:regexp, options: .regularExpression) else {
-            debugTextLabel.text = "Invalid Website"
+            debugTextLabel.text = "Invalid URL...Please enter valid URL"
             return
         }
         
