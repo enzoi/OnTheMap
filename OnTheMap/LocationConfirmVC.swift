@@ -34,8 +34,8 @@ class LocationConfirmVC: UIViewController {
         let pinLocation = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
         
         self.annotation.coordinate = pinLocation
-        self.annotation.title = self.results["firstName"] as! String
-        self.annotation.subtitle = self.website
+        self.annotation.title = (self.results["firstName"] as! String) + " " + (self.results["lastName"] as! String)
+        self.annotation.subtitle = self.results["mediaURL"] as! String
         
         self.mapView.addAnnotation(annotation)
     }
