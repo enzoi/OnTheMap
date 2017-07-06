@@ -16,6 +16,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var alertController: UIAlertController?
     var studentInformations: [StudentInformation] = [StudentInformation]()
+    var results: [String: Any]?
     
     // The map. See the setup in the Storyboard file. Note particularly that the view controller
     // is set up as the map view's delegate.
@@ -288,6 +289,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
             
             /* Use the data! */
             let studentInformation = StudentInformation.locationsFromResults(results)
+            self.results = results[0]
             
             // Alert if location info already exists on the account
             self.alertController = UIAlertController(title: "Location already exists", message: "Would you like to overwrite the data?", preferredStyle: .alert)

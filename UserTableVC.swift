@@ -225,13 +225,9 @@ class UserTableVC: UITableViewController {
             /* GUARD: Is the "results" key in parsedResult? */
             guard let results = parsedResult["results"] as? [[String:AnyObject]] else {
                 print("Cannot find key results") // no existing data
-                // Present AddLocationVC
-                let storyboard = UIStoryboard (name: "Main", bundle: nil)
-                let addLocationVC = storyboard.instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
-                
-                self.navigationController?.pushViewController(addLocationVC, animated: true)
                 return
             }
+            print("first results:", results[0])
             
             /* Use the data! */
             let studentInformation = StudentInformation.locationsFromResults(results)

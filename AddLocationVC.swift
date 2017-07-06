@@ -43,6 +43,7 @@ class AddLocationVC: UIViewController {
         
         debugTextLabel.text = ""
         
+        // Activity Indicator Set up
         activityIndicator.center = view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.color = UIColor.lightGray
@@ -94,7 +95,6 @@ class AddLocationVC: UIViewController {
         let storyboard = UIStoryboard (name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "LocationConfirmVC") as! LocationConfirmVC
         
-        print(self.results!)
         controller.results = self.results!
         
         self.navigationController?.pushViewController(controller,animated: true)
@@ -118,6 +118,7 @@ class AddLocationVC: UIViewController {
     }
     
     // forward geocoding reference used in the codes: https://cocoacasts.com/forward-and-reverse-geocoding-with-clgeocoder-part-1/
+    
     private func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
 
         // Update View
@@ -148,9 +149,9 @@ class AddLocationVC: UIViewController {
                 self.longitude = coordinate.longitude
                 print(self.latitude, self.longitude)
                 
-                if self.results != nil {
+                if self.results?["uniqueKey"] as! String != "" {
                     
-                    // Update new data
+                    // Update existing data with new user input
                     self.results?["mapString"] = self.mapString
                     self.results?["latitude"] = self.latitude
                     self.results?["longitude"] = self.longitude
