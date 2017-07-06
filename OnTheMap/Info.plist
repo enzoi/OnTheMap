@@ -41,15 +41,14 @@
         <dict>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>fb652807114905035</string>
+                <string>fb365362206864879</string>
             </array>
         </dict>
     </array>
     <key>FacebookAppID</key>
-    <string>652807114905035</string>
+    <string>365362206864879</string>
     <key>FacebookDisplayName</key>
     <string>OnTheMap_YTK</string>
-    
     <key>LSApplicationQueriesSchemes</key>
     <array>
         <string>fbapi</string>
@@ -57,6 +56,8 @@
         <string>fbauth2</string>
         <string>fbshareextension</string>
     </array>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>{human-readable reason for photo access}</string>
     
 </dict>
 </plist>
