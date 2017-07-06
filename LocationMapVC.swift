@@ -69,8 +69,6 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
                 return
             }
             
-            print(results)
-            
             /* Use the data! */
             self.studentInformations = StudentInformation.locationsFromResults(results)
             

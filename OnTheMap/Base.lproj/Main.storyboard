@@ -398,7 +398,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="68"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cUG-NY-XGz" id="BPl-WF-1CY">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="67.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="68"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pin" translatesAutoresizingMaskIntoConstraints="NO" id="Gz6-je-m07">
@@ -454,7 +454,11 @@
                         </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="aoc-y8-Vdy"/>
-                            <barButtonItem systemItem="refresh" id="8zy-qA-sIb"/>
+                            <barButtonItem systemItem="refresh" id="8zy-qA-sIb">
+                                <connections>
+                                    <action selector="refreshButtonPressed:" destination="PSU-ZP-5jF" id="gnc-uG-CjX"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>

@@ -263,4 +263,12 @@ class UserTableVC: UITableViewController {
         
     }
     
+    @IBAction func refreshButtonPressed(_ sender: Any) {
+        
+        performUIUpdatesOnMain {
+            self.tableView.reloadData()
+        }
+        
+    }
+    
 }
