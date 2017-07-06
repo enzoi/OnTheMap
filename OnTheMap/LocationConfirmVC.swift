@@ -25,7 +25,6 @@ class LocationConfirmVC: UIViewController {
         
         self.latitude = self.results["latitude"] as! Double
         self.longitude = self.results["longitude"] as! Double
-        print(self.latitude, self.longitude)
         
         // set sapn, region, and pin location
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -35,8 +34,8 @@ class LocationConfirmVC: UIViewController {
         let pinLocation = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
         
         self.annotation.coordinate = pinLocation
-        // annotation.title = name
-        // annotation.subtitle = self.websiteTextField.text
+        self.annotation.title = self.results["firstName"] as! String
+        self.annotation.subtitle = self.website
         
         self.mapView.addAnnotation(annotation)
     }

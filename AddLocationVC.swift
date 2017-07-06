@@ -192,14 +192,14 @@ extension AddLocationVC: UITextFieldDelegate {
     
     func keyboardWillShow(_ notification: Notification) {
         if !keyboardOnScreen {
-            // view.frame.origin.y -= keyboardHeight(notification)
+            view.frame.origin.y -= keyboardHeight(notification)
             // logoImageView.isHidden = true
         }
     }
     
     func keyboardWillHide(_ notification: Notification) {
         if keyboardOnScreen {
-            // view.frame.origin.y += keyboardHeight(notification)
+            view.frame.origin.y = 0
             // logoImageView.isHidden = false
         }
     }
@@ -215,7 +215,7 @@ extension AddLocationVC: UITextFieldDelegate {
     private func keyboardHeight(_ notification: Notification) -> CGFloat {
         let userInfo = (notification as NSNotification).userInfo
         let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
-        return keyboardSize.cgRectValue.height
+        return keyboardSize.cgRectValue.height - 55
     }
     
     private func resignIfFirstResponder(_ textField: UITextField) {

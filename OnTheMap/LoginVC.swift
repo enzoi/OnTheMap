@@ -96,10 +96,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         let webViewController = storyboard!.instantiateViewController(withIdentifier: "URLWebViewVC") as! URLWebViewVC
         let signupURL: String = "https://www.udacity.com/account/auth#!/signup"
         UIApplication.shared.open(URL(string: signupURL)!)
-        // let request = URLRequest(url: URL(string: signupURL)!)
-        // webViewController.request = request
         
-        // present(webViewController, animated: true, completion: nil)
     }
     
     @IBAction func FBLoginButtonClicked() {
@@ -246,7 +243,7 @@ extension LoginVC: UITextFieldDelegate {
     
     func keyboardWillHide(_ notification: Notification) {
         if keyboardOnScreen {
-            view.frame.origin.y += keyboardHeight(notification)
+            view.frame.origin.y = 0
             logoImageView.isHidden = false
         }
     }

@@ -92,7 +92,7 @@
                         <constraints>
                             <constraint firstItem="2Hj-VD-qfu" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="D6d-rU-cK5"/>
                             <constraint firstItem="zY5-J0-ZQN" firstAttribute="leading" secondItem="q9T-I3-Ibz" secondAttribute="leading" id="Hxd-iN-xH7"/>
-                            <constraint firstItem="UXY-pX-zPa" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="92" id="JwB-3i-YWw"/>
+                            <constraint firstItem="UXY-pX-zPa" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="92" id="SOU-Yv-RFx"/>
                             <constraint firstItem="2Hj-VD-qfu" firstAttribute="top" secondItem="83E-aU-EdH" secondAttribute="bottom" constant="7" id="VuW-X8-f5v"/>
                             <constraint firstItem="2Hj-VD-qfu" firstAttribute="leading" secondItem="q9T-I3-Ibz" secondAttribute="leading" id="Zb7-v2-HF8"/>
                             <constraint firstItem="q9T-I3-Ibz" firstAttribute="top" secondItem="2Hj-VD-qfu" secondAttribute="bottom" constant="10" id="Zo0-0G-RdL"/>
@@ -109,6 +109,9 @@
                             <constraint firstItem="zY5-J0-ZQN" firstAttribute="trailing" secondItem="q9T-I3-Ibz" secondAttribute="trailing" id="w0C-uT-qtR"/>
                             <constraint firstItem="83E-aU-EdH" firstAttribute="top" secondItem="UXY-pX-zPa" secondAttribute="bottom" constant="28" id="wNI-aj-Icf"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="yje-kZ-4iE" appends="YES" id="1Bt-zs-WIQ"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="debugTextLabel" destination="zY5-J0-ZQN" id="8xz-fz-s60"/>
@@ -119,6 +122,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="yje-kZ-4iE">
+                    <connections>
+                        <action selector="userDidTapView:" destination="BYZ-38-t0r" id="w4H-cC-ncy"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1024.8" y="151.57421289355324"/>
         </scene>
@@ -300,6 +308,9 @@
                             <constraint firstItem="fmU-Ou-6So" firstAttribute="trailing" secondItem="eqY-3U-ckf" secondAttribute="trailingMargin" id="r45-CF-dNi"/>
                             <constraint firstItem="DCF-ve-p1e" firstAttribute="trailing" secondItem="K6q-wJ-Fgf" secondAttribute="trailing" id="vGO-tN-Nga"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Hxm-z4-wjQ" appends="YES" id="EYG-IY-SXk"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="On the Map" id="z3f-xe-TVE">
                         <barButtonItem key="backBarButtonItem" title="Cancel" id="Nlg-RC-ugX"/>
@@ -312,6 +323,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YCG-qv-UZW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Hxm-z4-wjQ">
+                    <connections>
+                        <action selector="userDidTapView:" destination="cfJ-mp-5Ww" id="wZM-pw-zrn"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="4293.6000000000004" y="-170.46476761619192"/>
         </scene>
