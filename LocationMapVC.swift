@@ -8,9 +8,12 @@
 
 import UIKit
 import MapKit
+import FacebookCore
+import FacebookLogin
 
 class LocationMapVC: UIViewController, MKMapViewDelegate {
 
+    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var alertController: UIAlertController?
     var studentInformations: [StudentInformation] = [StudentInformation]()
     
@@ -22,6 +25,12 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         getStudentInformations()
+        
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = UIColor.lightGray
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityIndicator)
         
     }
     
@@ -74,6 +83,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
             
             DispatchQueue.global(qos: .background).async {
                 
+                self.activityIndicator.startAnimating()
                 // We will create an MKPointAnnotation for each dictionary in "locations". The
                 // point annotations will be stored in this array, and then provided to the map view.
                 var annotations = [MKPointAnnotation]()
@@ -105,6 +115,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
                 DispatchQueue.main.async {
                     // When the array is complete, we add the annotations to the map.
                     self.mapView.addAnnotations(annotations)
+                    self.activityIndicator.stopAnimating()
                 }
             }
         }
@@ -180,6 +191,8 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
     
     @IBAction func logoutButtonPressed(_ sender: Any) {
         
+        let loginManager = LoginManager()
+        loginManager.logOut()
         deleteSession()
     
     }
@@ -210,12 +223,9 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
         
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             
-            // if an error occurs, print it and re-enable the UI
+            // if an error occurs, print it
             func displayError(_ error: String) {
                 print(error)
-                performUIUpdatesOnMain {
-                    
-                }
             }
             
             /* GUARD: Was there an error? */

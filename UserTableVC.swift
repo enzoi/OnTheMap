@@ -8,6 +8,8 @@
 
 import UIKit
 import SafariServices
+import FacebookCore
+import FacebookLogin
 
 class StudentInformationTableViewCell: UITableViewCell {
     
@@ -171,6 +173,7 @@ class UserTableVC: UITableViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let studentInformations = appDelegate.studentInformations
         let uniqueKey = appDelegate.udacityClient.key["uniqueKey"]
+        print(uniqueKey)
         
         var urlString = "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(uniqueKey!)%22%7D"
         let url = URL(string: urlString)
@@ -259,6 +262,8 @@ class UserTableVC: UITableViewController {
     
     @IBAction func logoutButtonPressed(_ sender: Any) {
         
+        let loginManager = LoginManager()
+        loginManager.logOut()
         deleteSession()
         
     }

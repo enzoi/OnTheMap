@@ -13,7 +13,7 @@ import CoreLocation
 class AddLocationVC: UIViewController {
 
     var alertController: UIAlertController?
-    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var results: [String: Any]?
     var studdentInformation: StudentInformation?
     var mapString: String = ""
@@ -42,6 +42,12 @@ class AddLocationVC: UIViewController {
         subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide))
         
         debugTextLabel.text = ""
+        
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = UIColor.lightGray
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityIndicator)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -76,9 +82,6 @@ class AddLocationVC: UIViewController {
         self.mapString = locationTextField.text!
         
         // Update View
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.center = self.view.center
-        view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
 
         // Geocode Address String
@@ -91,6 +94,7 @@ class AddLocationVC: UIViewController {
         let storyboard = UIStoryboard (name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "LocationConfirmVC") as! LocationConfirmVC
         
+        print(self.results!)
         controller.results = self.results!
         
         self.navigationController?.pushViewController(controller,animated: true)
