@@ -32,21 +32,16 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // get the app delegate
-        // appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        // configureUI()
-        
         subscribeToNotification(.UIKeyboardWillShow, selector: #selector(keyboardWillShow))
         subscribeToNotification(.UIKeyboardWillHide, selector: #selector(keyboardWillHide))
         subscribeToNotification(.UIKeyboardDidShow, selector: #selector(keyboardDidShow))
         subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide))
         
         debugTextLabel.text = ""
-        
+
         // Facebook Login Button Setup
         let FBloginButton = LoginButton(readPermissions: [ .publicProfile ])
-        FBloginButton.center = view.center
+        // FBloginButton.center = view.center
         FBloginButton.frame = CGRect(x: 16, y: view.frame.height-55, width: view.frame.width-32, height: 30)
         view.addSubview(FBloginButton)
         

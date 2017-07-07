@@ -214,7 +214,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="YYg-zb-N3X">
-                                <rect key="frame" x="16" y="258" width="343" height="152.5"/>
+                                <rect key="frame" x="16" y="257.5" width="343" height="152.5"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Enter a Location" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fmU-Ou-6So">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="32"/>
@@ -260,7 +260,7 @@
                                 </constraints>
                             </stackView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="247" image="icon_world" translatesAutoresizingMaskIntoConstraints="NO" id="pIA-Qn-76i">
-                                <rect key="frame" x="150" y="173" width="75" height="67"/>
+                                <rect key="frame" x="150" y="172.5" width="75" height="67"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="75" id="t8i-ZN-MfX"/>
                                 </constraints>
@@ -296,7 +296,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="4293.6000000000004" y="-170.46476761619192"/>
+            <point key="canvasLocation" x="4244" y="152"/>
         </scene>
         <!--Add Location-->
         <scene sceneID="LB8-UF-VAF">
@@ -347,7 +347,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="if0-jt-YfB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4989.6000000000004" y="-170.46476761619192"/>
+            <point key="canvasLocation" x="4940" y="152"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="w3k-nF-zQ8">
