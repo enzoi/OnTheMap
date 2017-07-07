@@ -437,7 +437,11 @@
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="aoc-y8-Vdy"/>
+                            <barButtonItem systemItem="add" id="aoc-y8-Vdy">
+                                <connections>
+                                    <action selector="addButtonPressed:" destination="PSU-ZP-5jF" id="9pO-Ge-Dea"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem systemItem="refresh" id="8zy-qA-sIb">
                                 <connections>
                                     <action selector="refreshButtonPressed:" destination="PSU-ZP-5jF" id="gnc-uG-CjX"/>

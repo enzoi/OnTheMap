@@ -183,7 +183,6 @@ class UserTableVC: UITableViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let studentInformations = appDelegate.studentInformations
         let uniqueKey = appDelegate.udacityClient.key["uniqueKey"]
-        print(uniqueKey)
         
         var urlString = "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(uniqueKey!)%22%7D"
         let url = URL(string: urlString)
