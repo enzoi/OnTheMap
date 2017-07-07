@@ -45,12 +45,12 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         debugTextLabel.text = ""
         
         // Facebook Login Button Setup
-        let loginButton = LoginButton(readPermissions: [ .publicProfile ])
-        loginButton.center = view.center
-        loginButton.frame = CGRect(x: 16, y: view.frame.height-55, width: view.frame.width-32, height: 35)
-        view.addSubview(loginButton)
+        let FBloginButton = LoginButton(readPermissions: [ .publicProfile ])
+        FBloginButton.center = view.center
+        FBloginButton.frame = CGRect(x: 16, y: view.frame.height-55, width: view.frame.width-32, height: 30)
+        view.addSubview(FBloginButton)
         
-        loginButton.delegate = self
+        FBloginButton.delegate = self
         
         // If logged in with Facebook access token, navigate to LocationMapVC
         if AccessToken.current != nil {
@@ -97,7 +97,6 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     
     @IBAction func signupButtonPressed(_ sender: Any) {
         
-        let webViewController = storyboard!.instantiateViewController(withIdentifier: "URLWebViewVC") as! URLWebViewVC
         let signupURL: String = "https://www.udacity.com/account/auth#!/signup"
         UIApplication.shared.open(URL(string: signupURL)!)
         
