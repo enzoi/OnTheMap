@@ -26,7 +26,7 @@ class LocationConfirmVC: UIViewController {
         self.latitude = self.results["latitude"] as! Double
         self.longitude = self.results["longitude"] as! Double
         
-        // set sapn, region, and pin location
+        // span to zoom(code below created based on the solution from https://stackoverflow.com/questions/39615416/swift-span-zoom)
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude), span: span)
         self.mapView.setRegion(region, animated: true)
@@ -35,7 +35,7 @@ class LocationConfirmVC: UIViewController {
         
         self.annotation.coordinate = pinLocation
         self.annotation.title = (self.results["firstName"] as! String) + " " + (self.results["lastName"] as! String)
-        self.annotation.subtitle = self.results["mediaURL"] as! String
+        self.annotation.subtitle = self.results["mediaURL"] as? String
         
         self.mapView.addAnnotation(annotation)
     }
@@ -140,9 +140,7 @@ class LocationConfirmVC: UIViewController {
             httpBodyString = "{\"uniqueKey\": \"\(uniqueKey)\", \"mapString\": \"\(mapString)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(latitude), \"longitude\": \(longitude)}"
         }
 
-        print(httpBodyString)
         request.httpBody = httpBodyString.data(using: String.Encoding.utf8)
-        print(request.httpBody!)
         
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in

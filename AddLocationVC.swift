@@ -73,6 +73,7 @@ class AddLocationVC: UIViewController {
         }
         
         /* Validate URL input by user */
+        // validating url using regular expression (code below created based on the solution from http://urlregex.com/)
         let regexp = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
         guard let range = websiteTextField.text?.range(of:regexp, options: .regularExpression) else {
             debugTextLabel.text = "Invalid URL...Please enter valid URL"
@@ -117,7 +118,7 @@ class AddLocationVC: UIViewController {
         
     }
     
-    // forward geocoding reference used in the codes: https://cocoacasts.com/forward-and-reverse-geocoding-with-clgeocoder-part-1/
+    // forward geocoding (code below created based on the solution from https://cocoacasts.com/forward-and-reverse-geocoding-with-clgeocoder-part-1/)
     
     private func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
 
