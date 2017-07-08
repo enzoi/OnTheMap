@@ -15,6 +15,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     
     // MARK: Properties
     
+    var alertController: UIAlertController?
     var appDelegate: AppDelegate!
     var keyboardOnScreen = false
     var user_id: String?
@@ -81,7 +82,10 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         userDidTapView(self)
         
         if usernameTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
-            debugTextLabel.text = "Username or Password Empty."
+
+            let error = "Username or Password Empty."
+            self.getAlertView(error: error)
+            
         } else {
             setUIEnabled(false)
             
@@ -130,7 +134,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
                 print(error)
                 performUIUpdatesOnMain {
                     self.setUIEnabled(true)
-                    self.debugTextLabel.text = "Login Failed."
+                    self.getAlertView(error: error)
                 }
             }
             
@@ -188,7 +192,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
                 print(error)
                 performUIUpdatesOnMain {
                     self.setUIEnabled(true)
-                    self.debugTextLabel.text = "Login Failed."
+                    self.getAlertView(error: error)
                 }
             }
             
@@ -230,6 +234,15 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         
         // Start the request
         task.resume()
+    }
+    
+    private func getAlertView(error: String) {
+        
+        self.alertController = UIAlertController(title: "Login Error", message: error, preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "Dismiss", style: .cancel)
+        
+        self.alertController!.addAction(okayAction)
+        self.present(self.alertController!, animated: true, completion: nil)
     }
     
     private func getPublicUserData(user_id: String) {
