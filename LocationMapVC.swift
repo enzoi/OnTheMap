@@ -57,6 +57,9 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
         
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil { // Handle error...
+                
+                self.getAlertView(error: error as! String)
+                
                 return
             }
             // print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
@@ -180,6 +183,9 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
         
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil { // Handle error…
+                
+                self.getAlertView(error: error as! String)
+                
                 return
             }
             let range = Range(5..<data!.count)
@@ -190,6 +196,15 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
         }
         
         task.resume()
+    }
+    
+    private func getAlertView(error: String) {
+        
+        self.alertController = UIAlertController(title: "Login Error", message: error, preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "Dismiss", style: .cancel)
+        
+        self.alertController!.addAction(okayAction)
+        self.present(self.alertController!, animated: true, completion: nil)
     }
     
     @IBAction func logoutButtonPressed(_ sender: Any) {
