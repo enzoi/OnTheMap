@@ -273,7 +273,7 @@ class UserTableVC: UITableViewController {
     
     private func getAlertView(error: String) {
         
-        self.alertController = UIAlertController(title: "Login Error", message: error, preferredStyle: .alert)
+        self.alertController = UIAlertController(title: "Download Fails", message: error, preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "Dismiss", style: .cancel)
         
         self.alertController!.addAction(okayAction)

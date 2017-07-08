@@ -82,18 +82,11 @@ class LocationConfirmVC: UIViewController {
                 
             // if an error occurs, print it and re-enable the UI
             func displayError(_ error: String) {
+            
                 print(error)
-                
-                // Alert if posting fails
-                self.alertController = UIAlertController(title: "Posting Failed", message: "Please try again!!", preferredStyle: .alert)
-                let okayAction = UIAlertAction(title: "Okay", style: .cancel)
-                
-                self.alertController!.addAction(okayAction)
-                self.present(self.alertController!, animated: true, completion: nil)
-                performUIUpdatesOnMain {
-
-                    }
-                }
+                self.getAlertView(error: error)
+            
+            }
                 
                 /* GUARD: Was there an error? */
                 guard (error == nil) else {
@@ -145,6 +138,10 @@ class LocationConfirmVC: UIViewController {
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil { // Handle error…
+                
+                print(error)
+                self.getAlertView(error: error as! String)
+                
                 return
             }
             print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
@@ -152,6 +149,15 @@ class LocationConfirmVC: UIViewController {
         
         task.resume()
 
+    }
+    
+    private func getAlertView(error: String) {
+        
+        self.alertController = UIAlertController(title: "Post Fails", message: error, preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "Dismiss", style: .cancel)
+        
+        self.alertController!.addAction(okayAction)
+        self.present(self.alertController!, animated: true, completion: nil)
     }
     
 }
