@@ -219,6 +219,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
     @IBAction func refreshButtonPressed(_ sender: Any) {
         
         print("refresh button pressed")
+        mapView.removeAnnotations(mapView.annotations)
         getStudentInformations()
         
     }
