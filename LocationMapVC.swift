@@ -40,6 +40,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
         
         self.tabBarController?.tabBar.isHidden = false
         self.activityIndicator.startAnimating()
+        mapView.removeAnnotations(mapView.annotations)
         getStudentInformations()
         
     }
