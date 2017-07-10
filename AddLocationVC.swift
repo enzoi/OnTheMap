@@ -91,14 +91,6 @@ class AddLocationVC: UIViewController {
             // Process Response
             self.processResponse(withPlacemarks: placemarks, error: error)
         }
-        
-        // Get the storyboard and LocationConfirmVC. Pass data to the VC
-        let storyboard = UIStoryboard (name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "LocationConfirmVC") as! LocationConfirmVC
-        
-        controller.results = self.results!
-        
-        self.navigationController?.pushViewController(controller,animated: true)
 
     }
     
@@ -121,7 +113,7 @@ class AddLocationVC: UIViewController {
     // forward geocoding (code below created based on the solution from https://cocoacasts.com/forward-and-reverse-geocoding-with-clgeocoder-part-1/)
     
     private func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
-
+        
         // Update View
         activityIndicator.stopAnimating()
         
@@ -167,6 +159,14 @@ class AddLocationVC: UIViewController {
                     self.results?["mediaURL"] = self.website
                     
                 }
+                
+                // Get the storyboard and LocationConfirmVC. Pass data to the VC
+                let storyboard = UIStoryboard (name: "Main", bundle: nil)
+                let controller = storyboard.instantiateViewController(withIdentifier: "LocationConfirmVC") as! LocationConfirmVC
+                
+                controller.results = self.results!
+                
+                self.navigationController?.pushViewController(controller,animated: true)
                 
             } else {
                 debugTextLabel.text = "No Matching Location Found"
