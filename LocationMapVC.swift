@@ -15,7 +15,6 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
 
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var alertController: UIAlertController?
-    var studentInformations: [StudentInformation] = [StudentInformation]()
     var results: [String: Any]?
     
     // The map. See the setup in the Storyboard file. Note particularly that the view controller
@@ -87,7 +86,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
             }
             
             /* Use the data! */
-            self.studentInformations = StudentInformation.locationsFromResults(results)
+            let studentInformations = StudentInformation.locationsFromResults(results)
             
             DispatchQueue.global(qos: .background).async {
                 
@@ -95,7 +94,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
                 // point annotations will be stored in this array, and then provided to the map view.
                 var annotations = [MKPointAnnotation]()
                 
-                for information in self.studentInformations {
+                for information in studentInformations {
                     
                     // Notice that the float values are being used to create CLLocationDegree values.
                     // This is a version of the Double type.
