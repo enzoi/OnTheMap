@@ -126,7 +126,7 @@ extension UdacityClient {
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil { // Handle error...
                 
-                hostViewController.getAlertView(title: "Session Error", message: "session error message", error: error as! String)
+                hostViewController.getAlertView(title: "Session Error", error: error as! String)
                 
                 return
             }
@@ -172,17 +172,23 @@ extension UdacityClient {
         if let username = hostViewController.usernameTextField.text, let password = hostViewController.passwordTextField.text {
             
             /* Make the request */
-            let _ = UdacityClient.sharedInstance().taskForPOSTSession(username: username, password: password, hostViewController: hostViewController) { (results, error) in
-                    
-                /* Send the desired value(s) to completion handler */
+            let _ = UdacityClient.sharedInstance().taskForPOSTSession(username: username, password: password, hostViewController: hostViewController) { (result, error) in
+                
                 if let error = error {
                     print(error)
-                    hostViewController.getAlertView(title: "Failed to Post Session", message: "Session error message", error: error as! String)
+                    completionHandlerForLogin(nil, error)
+                
+                } else {
+                    if let result = result as? Int {
+                        completionHandlerForLogin(result, nil)
+                    } else {
+                        completionHandlerForLogin(nil, NSError(domain: "postToFavoritesList parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postSession"]))
+                    }
                 }
             }
         } else {
             
-            // hostViewController.getAlertView(title: "Login Error", message: "Username or Password Empty", error: error)
+            hostViewController.getAlertView(title: "Login Error", error: "Username or Password Empty")
         
         }
         
@@ -190,9 +196,31 @@ extension UdacityClient {
     
     // MARK: POST SESSION WITH FACEBOOK
     
-    // func postSessionWithFB using taskForPOSTSessionWithFB
+    func postSessionWithFB(_ hostViewController: LoginVC, accessToken: String?, completionHandlerForLogin: @escaping (_ result: Int?, _ error: Error?) -> Void) {
+        
+        if let accessToken = accessToken {
+            
+            /* Make the request */
+            let _ = UdacityClient.sharedInstance().taskForPOSTSessionWithFB(accessToken, hostViewController: hostViewController) { (result, error) in
+               
+                if let error = error {
+                    print(error)
+                    hostViewController.getAlertView(title: "Failed to Post Session with Facebook", error: error as! String)
+                } else {
+                    if let result = result as? Int {
+                        completionHandlerForLogin(result, nil)
+                    } else {
+                        completionHandlerForLogin(nil, NSError(domain: "postToFavoritesList parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postSession"]))
+                    }
+                }
+            }
+        } else {
+            
+            hostViewController.getAlertView(title: "Login Error", error: "Access Token Error")
+            
+        }
     
-    
+    }
     
     
     // MARK: POST STUDENT INFORMATION
@@ -234,7 +262,7 @@ extension UdacityClient {
                 return
             }
             let range = Range(5..<data!.count)
-            let newData = data?.subdata(in: range) /* subset response data! */
+            let newData = data?.subdata(in: range)
             // print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue)!)
             
             hostViewController.dismiss(animated: true, completion: nil)

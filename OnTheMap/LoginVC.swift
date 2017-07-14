@@ -47,12 +47,8 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         FBloginButton.delegate = self
         
         // If Facebook access token exists, navigate to LocationMapVC right away
-        var accessToken: String = ""
-        if let token = AccessToken.current {
-            accessToken = token.authenticationToken
-            /* UdacityClient.sharedInstance().taskForPOSTSessionWithFB(completionHandlerForPOST: <#(AnyObject?, NSError?) -> Void#>) */
+        
             self.completeLogin()
-        }
     
     }
     
@@ -87,7 +83,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
                 if (success != nil) {
                     self.completeLogin()
                 } else {
-                    self.getAlertView(title: "Login Error", message: "Message", error: error! as! String)
+                    self.getAlertView(title: "Login Error", error: error! as! String)
                 }
             }
         }
@@ -100,7 +96,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         
     }
     
-    private func completeLogin() {
+    func completeLogin() {
         performUIUpdatesOnMain {
             self.debugTextLabel.text = ""
             self.setUIEnabled(true)
@@ -206,7 +202,7 @@ private extension LoginVC {
 
 extension UIViewController {
     
-    func getAlertView(title: String, message: String, error: String) {
+    func getAlertView(title: String, error: String) {
         let alertController = UIAlertController(title: title, message: error, preferredStyle: .alert)
         let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
         alertController.addAction(dismissAction)

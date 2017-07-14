@@ -144,8 +144,60 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
     @IBAction func refreshButtonPressed(_ sender: Any) {
         
         print("refresh button pressed")
+        self.activityIndicator.startAnimating()
         mapView.removeAnnotations(mapView.annotations)
-        // UdacityClient.sharedInstance().getStudentInformations()
+        
+        UdacityClient.sharedInstance().getStudentInformations(self) { (studentInformations, error) in
+            
+            self.mapView.delegate = self
+            
+            if let error = error {
+                print(error)
+                
+            } else {
+                
+                if let studentInformations = studentInformations {
+                    
+                    DispatchQueue.global(qos: .background).async {
+                        
+                        // We will create an MKPointAnnotation for each dictionary in "locations". The
+                        // point annotations will be stored in this array, and then provided to the map view.
+                        var annotations = [MKPointAnnotation]()
+                        
+                        for information in studentInformations {
+                            
+                            // Notice that the float values are being used to create CLLocationDegree values.
+                            // This is a version of the Double type.
+                            let lat = CLLocationDegrees(information.latitude)
+                            let long = CLLocationDegrees(information.longitude)
+                            
+                            // The lat and long are used to create a CLLocationCoordinates2D instance.
+                            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                            
+                            let first = information.firstName
+                            let last = information.lastName
+                            let mediaURL = information.mediaURL
+                            
+                            // Here we create the annotation and set its coordiate, title, and subtitle properties
+                            let annotation = MKPointAnnotation()
+                            annotation.coordinate = coordinate
+                            annotation.title = "\(first) \(last)"
+                            annotation.subtitle = mediaURL
+                            
+                            // Finally we place the annotation in an array of annotations.
+                            annotations.append(annotation)
+                        }
+                        
+                        DispatchQueue.main.async {
+                            // When the array is complete, we add the annotations to the map.
+                            self.mapView.addAnnotations(annotations)
+                            self.activityIndicator.stopAnimating()
+                        }
+                    }
+                    
+                }
+            }
+        }
         
     }
 
@@ -165,7 +217,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
                     
                 } else {
                     
-                    self.getAlertView(title: "Failed to Add Student Information", message: "Fail Message", error: error! as! String)
+                    self.getAlertView(title: "Failed to Add Student Information", error: error! as! String)
                     
                 }
             }

@@ -115,6 +115,7 @@ class UserTableVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     
     @IBAction func addButtonPressed(_ sender: Any) {
+        
         // Get Student Information by using UdacityClient
         UdacityClient.sharedInstance().getStudentInformation(self) { (success, error) in
             performUIUpdatesOnMain {
@@ -129,7 +130,7 @@ class UserTableVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     
                 } else {
                     
-                    self.getAlertView(title: "Failed to Add Student Information", message: "", error: error! as! String)
+                    self.getAlertView(title: "Failed to Add Student Information", error: error! as! String)
                 
                 }
             }
@@ -148,8 +149,11 @@ class UserTableVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     @IBAction func refreshButtonPressed(_ sender: Any) {
         
+        self.activityIndicator.startAnimating()
+        
         performUIUpdatesOnMain {
             self.tableView.reloadData()
+            self.activityIndicator.stopAnimating()
         }
         
     }

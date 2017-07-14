@@ -20,14 +20,6 @@ class UdacityClient : NSObject {
     // shared session
     var session = URLSession.shared
     
-    // configuration object
-    // var config = UdacityConfig()
-    
-    // authentication state
-    var requestToken: String? = nil
-    var sessionID: String? = nil
-    var userID: Int? = nil
-    
     // user info
     var key: [ String: String ] = [ "uniqueKey": "" ]
     var firstName: String = ""
@@ -59,7 +51,7 @@ class UdacityClient : NSObject {
                 print(error)
                 performUIUpdatesOnMain {
                     hostViewController.setUIEnabled(true)
-                    hostViewController.getAlertView(title: "Failed to Post Session", message: "Session Error Message", error: error)
+                    hostViewController.getAlertView(title: "Failed to Post Session", error: error)
                 }
             }
             
@@ -95,6 +87,7 @@ class UdacityClient : NSObject {
                     
                 }
             }
+
         }
         
         // Start the request
@@ -104,9 +97,7 @@ class UdacityClient : NSObject {
 
     }
     
-    func taskForPOSTSessionWithFB(completionHandlerForPOST: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
-        
-        let accessToken = AccessToken.current
+    func taskForPOSTSessionWithFB(_ accessToken: String, hostViewController: LoginVC, completionHandlerForPOST: @escaping (_ result: AnyObject?, _ error: Error?) -> Void) -> URLSessionDataTask {
         
         let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
         request.httpMethod = "POST"
@@ -121,8 +112,8 @@ class UdacityClient : NSObject {
             func displayError(_ error: String) {
                 print(error)
                 performUIUpdatesOnMain {
-                    // self.setUIEnabled(true)
-                    // self.getAlertView(error: error)
+                    hostViewController.setUIEnabled(true)
+                    hostViewController.getAlertView(title: "Facebook Login Failed", error: error)
                 }
             }
             
@@ -148,7 +139,16 @@ class UdacityClient : NSObject {
             let newData = data.subdata(in: range) /* subset response data! */
             print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
             
+            let json = try? JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
             
+            if let dictionary = json {
+                if let account = dictionary["account"] as? [String: Any] {
+                    // access individual value in dictionary
+                    
+                    UdacityClient.sharedInstance().getPublicUserData(user_id: account["key"] as! String, hostViewController: hostViewController)
+                    
+                }
+            }
         }
         
         task.resume()
@@ -255,54 +255,6 @@ class UdacityClient : NSObject {
     
 
     // MARK: HELPERS
-    
-//    func getStudentInformations() {
-//        
-//        // Get Student Locations
-//        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?limit=400&order=-updatedAt")!)
-//        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-//        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-//        
-//        let session = URLSession.shared
-//        
-//        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-//            if error != nil { // Handle error...
-//                
-//                // self.getAlertView(error: error as! String)
-//                
-//                return
-//            }
-//            // print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
-//            
-//            /* Parse the data */
-//            let parsedResult: [String:AnyObject]!
-//            do {
-//                parsedResult = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:AnyObject]
-//            } catch {
-//                print("Could not parse the data as JSON: '\(String(describing: data))'")
-//                return
-//            }
-//            
-//            /* GUARD: Did Udacity return an error? */
-//            if let _ = parsedResult["status_code"] as? Int {
-//                print("Udacity returned an error. See the Status Code")
-//                return
-//            }
-//            
-//            /* GUARD: Is the "results" key in parsedResult? */
-//            guard let results = parsedResult["results"] as? [[String:AnyObject]] else {
-//                print("Cannot find key results")
-//                return
-//            }
-//
-//            /* Use the data! */
-//            let _ = StudentInformation.locationsFromResults(results)
-//        }
-//        
-//        task.resume()
-//        
-//    }
-
 
     // get public user data from udacity
     func getPublicUserData(user_id: String, hostViewController: LoginVC) {
@@ -311,7 +263,7 @@ class UdacityClient : NSObject {
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil { // Handle error...
-                hostViewController.getAlertView(title: "Faied to Get User Data", message: "Get public user data message", error: error as! String)
+                hostViewController.getAlertView(title: "Faied to Get User Data", error: error as! String)
                 return
             }
             
