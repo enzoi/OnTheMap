@@ -63,101 +63,13 @@ class LocationConfirmVC: UIViewController {
     
     private func postStudentInformation(dict: [String: Any]) {
             
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let accountKey = try? JSONSerialization.data(withJSONObject: appDelegate.udacityClient.key, options: [])
-        
-        let urlString = "https://parse.udacity.com/parse/classes/StudentLocation"
-        let url = URL(string: urlString)
-        
-        let request = NSMutableURLRequest(url: url!)
-        request.httpMethod = "POST"
-        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = "{\"uniqueKey\": \"\(String(describing: dict["uniqueKey"]))\", \"firstName\": \"\(String(describing: dict["firstName"]))\", \"lastName\": \"\(String(describing: dict["lastName"]))\", \"mediaURL\": \"\(String(describing: dict["mediaURL"]))\",\"latitude\": \(String(describing: dict["latitude"])), \"longitude\": \(String(describing: dict["longitude"]))}".data(using: String.Encoding.utf8)
-        
-        let session = URLSession.shared
-            
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-                
-            // if an error occurs, print it and re-enable the UI
-            func displayError(_ error: String) {
-            
-                print(error)
-                self.getAlertView(error: error)
-            
-            }
-                
-                /* GUARD: Was there an error? */
-                guard (error == nil) else {
-                    displayError("There was an error with your request: \(error!)")
-                    return
-                }
-            
-                /* GUARD: Did we get a successful 2XX response? */
-                guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                    displayError("Your request returned a status code other than 2xx!")
-                    return
-                }
-                
-                /* GUARD: Was there any data returned? */
-                guard let data = data else {
-                    displayError("No data was returned by the request!")
-                    return
-                }
-                
-                //let range = Range(5..<data.count)
-                // let newData = data.subdata(in: range) /* subset response data! */
-                print(NSString(data: data, encoding: String.Encoding.utf8.rawValue)!)
-                
-        }
-        
-        task.resume()
+        // UdacityClient
         
     }
     
     private func putStudentInformation(object_id: String, dict: [String : Any]) {
-        let urlString = "https://parse.udacity.com/parse/classes/StudentLocation/\(object_id)"
-        let url = URL(string: urlString)
-        print("urlString", urlString)
-        
-        let request = NSMutableURLRequest(url: url!)
-            
-        request.httpMethod = "PUT"
-        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        var httpBodyString = ""
-        if let uniqueKey = dict["uniqueKey"], let mapString = dict["mapString"], let firstName = dict["firstName"], let lastName = dict["lastName"], let latitude = dict["latitude"], let longitude = dict["longitude"], let mediaURL = dict["mediaURL"] {
-            httpBodyString = "{\"uniqueKey\": \"\(uniqueKey)\", \"mapString\": \"\(mapString)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(latitude), \"longitude\": \(longitude)}"
-        }
 
-        request.httpBody = httpBodyString.data(using: String.Encoding.utf8)
-        
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error…
-                
-                print(error)
-                self.getAlertView(error: error as! String)
-                
-                return
-            }
-            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
-        }
-        
-        task.resume()
 
     }
-    
-    private func getAlertView(error: String) {
-        
-        self.alertController = UIAlertController(title: "Post Fails", message: error, preferredStyle: .alert)
-        let okayAction = UIAlertAction(title: "Dismiss", style: .cancel)
-        
-        self.alertController!.addAction(okayAction)
-        self.present(self.alertController!, animated: true, completion: nil)
-    }
-    
+
 }

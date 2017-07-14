@@ -39,13 +39,13 @@ struct StudentInformation {
     
     static func locationsFromResults(_ results: [[String:AnyObject]]) -> [StudentInformation] {
         
-        var studentInformations = [StudentInformation]()
+        var studentInformations = StudentInformations.sharedInstance.studentInformations
         
         // iterate through array of dictionaries, each Movie is a dictionary
         for result in results {
             studentInformations.append(StudentInformation(dictionary: result))
         }
-        
+     
         return studentInformations
     }
     

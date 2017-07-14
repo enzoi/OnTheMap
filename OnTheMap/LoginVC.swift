@@ -33,8 +33,6 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // subscribeToNotification(.UIKeyboardWillShow, selector: #selector(keyboardWillShow))
-        // subscribeToNotification(.UIKeyboardWillHide, selector: #selector(keyboardWillHide))
         subscribeToNotification(.UIKeyboardDidShow, selector: #selector(keyboardDidShow))
         subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide))
         
@@ -48,11 +46,14 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         
         FBloginButton.delegate = self
         
-        // If logged in with Facebook access token, navigate to LocationMapVC
-        if AccessToken.current != nil {
-            self.postSessionWithFB()
+        // If Facebook access token exists, navigate to LocationMapVC right away
+        var accessToken: String = ""
+        if let token = AccessToken.current {
+            accessToken = token.authenticationToken
+            /* UdacityClient.sharedInstance().taskForPOSTSessionWithFB(completionHandlerForPOST: <#(AnyObject?, NSError?) -> Void#>) */
             self.completeLogin()
         }
+    
     }
     
     func loginButtonDidLogOut(_ loginButton: LoginButton) {
@@ -63,7 +64,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         print("successfully logged in")
         
         // Get Public User Data Using Access Token
-        self.postSessionWithFB()
+        /* UdacityClient.sharedInstance().taskForPOSTSessionWithFB(completionHandlerForPOST: <#(AnyObject?, NSError?) -> Void#>) */
         self.completeLogin()
     }
     
@@ -81,16 +82,14 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     @IBAction func loginPressed(_ sender: Any) {
         userDidTapView(self)
         
-        if usernameTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
-
-            let error = "Username or Password Empty."
-            self.getAlertView(error: error)
-            
-        } else {
-            setUIEnabled(false)
-            
-            // posting a session
-            postSession()
+        UdacityClient.sharedInstance().postSession(self) { (success, error) in
+            performUIUpdatesOnMain {
+                if (success != nil) {
+                    self.completeLogin()
+                } else {
+                    self.getAlertView(title: "Login Error", message: "Message", error: error! as! String)
+                }
+            }
         }
     }
     
@@ -111,171 +110,6 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         }
     }
     
-    // MARK: Udacity Get a Session
-    
-    private func postSessionWithFB() {
-    
-        var accessToken: String = ""
-        if let token = AccessToken.current {
-            accessToken = token.authenticationToken 
-        }
-        
-        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = "{\"facebook_mobile\": {\"access_token\": \"\(accessToken);\"}}".data(using: String.Encoding.utf8)
-        
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            
-            // if an error occurs, print it and re-enable the UI
-            func displayError(_ error: String) {
-                print(error)
-                performUIUpdatesOnMain {
-                    self.setUIEnabled(true)
-                    self.getAlertView(error: error)
-                }
-            }
-            
-            /* GUARD: Was there an error? */
-            guard (error == nil) else {
-                displayError("There was an error with your request: \(error!)")
-                return
-            }
-            
-            /* GUARD: Did we get a successful 2XX response? */
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                displayError("Your request returned a status code other than 2xx!")
-                return
-            }
-            
-            /* GUARD: Was there any data returned? */
-            guard let data = data else {
-                displayError("No data was returned by the request!")
-                return
-            }
-            
-            let range = Range(5..<data.count)
-            let newData = data.subdata(in: range) /* subset response data! */
-            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
-        
-            let json = try? JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
-            
-            if let dictionary = json {
-                if let account = dictionary["account"] as? [String: Any] {
-                    // access individual value in dictionary
-                    
-                    self.getPublicUserData(user_id: account["key"] as! String)
-                    
-                }
-            }
-        }
-        
-        task.resume()
-    }
-    
-    private func postSession() {
-        
-        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = "{\"udacity\": {\"username\": \"\(self.usernameTextField.text!)\", \"password\": \"\(self.passwordTextField.text!)\"}}".data(using: String.Encoding.utf8)
-        
-        let session = URLSession.shared
-        
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            
-            // if an error occurs, print it and re-enable the UI
-            func displayError(_ error: String) {
-                print(error)
-                performUIUpdatesOnMain {
-                    self.setUIEnabled(true)
-                    self.getAlertView(error: error)
-                }
-            }
-            
-            /* GUARD: Was there an error? */
-            guard (error == nil) else {
-                displayError("There was an error with your request: \(error!)")
-                return
-            }
-            
-            /* GUARD: Did we get a successful 2XX response? */
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                displayError("Your request returned a status code other than 2xx!")
-                return
-            }
-            
-            /* GUARD: Was there any data returned? */
-            guard let data = data else {
-                displayError("No data was returned by the request!")
-                return
-            }
-            
-            let range = Range(5..<data.count)
-            let newData = data.subdata(in: range) /* subset response data! */
-            //print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
-            
-            let json = try? JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
-            
-            if let dictionary = json {
-                if let account = dictionary["account"] as? [String: Any] {
-                    // access individual value in dictionary
-                    
-                    self.getPublicUserData(user_id: account["key"] as! String)
-                    
-                }
-            }
-
-            self.completeLogin()
-        }
-        
-        // Start the request
-        task.resume()
-    }
-    
-    private func getAlertView(error: String) {
-        
-        self.alertController = UIAlertController(title: "Login Error", message: error, preferredStyle: .alert)
-        let okayAction = UIAlertAction(title: "Dismiss", style: .cancel)
-        
-        self.alertController!.addAction(okayAction)
-        self.present(self.alertController!, animated: true, completion: nil)
-    }
-    
-    private func getPublicUserData(user_id: String) {
-        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/users/\(user_id)")!)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error...
-                return
-            }
-            
-            let range = Range(5..<data!.count)
-            let newData = data?.subdata(in: range) /* subset response data! */
-            print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue)!)
-            
-            let json = try? JSONSerialization.jsonObject(with: newData!, options: []) as! [String: Any]
-            
-            if let dictionary = json {
-                if let account = dictionary["user"] as? [String: Any] {
-                    // access individual value in dictionary
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    appDelegate.udacityClient.key["uniqueKey"] = (account["key"] as? String)!
-                    appDelegate.udacityClient.firstName = (account["first_name"] as? String)!
-                    appDelegate.udacityClient.lastName = (account["last_name"] as? String)!
-
-                }
-                
-            }
-        }
-        
-        task.resume()
-    
-    }
-    
 }
 
 // MARK: - LoginVC: UITextFieldDelegate
@@ -288,22 +122,6 @@ extension LoginVC: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
-    // MARK: Show/Hide Keyboard
-    
-//    func keyboardWillShow(_ notification: Notification) {
-//        if !keyboardOnScreen {
-//            view.frame.origin.y -= keyboardHeight(notification)
-//            logoImageView.isHidden = true
-//        }
-//    }
-//    
-//    func keyboardWillHide(_ notification: Notification) {
-//        if keyboardOnScreen {
-//            view.frame.origin.y = 0
-//            logoImageView.isHidden = false
-//        }
-//    }
     
     func keyboardDidShow(_ notification: Notification) {
         keyboardOnScreen = true
@@ -335,7 +153,7 @@ extension LoginVC: UITextFieldDelegate {
 
 // MARK: - LoginVC (Configure UI)
 
-private extension LoginVC {
+extension LoginVC {
     
     func setUIEnabled(_ enabled: Bool) {
         usernameTextField.isEnabled = enabled
@@ -383,4 +201,19 @@ private extension LoginVC {
         NotificationCenter.default.removeObserver(self)
     }
 }
+
+// MARK - LoginVC (AlertController)
+
+extension UIViewController {
+    
+    func getAlertView(title: String, message: String, error: String) {
+        let alertController = UIAlertController(title: title, message: error, preferredStyle: .alert)
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
+        alertController.addAction(dismissAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+}
+
+
 

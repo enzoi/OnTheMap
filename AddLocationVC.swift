@@ -96,11 +96,9 @@ class AddLocationVC: UIViewController {
     
     private func getStudentInformationDictionary() -> [String: Any] {
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        let uniqueKey: String = appDelegate.udacityClient.key["uniqueKey"]!
-        let firstName: String = appDelegate.udacityClient.firstName
-        let lastName: String = appDelegate.udacityClient.lastName
+        let uniqueKey: String = UdacityClient.sharedInstance().key["uniqueKey"]!
+        let firstName: String = UdacityClient.sharedInstance().firstName
+        let lastName: String = UdacityClient.sharedInstance().lastName
         let latitude: Double = self.latitude
         let longitude: Double = self.longitude
         let mediaURL: String = self.website

@@ -14,8 +14,8 @@ import FacebookLogin
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let udacityClient = UdacityClient()
-    var studentInformations: [StudentInformation] = [StudentInformation]()
+    // let udacityClient = UdacityClient()
+    // var studentInformations: [StudentInformation] = [StudentInformation]()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         

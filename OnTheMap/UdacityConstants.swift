@@ -8,10 +8,19 @@
 
 import Foundation
 
-class UdacityClient {
+extension UdacityClient {
     
-    var key: [ String: String ] = [ "uniqueKey": "" ]
-    var firstName: String = ""
-    var lastName: String = ""
-    
+    // MARK: Constants
+    struct Constants {
+        
+        // MARK: API Key
+        static let ApiKey = "YOUR_API_KEY_HERE"
+        
+        // MARK: URLs
+//        static let ApiScheme = "https"
+//        static let ApiHost = "api.themoviedb.org"
+//        static let ApiPath = "/3"
+//        static let AuthorizationURL = "https://www.themoviedb.org/authenticate/"
+//        static let AccountURL = "https://www.themoviedb.org/account/"
+    }
 }
