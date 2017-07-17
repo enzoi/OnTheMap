@@ -61,13 +61,13 @@ class AddLocationVC: UIViewController {
         
         /* GUARD: Is the location input empty? */
         guard let mapString = locationTextField.text, !mapString.isEmpty else {
-            debugTextLabel.text = "Location is Empty."
+            self.getAlertView(title: "Input Error", error: "Location information is empty!!!")
             return
         }
         
         /* GUARD: Is the website input empty? */
         guard let website = websiteTextField.text, !website.isEmpty else {
-            debugTextLabel.text = "Website is Empty."
+            self.getAlertView(title: "Input Error", error: "URL information is empty!!!")
             return
         }
         
