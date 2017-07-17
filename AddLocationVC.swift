@@ -112,7 +112,6 @@ class AddLocationVC: UIViewController {
     private func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
         
         if error != nil {
-            print("Unable to Forward Geocode Address (\(error))")
             
             // Alert if geocoding fails
             self.alertController = UIAlertController(title: "Geocoding Failed", message: "Please enter a valid address", preferredStyle: .alert)

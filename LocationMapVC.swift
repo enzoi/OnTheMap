@@ -210,7 +210,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
                 if error != nil {
                     self.getAlertView(title: "Failed to Add Student Information", error: error as! String)
                 } else {
-                    print("addbutton.results", results)
+
                     if (results?.objectId != nil) {
                     
                     // Alert if location info already exists on the account
@@ -222,7 +222,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
                         
                         /* Send the data to next VC */
                         addLocationVC.results = results
-                        print("addLocationVC.results:", addLocationVC.results)
+
                         self.navigationController?.pushViewController(addLocationVC, animated: true)
                         
                     })

@@ -55,7 +55,7 @@ class LocationConfirmVC: UIViewController {
     @IBAction func finishButtonPressed(_ sender: Any) {
         
         self.activityIndicator.startAnimating()
-        print("self.results:", self.results)
+
         if let objectId = self.results?.objectId { // Update data with new information
             
             // PUT data

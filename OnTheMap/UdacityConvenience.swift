@@ -19,7 +19,6 @@ extension UdacityClient {
     func getStudentInformation(_ hostViewController: UIViewController, completionHandlerForGET: @escaping (_ result: StudentInformation?, _ error: Error?) -> Void) -> URLSessionDataTask {
         
         let uniqueKey = UdacityClient.sharedInstance().key["uniqueKey"]
-        print("uniqueKey:", uniqueKey)
         
         var urlString = "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(uniqueKey!)%22%7D"
         let url = URL(string: urlString)
@@ -182,7 +181,6 @@ extension UdacityClient {
             let _ = UdacityClient.sharedInstance().taskForPOSTSession(username: username, password: password, hostViewController: hostViewController) { (result, error) in
                 
                 if error != nil {
-                    print(error)
                     completionHandlerForLogin(nil, error)
                 
                 } else { // success
@@ -218,7 +216,6 @@ extension UdacityClient {
             let _ = UdacityClient.sharedInstance().taskForPOSTSessionWithFB(hostViewController, accessToken: accessToken) { (result, error) in
                
                 if error != nil {
-                    print(error)
                     completionHandlerForLogin(nil, error)
                     // hostViewController.getAlertView(title: "Failed to Post Session with Facebook", error: error as! String)
                 } else {

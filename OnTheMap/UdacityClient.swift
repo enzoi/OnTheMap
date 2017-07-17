@@ -306,7 +306,6 @@ class UdacityClient : NSObject {
                     UdacityClient.sharedInstance().lastName = (account["last_name"] as? String)!
 
                 }
-                
             }
         }
         
@@ -333,6 +332,7 @@ class UdacityClient : NSObject {
         }
         
         completionHandlerForConvertData(parsedResult, nil)
+        
     }
     
     // MARK: Shared Instance

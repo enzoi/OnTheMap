@@ -23,7 +23,6 @@
 		CFAD848B1EE7479400E40FE0 /* LocationMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD848A1EE7479400E40FE0 /* LocationMapVC.swift */; };
 		CFAD848D1EE747BA00E40FE0 /* UserTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD848C1EE747BA00E40FE0 /* UserTableVC.swift */; };
 		CFAD848F1EE747F300E40FE0 /* AddLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD848E1EE747F300E40FE0 /* AddLocationVC.swift */; };
-		CFAD84991EE74DEB00E40FE0 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD84981EE74DEB00E40FE0 /* UdacityConstants.swift */; };
 		CFAD849B1EE74F1C00E40FE0 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD849A1EE74F1C00E40FE0 /* StudentInformation.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +46,6 @@
 		CFAD848A1EE7479400E40FE0 /* LocationMapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationMapVC.swift; path = ../LocationMapVC.swift; sourceTree = "<group>"; };
 		CFAD848C1EE747BA00E40FE0 /* UserTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserTableVC.swift; path = ../UserTableVC.swift; sourceTree = "<group>"; };
 		CFAD848E1EE747F300E40FE0 /* AddLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddLocationVC.swift; path = ../AddLocationVC.swift; sourceTree = "<group>"; };
-		CFAD84981EE74DEB00E40FE0 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
 		CFAD849A1EE74F1C00E40FE0 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		F49A7CBDC52A835C5A3D3E7C /* Pods_OnTheMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnTheMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -164,7 +162,6 @@
 		CFAD84961EE74DC500E40FE0 /* Udacity */ = {
 			isa = PBXGroup;
 			children = (
-				CFAD84981EE74DEB00E40FE0 /* UdacityConstants.swift */,
 				CFAD849A1EE74F1C00E40FE0 /* StudentInformation.swift */,
 				CF246C301F16AE4A00A2EC5F /* StudentInformations.swift */,
 				CF59DDAE1F135B5C003BB3DE /* UdacityClient.swift */,
@@ -301,7 +298,6 @@
 				CF2C7C921EEB2EB900D5CB34 /* Constants.swift in Sources */,
 				CF0D14471EF249CE0075D81B /* LocationConfirmVC.swift in Sources */,
 				CF59DDAF1F135B5C003BB3DE /* UdacityClient.swift in Sources */,
-				CFAD84991EE74DEB00E40FE0 /* UdacityConstants.swift in Sources */,
 				CFAD848D1EE747BA00E40FE0 /* UserTableVC.swift in Sources */,
 				CF175AB91EE8CF7C00F5D32A /* GCDBlackBox.swift in Sources */,
 				CF246C2F1F169BCF00A2EC5F /* UdacityConvenience.swift in Sources */,
