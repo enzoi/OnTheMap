@@ -106,18 +106,25 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         userDidTapView(self)
         self.activityIndicator.startAnimating()
         
-        UdacityClient.sharedInstance().postSession(self) { (success, error) in
+        if usernameTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
+
+            self.getAlertView(title: "Login Failed", error: "User Name or Password is empty!!!")
             
-            performUIUpdatesOnMain {
-                if (success != nil) {
-                    self.activityIndicator.stopAnimating()
-                    self.completeLogin()
-                } else {
-                    print(error!)
-                    self.getAlertView(title: "Login Error", error: error as! String)
+        } else {
+            UdacityClient.sharedInstance().postSession(self) { (success, error) in
+            
+                performUIUpdatesOnMain {
+                    if (success != nil) {
+                        self.completeLogin()
+                    } else {
+                        print(error!)
+                        self.getAlertView(title: "Login Error", error: error as! String)
+                    }
                 }
             }
         }
+        
+        self.activityIndicator.stopAnimating()
     }
     
     @IBAction func signupButtonPressed(_ sender: Any) {

@@ -156,7 +156,7 @@ extension UdacityClient {
             /* Make the request */
             let _ = UdacityClient.sharedInstance().taskForPOSTSession(username: username, password: password, hostViewController: hostViewController) { (result, error) in
                 
-                if let error = error {
+                if error != nil {
                     print(error)
                     completionHandlerForLogin(nil, error)
                 
