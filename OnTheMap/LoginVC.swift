@@ -45,9 +45,18 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         FBloginButton.delegate = self
         
         // If Facebook access token exists, navigate to LocationMapVC right away
-        
-            self.completeLogin()
-    
+        if AccessToken.current != nil {
+
+            UdacityClient.sharedInstance().postSessionWithFB(self) { (success, error) in
+                performUIUpdatesOnMain {
+                    if (success != nil) {
+                        self.completeLogin()
+                    } else {
+                        self.getAlertView(title: "Login Error", error: error! as! String)
+                    }
+                }
+            }
+        }
     }
     
     func loginButtonDidLogOut(_ loginButton: LoginButton) {

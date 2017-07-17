@@ -169,7 +169,6 @@ extension UdacityClient {
                         self.getPublicUserData(user_id: key, hostViewController: hostViewController)
                         completionHandlerForLogin(result, nil)
                     } else {
-                        print("passed here")
                         completionHandlerForLogin(nil, error)
                     }
                 }
@@ -193,17 +192,16 @@ extension UdacityClient {
             /* Make the request */
             let _ = UdacityClient.sharedInstance().taskForPOSTSessionWithFB(hostViewController, accessToken: accessToken) { (result, error) in
                
-                if let error = error {
+                if error != nil {
                     print(error)
                     completionHandlerForLogin(nil, error)
-                    hostViewController.getAlertView(title: "Failed to Post Session with Facebook", error: error as! String)
+                    // hostViewController.getAlertView(title: "Failed to Post Session with Facebook", error: error as! String)
                 } else {
                     if let result = result {
-                        print(result)
                         let account = result["account"] as! [String:Any]
                         let key = account["key"] as! String
-                        print("key:", key)
                         self.getPublicUserData(user_id: key, hostViewController: hostViewController)
+                        completionHandlerForLogin(result, nil)
                     } else {
                         completionHandlerForLogin(nil, error)
                     }

@@ -84,7 +84,7 @@ class UdacityClient : NSObject {
 
     }
     
-    func taskForPOSTSessionWithFB(_ hostViewController: LoginVC, accessToken: String, completionHandlerForPOST: @escaping (_ result: AnyObject?, _ error: Error?) -> Void) -> URLSessionDataTask {
+    func taskForPOSTSessionWithFB(_ hostViewController: LoginVC, accessToken: String, completionHandlerForPOST: @escaping (_ result: [String: Any]?, _ error: Error?) -> Void) -> URLSessionDataTask {
         
         var accessToken: String = ""
         if let token = AccessToken.current {
@@ -127,7 +127,10 @@ class UdacityClient : NSObject {
                 return
             }
             
-            completionHandlerForPOST(data as AnyObject, nil)
+            let range = Range(5..<data.count)
+            let newData = data.subdata(in: range) /* subset response data! */
+            
+            self.convertDataWithCompletionHandler(newData, hostViewController: hostViewController, completionHandlerForConvertData: completionHandlerForPOST)
             
         }
         
