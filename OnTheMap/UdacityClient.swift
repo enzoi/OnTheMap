@@ -47,6 +47,7 @@ class UdacityClient : NSObject {
             func displayError(_ error: String) {
                 print(error)
                 performUIUpdatesOnMain {
+                    hostViewController.activityIndicator.stopAnimating()
                     hostViewController.setUIEnabled(true)
                     hostViewController.getAlertView(title: "Failed to Post Session", error: error)
                 }
@@ -54,13 +55,13 @@ class UdacityClient : NSObject {
             
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                displayError("There was an error with your request: \(error!)")
+                displayError("The internet connection is offline, please try again")
                 return
             }
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                displayError("Your request returned a status code other than 2xx!")
+                displayError("The credentials are incorrect, please try again")
                 return
             }
             
@@ -111,13 +112,13 @@ class UdacityClient : NSObject {
             
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                displayError("There was an error with your request: \(error!)")
+                displayError("The internet connection is offline, please try again")
                 return
             }
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                displayError("Your request returned a status code other than 2xx!")
+                displayError("The credentials are incorrect, please try again")
                 return
             }
             

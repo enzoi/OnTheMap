@@ -37,12 +37,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         
         debugTextLabel.text = ""
 
-        // Activity Indicator Setup
-        activityIndicator.center = view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.color = UIColor.lightGray
-        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-        view.addSubview(activityIndicator)
+        setupActivityIndicator()
         
         // Facebook Login Button Setup
         let FBloginButton = LoginButton(readPermissions: [ .publicProfile ])
@@ -70,6 +65,17 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         }
     }
     
+    func setupActivityIndicator() {
+        
+        // Activity Indicator Setup
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = UIColor.lightGray
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityIndicator)
+    
+    }
+    
     func loginButtonDidLogOut(_ loginButton: LoginButton) {
         print("logged out of facebook")
     }
@@ -82,18 +88,21 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         UdacityClient.sharedInstance().postSessionWithFB(self) { (success, error) in
             performUIUpdatesOnMain {
                 if (success != nil) {
-                    self.activityIndicator.stopAnimating()
                     self.completeLogin()
                 } else {
                     self.getAlertView(title: "Login Error", error: error! as! String)
                 }
+                self.activityIndicator.stopAnimating()
             }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         usernameTextField.text = ""
         passwordTextField.text = ""
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -103,11 +112,13 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     
     // MARK: Login
     @IBAction func loginPressed(_ sender: Any) {
+        
         userDidTapView(self)
         self.activityIndicator.startAnimating()
         
         if usernameTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
 
+            self.activityIndicator.stopAnimating()
             self.getAlertView(title: "Login Failed", error: "User Name or Password is empty!!!")
             
         } else {
@@ -115,6 +126,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
             
                 performUIUpdatesOnMain {
                     if (success != nil) {
+                        self.activityIndicator.stopAnimating()
                         self.completeLogin()
                     } else {
                         print(error!)
@@ -123,8 +135,6 @@ class LoginVC: UIViewController, LoginButtonDelegate {
                 }
             }
         }
-        
-        self.activityIndicator.stopAnimating()
     }
     
     @IBAction func signupButtonPressed(_ sender: Any) {
