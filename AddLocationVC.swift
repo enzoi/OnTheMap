@@ -83,7 +83,7 @@ class AddLocationVC: UIViewController {
         self.mapString = locationTextField.text!
         
         // Update View
-        activityIndicator.startAnimating()
+        self.activityIndicator.startAnimating()
 
         // Geocode Address String
         geocoder.geocodeAddressString(self.mapString) { (placemarks, error) in
@@ -111,10 +111,7 @@ class AddLocationVC: UIViewController {
     
     private func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
         
-        // Update View
-        activityIndicator.stopAnimating()
-        
-        if let error = error {
+        if error != nil {
             print("Unable to Forward Geocode Address (\(error))")
             
             // Alert if geocoding fails
@@ -169,6 +166,9 @@ class AddLocationVC: UIViewController {
             } else {
                 self.getAlertView(title: "No Matching Location Found", error: error as! String)
             }
+            
+            // Update View
+            self.activityIndicator.stopAnimating()
         }
     }
 }
