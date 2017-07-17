@@ -150,8 +150,9 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
             
             self.mapView.delegate = self
             
-            if let error = error {
-                print(error)
+            if error != nil {
+                
+                
                 
             } else {
                 

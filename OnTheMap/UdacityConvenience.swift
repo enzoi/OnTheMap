@@ -107,18 +107,43 @@ extension UdacityClient {
         let session = URLSession.shared
         
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error...
+
+            // if an error occurs, print it
+            func displayError(_ error: String) {
+                print(error)
                 
-                hostViewController.getAlertView(title: "Session Error", error: error as! String)
+                let alertController = UIAlertController(title: "Request Error", message: "Unable to complete the task!!!", preferredStyle: .alert)
+                let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
+                alertController.addAction(dismissAction)
+                
+                hostViewController.present(alertController, animated: true, completion: nil)
+            }
+            
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                displayError("There was an error with your request: \(error!)")
                 
                 return
             }
-            // print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                displayError("Your request returned a status code other than 2xx!")
+                
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                displayError("No data was returned by the request!")
+                
+                return
+            }
             
             /* Parse the data */
             let parsedResult: [String:AnyObject]!
             do {
-                parsedResult = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:AnyObject]
+                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String:AnyObject]
             } catch {
                 print("Could not parse the data as JSON: '\(String(describing: data))'")
                 return
