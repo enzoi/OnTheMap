@@ -152,7 +152,7 @@ class LocationMapVC: UIViewController, MKMapViewDelegate {
             
             if error != nil {
                 
-                
+                self.getAlertView(title: "Refresh Error", error: "Unable to Refresh")
                 
             } else {
                 

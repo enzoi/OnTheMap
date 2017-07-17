@@ -171,11 +171,23 @@ class UserTableVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     @IBAction func refreshButtonPressed(_ sender: Any) {
         
+        print("refresh button pressed")
         self.activityIndicator.startAnimating()
+        self.tabBarController?.tabBar.isHidden = false
         
-        performUIUpdatesOnMain {
-            self.tableView.reloadData()
-            self.activityIndicator.stopAnimating()
+        let _ = UdacityClient.sharedInstance().getStudentInformations(self) { (studentInformations, error) in
+            
+            if let studentInformations = studentInformations {
+                
+                self.studentInformations = studentInformations
+                
+                performUIUpdatesOnMain {
+                    self.tableView.reloadData()
+                    self.activityIndicator.stopAnimating()
+                }
+            } else {
+                self.getAlertView(title: "Refresh Error", error: "Unable to Refresh Data!!!")
+            }
         }
         
     }
