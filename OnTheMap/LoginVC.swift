@@ -15,6 +15,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     
     // MARK: Properties
     
+    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var alertController: UIAlertController?
     var keyboardOnScreen = false
     
@@ -36,6 +37,13 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         
         debugTextLabel.text = ""
 
+        // Activity Indicator Setup
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = UIColor.lightGray
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityIndicator)
+        
         // Facebook Login Button Setup
         let FBloginButton = LoginButton(readPermissions: [ .publicProfile ])
         // FBloginButton.center = view.center
@@ -47,9 +55,12 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         // If Facebook access token exists, navigate to LocationMapVC right away
         if AccessToken.current != nil {
 
+            self.activityIndicator.startAnimating()
+            
             UdacityClient.sharedInstance().postSessionWithFB(self) { (success, error) in
                 performUIUpdatesOnMain {
                     if (success != nil) {
+                        self.activityIndicator.stopAnimating()
                         self.completeLogin()
                     } else {
                         self.getAlertView(title: "Login Error", error: error! as! String)
@@ -65,11 +76,13 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     
     func loginButtonDidCompleteLogin(_ loginButton: LoginButton, result: LoginResult) {
         print("successfully logged in")
+        self.activityIndicator.startAnimating()
         
         // Get Public User Data Using Access Token
         UdacityClient.sharedInstance().postSessionWithFB(self) { (success, error) in
             performUIUpdatesOnMain {
                 if (success != nil) {
+                    self.activityIndicator.stopAnimating()
                     self.completeLogin()
                 } else {
                     self.getAlertView(title: "Login Error", error: error! as! String)
@@ -91,11 +104,13 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     // MARK: Login
     @IBAction func loginPressed(_ sender: Any) {
         userDidTapView(self)
+        self.activityIndicator.startAnimating()
         
         UdacityClient.sharedInstance().postSession(self) { (success, error) in
             
             performUIUpdatesOnMain {
                 if (success != nil) {
+                    self.activityIndicator.stopAnimating()
                     self.completeLogin()
                 } else {
                     print(error!)
