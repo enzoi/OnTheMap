@@ -9,14 +9,17 @@
 import Foundation
 import UIKit
 import MapKit
+import FacebookCore
+import FacebookLogin
 
 extension UdacityClient {
     
     // MARK: GET STUDENT INFORMATION (When ADD button pressed from LocationMapVC, UserTableVC)
     
-    func getStudentInformation(_ hostViewController: UIViewController, completionHandlerForGETStudentInformation: @escaping (_ result: Int?, _ error: Error?) -> Void) -> URLSessionDataTask {
+    func getStudentInformation(_ hostViewController: UIViewController, completionHandlerForGET: @escaping (_ result: StudentInformation?, _ error: Error?) -> Void) -> URLSessionDataTask {
         
         let uniqueKey = UdacityClient.sharedInstance().key["uniqueKey"]
+        print("uniqueKey:", uniqueKey)
         
         var urlString = "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(uniqueKey!)%22%7D"
         let url = URL(string: urlString)
@@ -71,38 +74,18 @@ extension UdacityClient {
                 return
             }
             
-            /* GUARD: Is the "results" key in parsedResult? */
-            guard let results = parsedResult["results"] as? [[String:AnyObject]] else {
-                print("Cannot find key results") // no existing data
-                // Present AddLocationVC
-                let storyboard = UIStoryboard (name: "Main", bundle: nil)
-                let addLocationVC = storyboard.instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
-                hostViewController.navigationController?.pushViewController(addLocationVC, animated: true)
-                return
+            if let results = parsedResult["results"] as? [[String:Any]] {
+                
+                print("getStudentInformation.results:", results)
+                let studentInformation = StudentInformation(dictionary: results[0])
+                completionHandlerForGET(studentInformation, nil)
+                
+            } else {
+                
+                completionHandlerForGET(nil, error)
+                // hostViewController.getAlertView(title: "Failed to Add Student Information", error: error! as! String)
+
             }
-            
-            /* Use the data! */
-            _ = StudentInformation.locationsFromResults(results)
-            
-            // Alert if location info already exists on the account
-            let alertController = UIAlertController(title: "Location already exists", message: "Would you like to overwrite the data?", preferredStyle: .alert)
-            let overwriteAction = UIAlertAction(title: "Overwrite", style: .default, handler: {(action:UIAlertAction) in
-                
-                let storyboard = UIStoryboard (name: "Main", bundle: nil)
-                let addLocationVC = storyboard.instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
-                
-                /* Send the data to next VC */
-                addLocationVC.results = results[0]
-                hostViewController.navigationController?.pushViewController(addLocationVC, animated: true)
-                
-            })
-            
-            let cancelAction = UIAlertAction(title: "Dismiss", style: .default)
-            
-            alertController.addAction(overwriteAction)
-            alertController.addAction(cancelAction)
-            
-            hostViewController.present(alertController, animated: true, completion: nil)
             
         }
         // Start the request
@@ -147,14 +130,13 @@ extension UdacityClient {
                 return
             }
             
-            /* GUARD: Is the "results" key in parsedResult? */
             if let results = parsedResult["results"] as? [[String:AnyObject]] {
                 
                 let studentInformations = StudentInformation.locationsFromResults(results)
                 completionHandlerForGET(studentInformations, nil)
                 
             } else {
-                completionHandlerForGET(nil, NSError(domain: "getStudentInformation parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentInformation"]))
+                completionHandlerForGET(nil, error)
             }
     
         }
@@ -167,7 +149,7 @@ extension UdacityClient {
     
     // MARK: POST SESSION
     
-    func postSession(_ hostViewController: LoginVC, completionHandlerForLogin: @escaping (_ result: Int?, _ error: Error?) -> Void) {
+    func postSession(_ hostViewController: LoginVC, completionHandlerForLogin: @escaping (_ result: [String: Any]?, _ error: Error?) -> Void) {
         
         if let username = hostViewController.usernameTextField.text, let password = hostViewController.passwordTextField.text {
             
@@ -178,11 +160,17 @@ extension UdacityClient {
                     print(error)
                     completionHandlerForLogin(nil, error)
                 
-                } else {
-                    if let result = result as? Int {
+                } else { // success
+                    if let result = result {
+                        print(result)
+                        let account = result["account"] as! [String:Any]
+                        let key = account["key"] as! String
+                        print("key:", key)
+                        self.getPublicUserData(user_id: key, hostViewController: hostViewController)
                         completionHandlerForLogin(result, nil)
                     } else {
-                        completionHandlerForLogin(nil, NSError(domain: "postToFavoritesList parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postSession"]))
+                        print("passed here")
+                        completionHandlerForLogin(nil, error)
                     }
                 }
             }
@@ -196,21 +184,28 @@ extension UdacityClient {
     
     // MARK: POST SESSION WITH FACEBOOK
     
-    func postSessionWithFB(_ hostViewController: LoginVC, accessToken: String?, completionHandlerForLogin: @escaping (_ result: Int?, _ error: Error?) -> Void) {
+    func postSessionWithFB(_ hostViewController: LoginVC, completionHandlerForLogin: @escaping (_ result: [String: Any]?, _ error: Error?) -> Void) {
         
-        if let accessToken = accessToken {
-            
+        var accessToken: String = ""
+        if let token = AccessToken.current {
+            accessToken = token.authenticationToken
+
             /* Make the request */
-            let _ = UdacityClient.sharedInstance().taskForPOSTSessionWithFB(accessToken, hostViewController: hostViewController) { (result, error) in
+            let _ = UdacityClient.sharedInstance().taskForPOSTSessionWithFB(hostViewController, accessToken: accessToken) { (result, error) in
                
                 if let error = error {
                     print(error)
+                    completionHandlerForLogin(nil, error)
                     hostViewController.getAlertView(title: "Failed to Post Session with Facebook", error: error as! String)
                 } else {
-                    if let result = result as? Int {
-                        completionHandlerForLogin(result, nil)
+                    if let result = result {
+                        print(result)
+                        let account = result["account"] as! [String:Any]
+                        let key = account["key"] as! String
+                        print("key:", key)
+                        self.getPublicUserData(user_id: key, hostViewController: hostViewController)
                     } else {
-                        completionHandlerForLogin(nil, NSError(domain: "postToFavoritesList parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postSession"]))
+                        completionHandlerForLogin(nil, error)
                     }
                 }
             }
@@ -225,15 +220,46 @@ extension UdacityClient {
     
     // MARK: POST STUDENT INFORMATION
     
-    // func postStudentInformation using taskForPOSTMethod
-    
-    
-    
+    func postStudentInformation(_ hostViewController: UIViewController, dict: StudentInformation, completionHandlerForPOST: @escaping (_ result: [String: Any]?, _ error: Error?) -> Void) {
+        
+        /* Make the request */
+        let _ = UdacityClient.sharedInstance().taskForPOSTMethod(hostViewController as! LocationConfirmVC, dict: dict) { (result, error) in
+            
+            /* Send the desired value(s) to completion handler */
+            if let error = error {
+                completionHandlerForPOST(nil, error)
+                hostViewController.getAlertView(title: "Failed to Post Student Information", error: error as! String)
+            } else {
+                if let result = result {
+                    completionHandlerForPOST(result, nil)
+                } else {
+                    completionHandlerForPOST(nil, error)
+                }
+            }
+        }
+    }
     
     // MARK: PUT STUDENT INFORMATION
     
-    // func putStudentInformation using taskForPUTMethod
-    
+    func putStudentInformation(_ hostViewController: UIViewController, object_id: String, dict: StudentInformation, completionHandlerForPUT: @escaping (_ result: [String: Any]?, _ error: Error?) -> Void) {
+        
+        /* Make the request */
+        let _ = UdacityClient.sharedInstance().taskForPUTMethod(hostViewController as! LocationConfirmVC, object_id: object_id, dict: dict) { (result, error) in
+            
+            /* Send the desired value(s) to completion handler */
+            if error != nil {
+                completionHandlerForPUT(nil, error)
+                hostViewController.getAlertView(title: "Failed to Overwrite Student Information", error: error as! String)
+            } else {
+                if let result = result {
+                    completionHandlerForPUT(result, nil)
+                } else {
+                    completionHandlerForPUT(nil, error)
+                }
+            }
+            
+        }
+    }
     
     
     
@@ -263,7 +289,7 @@ extension UdacityClient {
             }
             let range = Range(5..<data!.count)
             let newData = data?.subdata(in: range)
-            // print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue)!)
+            print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue)!)
             
             hostViewController.dismiss(animated: true, completion: nil)
         }

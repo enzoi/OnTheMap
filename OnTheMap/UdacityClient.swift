@@ -16,14 +16,11 @@ import FacebookLogin
 class UdacityClient : NSObject {
     
     // MARK: Properties
-    
-    // shared session
-    var session = URLSession.shared
-    
-    // user info
-    var key: [ String: String ] = [ "uniqueKey": "" ]
+
+    var key: [String: String] = [ "uniqueKey": "" ]
     var firstName: String = ""
     var lastName: String = ""
+    var objectId: String = ""
     
     // MARK: Initializers
     
@@ -34,7 +31,7 @@ class UdacityClient : NSObject {
     
     // MARK: POST SESSION
     
-    func taskForPOSTSession(username: String, password: String, hostViewController: LoginVC, completionHandlerForPOST: @escaping (_ result: AnyObject?, _ error: Error?) -> Void) -> URLSessionDataTask {
+    func taskForPOSTSession(username: String, password: String, hostViewController: LoginVC, completionHandlerForPOST: @escaping (_ result: [String: Any]?, _ error: Error?) -> Void) -> URLSessionDataTask {
         
         let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
         request.httpMethod = "POST"
@@ -75,18 +72,8 @@ class UdacityClient : NSObject {
             
             let range = Range(5..<data.count)
             let newData = data.subdata(in: range) /* subset response data! */
-            //print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
             
-            let json = try? JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
-            
-            if let dictionary = json {
-                if let account = dictionary["account"] as? [String: Any] {
-                    // access individual value in dictionary
-                    
-                    self.getPublicUserData(user_id: account["key"] as! String, hostViewController: hostViewController)
-                    
-                }
-            }
+            self.convertDataWithCompletionHandler(newData, hostViewController: hostViewController, completionHandlerForConvertData: completionHandlerForPOST)
 
         }
         
@@ -97,7 +84,12 @@ class UdacityClient : NSObject {
 
     }
     
-    func taskForPOSTSessionWithFB(_ accessToken: String, hostViewController: LoginVC, completionHandlerForPOST: @escaping (_ result: AnyObject?, _ error: Error?) -> Void) -> URLSessionDataTask {
+    func taskForPOSTSessionWithFB(_ hostViewController: LoginVC, accessToken: String, completionHandlerForPOST: @escaping (_ result: AnyObject?, _ error: Error?) -> Void) -> URLSessionDataTask {
+        
+        var accessToken: String = ""
+        if let token = AccessToken.current {
+            accessToken = token.authenticationToken
+        }
         
         let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
         request.httpMethod = "POST"
@@ -135,20 +127,8 @@ class UdacityClient : NSObject {
                 return
             }
             
-            let range = Range(5..<data.count)
-            let newData = data.subdata(in: range) /* subset response data! */
-            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
+            completionHandlerForPOST(data as AnyObject, nil)
             
-            let json = try? JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
-            
-            if let dictionary = json {
-                if let account = dictionary["account"] as? [String: Any] {
-                    // access individual value in dictionary
-                    
-                    UdacityClient.sharedInstance().getPublicUserData(user_id: account["key"] as! String, hostViewController: hostViewController)
-                    
-                }
-            }
         }
         
         task.resume()
@@ -159,9 +139,9 @@ class UdacityClient : NSObject {
     
     // MARK: POST METHOD
     
-    func taskForPOSTMethod(completionHandlerForPOST: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
-
-        let accountKey = try? JSONSerialization.data(withJSONObject: UdacityClient.sharedInstance().key, options: [])
+    func taskForPOSTMethod(_ hostViewController: LocationConfirmVC, dict: StudentInformation, completionHandlerForPOST: @escaping (_ result: [String: Any]?, _ error: Error?) -> Void) -> URLSessionDataTask {
+        
+        print("POST METHOD")
         
         let urlString = "https://parse.udacity.com/parse/classes/StudentLocation"
         let url = URL(string: urlString)
@@ -171,7 +151,7 @@ class UdacityClient : NSObject {
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        // request.httpBody = "{\"uniqueKey\": \"\(String(describing: dict["uniqueKey"]))\", \"firstName\": \"\(String(describing: dict["firstName"]))\", \"lastName\": \"\(String(describing: dict["lastName"]))\", \"mediaURL\": \"\(String(describing: dict["mediaURL"]))\",\"latitude\": \(String(describing: dict["latitude"])), \"longitude\": \(String(describing: dict["longitude"]))}".data(using: String.Encoding.utf8)
+        request.httpBody = "{\"uniqueKey\": \"\(String(describing: self.key["uniqueKey"]))\", \"firstName\": \"\(self.firstName))\", \"lastName\": \"\(self.lastName)\", \"mediaURL\": \"\(String(describing: dict.mediaURL))\",\"latitude\": \(String(describing: dict.latitude)), \"longitude\": \(String(describing: dict.longitude))}".data(using: String.Encoding.utf8)
         
         let session = URLSession.shared
         
@@ -181,7 +161,7 @@ class UdacityClient : NSObject {
             func displayError(_ error: String) {
                 
                 print(error)
-                // self.getAlertView(error: error)
+                hostViewController.getAlertView(title: "POST Error", error: error)
                 
             }
             
@@ -203,8 +183,7 @@ class UdacityClient : NSObject {
                 return
             }
             
-            //let range = Range(5..<data.count)
-            // let newData = data.subdata(in: range) /* subset response data! */
+            self.convertDataWithCompletionHandler(data, hostViewController: hostViewController, completionHandlerForConvertData: completionHandlerForPOST)
             print(NSString(data: data, encoding: String.Encoding.utf8.rawValue)!)
             
         }
@@ -216,7 +195,12 @@ class UdacityClient : NSObject {
     
     // MARK: PUT METHOD
     
-    func taskForPUTMethod(object_id: String) {
+    func taskForPUTMethod(_ hostViewController: LocationConfirmVC, object_id: String, dict: StudentInformation, completionHandlerForPUT: @escaping (_ result: [String: Any]?, _ error: Error?) -> Void) -> URLSessionDataTask {
+        
+        let uniqueKey = UdacityClient.sharedInstance().key["uniqueKey"]
+        let firstName = UdacityClient.sharedInstance().firstName
+        let lastName = UdacityClient.sharedInstance().lastName
+        let _ = getPublicUserData(user_id: uniqueKey!, hostViewController: hostViewController)
         
         let urlString = "https://parse.udacity.com/parse/classes/StudentLocation/\(object_id)"
         let url = URL(string: urlString)
@@ -229,35 +213,52 @@ class UdacityClient : NSObject {
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        var httpBodyString = ""
-        /* if let uniqueKey = dict["uniqueKey"], let mapString = dict["mapString"], let firstName = dict["firstName"], let lastName = dict["lastName"], let latitude = dict["latitude"], let longitude = dict["longitude"], let mediaURL = dict["mediaURL"] {
-            httpBodyString = "{\"uniqueKey\": \"\(uniqueKey)\", \"mapString\": \"\(mapString)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(latitude), \"longitude\": \(longitude)}"
-        } */
+        var httpBodyString = "{\"uniqueKey\": \"\(String(describing: uniqueKey!))\", \"mapString\": \"\(String(describing: dict.mapString))\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\", \"mediaURL\": \"\(String(describing: dict.mediaURL))\",\"latitude\": \(String(describing: dict.latitude)), \"longitude\": \(String(describing: dict.longitude))}"
         
-        // request.httpBody = httpBodyString.data(using: String.Encoding.utf8)
+        request.httpBody = httpBodyString.data(using: String.Encoding.utf8)
         
         let session = URLSession.shared
+        
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error…
+            // if an error occurs, print it and re-enable the UI
+            func displayError(_ error: String) {
                 
                 print(error)
-                // self.getAlertView(title: <#String#>, error: error as! String)
-                
+                hostViewController.getAlertView(title: "Overwrite Data Faield", error: error)       
+            }
+            
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                displayError("There was an error with your request: \(error!)")
                 return
             }
-            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                displayError("Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                displayError("No data was returned by the request!")
+                return
+            }
+            
+            self.convertDataWithCompletionHandler(data, hostViewController: hostViewController, completionHandlerForConvertData: completionHandlerForPUT)
+            
         }
-        
+
         task.resume()
+        
+        return task
     }
-    
-    
     
 
     // MARK: HELPERS
 
     // get public user data from udacity
-    func getPublicUserData(user_id: String, hostViewController: LoginVC) {
+    func getPublicUserData(user_id: String, hostViewController: UIViewController) {
         
         let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/users/\(user_id)")!)
         let session = URLSession.shared
@@ -279,10 +280,7 @@ class UdacityClient : NSObject {
                     UdacityClient.sharedInstance().key["uniqueKey"] = (account["key"] as? String)!
                     UdacityClient.sharedInstance().firstName = (account["first_name"] as? String)!
                     UdacityClient.sharedInstance().lastName = (account["last_name"] as? String)!
-                    
-                    print(UdacityClient.sharedInstance().key["uniqueKey"])
-                    print(UdacityClient.sharedInstance().firstName)
-                    print(UdacityClient.sharedInstance().lastName)
+
                 }
                 
             }
@@ -290,6 +288,27 @@ class UdacityClient : NSObject {
         
         task.resume()
         
+    }
+    
+    // given raw JSON, return a usable Foundation object
+    private func convertDataWithCompletionHandler(_ data: Data, hostViewController: UIViewController, completionHandlerForConvertData: (_ result: [String: Any]?, _ error: Error?) -> Void) {
+        
+        var parsedResult: [String: Any]! = nil
+        do {
+            parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
+        } catch {
+            print(error)
+        }
+        
+        if let dictionary = parsedResult {
+            if let account = dictionary["account"] as? [String: Any] {
+                // access individual value in dictionary
+                self.getPublicUserData(user_id: account["key"] as! String, hostViewController: hostViewController)
+                
+            }
+        }
+        
+        completionHandlerForConvertData(parsedResult, nil)
     }
     
     // MARK: Shared Instance

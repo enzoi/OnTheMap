@@ -14,8 +14,7 @@ class AddLocationVC: UIViewController {
 
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var alertController: UIAlertController?
-    var results: [String: Any]?
-    var studdentInformation: StudentInformation?
+    var results: StudentInformation?
     var mapString: String = ""
     var website: String = ""
     var latitude: Double = 0.0
@@ -36,8 +35,6 @@ class AddLocationVC: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        subscribeToNotification(.UIKeyboardWillShow, selector: #selector(keyboardWillShow))
-        subscribeToNotification(.UIKeyboardWillHide, selector: #selector(keyboardWillHide))
         subscribeToNotification(.UIKeyboardDidShow, selector: #selector(keyboardDidShow))
         subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide))
         
@@ -94,7 +91,7 @@ class AddLocationVC: UIViewController {
 
     }
     
-    private func getStudentInformationDictionary() -> [String: Any] {
+    private func getStudentInformation() -> StudentInformation {
         
         let uniqueKey: String = UdacityClient.sharedInstance().key["uniqueKey"]!
         let firstName: String = UdacityClient.sharedInstance().firstName
@@ -104,7 +101,7 @@ class AddLocationVC: UIViewController {
         let mediaURL: String = self.website
         let mapString: String = self.mapString
         
-        return ["uniqueKey": uniqueKey, "firstName": firstName, "lastName": lastName, "latitude": latitude, "longitude": longitude, "mediaURL": mediaURL, "mapString": mapString] as [String: Any]
+        return StudentInformation(dictionary: ["uniqueKey": uniqueKey, "firstName": firstName, "lastName": lastName, "latitude": latitude, "longitude": longitude, "mediaURL": mediaURL, "mapString": mapString])
         
     }
     
@@ -127,7 +124,7 @@ class AddLocationVC: UIViewController {
             
             return
             
-        } else {
+        } else { // Geocoding sucessfully executed
             var location: CLLocation?
             
             if let placemarks = placemarks, placemarks.count > 0 {
@@ -139,22 +136,22 @@ class AddLocationVC: UIViewController {
                 self.latitude = coordinate.latitude
                 self.longitude = coordinate.longitude
                 
-                if self.results?["uniqueKey"] as! String != "" {
+                if self.results?.uniqueKey != nil { // Data already exists
                     
                     // Update existing data with new user input
-                    self.results?["mapString"] = self.mapString
-                    self.results?["latitude"] = self.latitude
-                    self.results?["longitude"] = self.longitude
-                    self.results?["mediaURL"] = self.website
+                    self.results?.mapString = self.mapString
+                    self.results?.latitude = self.latitude
+                    self.results?.longitude = self.longitude
+                    self.results?.mediaURL = self.website
                     
                 } else {
                     
                     // Create new Student Information and send it to LocationConfirmVC
-                    self.results = getStudentInformationDictionary()
-                    self.results?["mapString"] = self.mapString
-                    self.results?["latitude"] = self.latitude
-                    self.results?["longitude"] = self.longitude
-                    self.results?["mediaURL"] = self.website
+                    self.results = getStudentInformation()
+                    self.results?.mapString = self.mapString
+                    self.results?.latitude = self.latitude
+                    self.results?.longitude = self.longitude
+                    self.results?.mediaURL = self.website
                     
                 }
                 
@@ -163,11 +160,12 @@ class AddLocationVC: UIViewController {
                 let controller = storyboard.instantiateViewController(withIdentifier: "LocationConfirmVC") as! LocationConfirmVC
                 
                 controller.results = self.results!
+                print("Print Result:", self.results!)
                 
                 self.navigationController?.pushViewController(controller,animated: true)
                 
             } else {
-                debugTextLabel.text = "No Matching Location Found"
+                self.getAlertView(title: "No Matching Location Found", error: error as! String)
             }
         }
     }
@@ -185,20 +183,6 @@ extension AddLocationVC: UITextFieldDelegate {
     }
     
     // MARK: Show/Hide Keyboard
-    
-    func keyboardWillShow(_ notification: Notification) {
-        if !keyboardOnScreen {
-            view.frame.origin.y -= keyboardHeight(notification)
-            // logoImageView.isHidden = true
-        }
-    }
-    
-    func keyboardWillHide(_ notification: Notification) {
-        if keyboardOnScreen {
-            view.frame.origin.y = 0
-            // logoImageView.isHidden = false
-        }
-    }
     
     func keyboardDidShow(_ notification: Notification) {
         keyboardOnScreen = true

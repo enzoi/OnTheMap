@@ -12,7 +12,7 @@ import MapKit
 class LocationConfirmVC: UIViewController {
     
     var alertController: UIAlertController?
-    var results: Dictionary<String, Any> = [:]
+    var results: StudentInformation?
     var website: String = ""
     var annotation = MKPointAnnotation()
     var latitude: Double = 0.0
@@ -23,8 +23,8 @@ class LocationConfirmVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.latitude = self.results["latitude"] as! Double
-        self.longitude = self.results["longitude"] as! Double
+        self.latitude = (self.results?.latitude)!
+        self.longitude = (self.results?.longitude)!
         
         // span to zoom(code below created based on the solution from https://stackoverflow.com/questions/39615416/swift-span-zoom)
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -34,8 +34,8 @@ class LocationConfirmVC: UIViewController {
         let pinLocation = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
         
         self.annotation.coordinate = pinLocation
-        self.annotation.title = (self.results["firstName"] as! String) + " " + (self.results["lastName"] as! String)
-        self.annotation.subtitle = self.results["mediaURL"] as? String
+        self.annotation.title = (self.results?.firstName)! + " " + (self.results?.lastName)!
+        self.annotation.subtitle = self.results?.mediaURL
         
         self.mapView.addAnnotation(annotation)
     }
@@ -46,30 +46,42 @@ class LocationConfirmVC: UIViewController {
     
     @IBAction func finishButtonPressed(_ sender: Any) {
         
-        if let objectId = self.results["objectId"] { // Update data with new information
+        print("self.results:", self.results)
+        if let objectId = self.results?.objectId { // Update data with new information
             
-            self.putStudentInformation(object_id: objectId as! String, dict: self.results)
-            
+            // PUT data
+            UdacityClient.sharedInstance().putStudentInformation(self, object_id: objectId, dict: self.results!) { (success, error) in
+                performUIUpdatesOnMain {
+                    if (success != nil) {
+                        
+                    } else {
+                        
+                        self.getAlertView(title: "Failed to Post Student Information", error: error! as! String)
+                        
+                    }
+                }
+            }
+        
         } else {
             
-            // POST data to Parse
-            self.postStudentInformation(dict: self.results)
+            // POST data
+            UdacityClient.sharedInstance().postStudentInformation(self, dict: self.results!) { (success, error) in
+                
+                performUIUpdatesOnMain {
+                    if (success != nil) {
+                        
+                    } else {
+                        
+                        self.getAlertView(title: "Failed to Overwrite Student Information", error: error! as! String)
+                        
+                    }
+                }
+            }
             
         }
         
         // go back to location map view
         self.navigationController?.popToRootViewController(animated: true)
-    }
-    
-    private func postStudentInformation(dict: [String: Any]) {
-            
-        // UdacityClient
-        
-    }
-    
-    private func putStudentInformation(object_id: String, dict: [String : Any]) {
-
-
     }
 
 }

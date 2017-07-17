@@ -16,9 +16,7 @@ class LoginVC: UIViewController, LoginButtonDelegate {
     // MARK: Properties
     
     var alertController: UIAlertController?
-    var appDelegate: AppDelegate!
     var keyboardOnScreen = false
-    var user_id: String?
     
     // MARK: Outlets
     
@@ -60,8 +58,15 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         print("successfully logged in")
         
         // Get Public User Data Using Access Token
-        /* UdacityClient.sharedInstance().taskForPOSTSessionWithFB(completionHandlerForPOST: <#(AnyObject?, NSError?) -> Void#>) */
-        self.completeLogin()
+        UdacityClient.sharedInstance().postSessionWithFB(self) { (success, error) in
+            performUIUpdatesOnMain {
+                if (success != nil) {
+                    self.completeLogin()
+                } else {
+                    self.getAlertView(title: "Login Error", error: error! as! String)
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,11 +84,13 @@ class LoginVC: UIViewController, LoginButtonDelegate {
         userDidTapView(self)
         
         UdacityClient.sharedInstance().postSession(self) { (success, error) in
+            
             performUIUpdatesOnMain {
                 if (success != nil) {
                     self.completeLogin()
                 } else {
-                    self.getAlertView(title: "Login Error", error: error! as! String)
+                    print(error!)
+                    self.getAlertView(title: "Login Error", error: error as! String)
                 }
             }
         }

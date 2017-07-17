@@ -13,20 +13,20 @@ import Foundation
 struct StudentInformation {
     
     // MARK: Properties
-    let objectId: String
-    let uniqueKey: String
-    let firstName: String
-    let lastName: String
-    let latitude: Double
-    let longitude: Double
-    let mediaURL: String
-    let mapString: String
+    var objectId: String
+    var uniqueKey: String
+    var firstName: String
+    var lastName: String
+    var latitude: Double
+    var longitude: Double
+    var mediaURL: String
+    var mapString: String
     
     // MARK: Initializers
     
     init(dictionary: [String:Any]) {
 
-        objectId = dictionary["objectId"] as! String
+        objectId = dictionary["objectId"] as? String ?? ""
         uniqueKey = dictionary["uniqueKey"] as? String ?? ""
         firstName = dictionary["firstName"] as? String ?? ""
         lastName = dictionary["lastName"] as? String ?? ""

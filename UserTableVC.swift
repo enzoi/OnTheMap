@@ -19,7 +19,6 @@ class StudentInformationTableViewCell: UITableViewCell {
     
 }
 
-
 class UserTableVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -46,7 +45,7 @@ class UserTableVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         self.activityIndicator.startAnimating()
         self.tabBarController?.tabBar.isHidden = false
         
-        UdacityClient.sharedInstance().getStudentInformations(self) { (studentInformations, error) in
+        let _ = UdacityClient.sharedInstance().getStudentInformations(self) { (studentInformations, error) in
             
             if let studentInformations = studentInformations {
                 
@@ -117,21 +116,44 @@ class UserTableVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @IBAction func addButtonPressed(_ sender: Any) {
         
         // Get Student Information by using UdacityClient
-        UdacityClient.sharedInstance().getStudentInformation(self) { (success, error) in
+        let _ = UdacityClient.sharedInstance().getStudentInformation(self) { (results, error) in
+            
             performUIUpdatesOnMain {
-                if (success != nil) {
-
-                    // Present AddLocationVC
-                    let storyboard = UIStoryboard (name: "Main", bundle: nil)
-                    let addLocationVC = storyboard.instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
-                    
-                    // hostViewController
-                    self.navigationController?.pushViewController(addLocationVC, animated: true)
-                    
+                if error != nil {
+                    self.getAlertView(title: "Failed to Add Student Information", error: error as! String)
                 } else {
-                    
-                    self.getAlertView(title: "Failed to Add Student Information", error: error! as! String)
-                
+                    print("addbutton.results", results)
+                    if (results?.objectId != nil) {
+                        
+                        // Alert if location info already exists on the account
+                        let alertController = UIAlertController(title: "Location already exists", message: "Would you like to overwrite the data?", preferredStyle: .alert)
+                        let overwriteAction = UIAlertAction(title: "Overwrite", style: .default, handler: {(action:UIAlertAction) in
+                            
+                            let storyboard = UIStoryboard (name: "Main", bundle: nil)
+                            let addLocationVC = storyboard.instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
+                            
+                            /* Send the data to next VC */
+                            addLocationVC.results = results
+                            print("addLocationVC.results:", addLocationVC.results)
+                            self.navigationController?.pushViewController(addLocationVC, animated: true)
+                            
+                        })
+                        
+                        let cancelAction = UIAlertAction(title: "Dismiss", style: .default)
+                        
+                        alertController.addAction(overwriteAction)
+                        alertController.addAction(cancelAction)
+                        
+                        self.present(alertController, animated: true, completion: nil)
+                        
+                    } else {
+                        
+                        // Present AddLocationVC
+                        let storyboard = UIStoryboard (name: "Main", bundle: nil)
+                        let addLocationVC = storyboard.instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
+                        self.navigationController?.pushViewController(addLocationVC, animated: true)
+                        
+                    }
                 }
             }
         }
