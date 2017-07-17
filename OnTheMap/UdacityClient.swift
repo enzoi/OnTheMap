@@ -164,7 +164,7 @@ class UdacityClient : NSObject {
             func displayError(_ error: String) {
                 
                 print(error)
-                hostViewController.getAlertView(title: "POST Error", error: error)
+                hostViewController.getAlertView(title: "Posting Data Error", error: error)
                 
             }
             
@@ -227,7 +227,7 @@ class UdacityClient : NSObject {
             func displayError(_ error: String) {
                 
                 print(error)
-                hostViewController.getAlertView(title: "Overwrite Data Faield", error: error)       
+                hostViewController.getAlertView(title: "Overwrite Data Failed", error: error)
             }
             
             /* GUARD: Was there an error? */
@@ -266,16 +266,36 @@ class UdacityClient : NSObject {
         let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/users/\(user_id)")!)
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error...
-                hostViewController.getAlertView(title: "Faied to Get User Data", error: error as! String)
+            // if an error occurs, print it and re-enable the UI
+            func displayError(_ error: String) {
+                
+                print(error)
+                hostViewController.getAlertView(title: "Failed to Get User Data", error: error)
+            }
+            
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                displayError("There was an error with your request: \(error!)")
                 return
             }
             
-            let range = Range(5..<data!.count)
-            let newData = data?.subdata(in: range) /* subset response data! */
-            print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue)!)
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                displayError("Your request returned a status code other than 2xx!")
+                return
+            }
             
-            let json = try? JSONSerialization.jsonObject(with: newData!, options: []) as! [String: Any]
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                displayError("No data was returned by the request!")
+                return
+            }
+            
+            let range = Range(5..<data.count)
+            let newData = data.subdata(in: range) /* subset response data! */
+            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
+            
+            let json = try? JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
             
             if let dictionary = json {
                 if let account = dictionary["user"] as? [String: Any] {

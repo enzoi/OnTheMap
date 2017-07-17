@@ -11,6 +11,7 @@ import MapKit
 
 class LocationConfirmVC: UIViewController {
     
+    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var alertController: UIAlertController?
     var results: StudentInformation?
     var website: String = ""
@@ -22,6 +23,13 @@ class LocationConfirmVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Activity Indicator Setup
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = UIColor.lightGray
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityIndicator)
         
         self.latitude = (self.results?.latitude)!
         self.longitude = (self.results?.longitude)!
@@ -46,6 +54,7 @@ class LocationConfirmVC: UIViewController {
     
     @IBAction func finishButtonPressed(_ sender: Any) {
         
+        self.activityIndicator.startAnimating()
         print("self.results:", self.results)
         if let objectId = self.results?.objectId { // Update data with new information
             
@@ -53,6 +62,10 @@ class LocationConfirmVC: UIViewController {
             UdacityClient.sharedInstance().putStudentInformation(self, object_id: objectId, dict: self.results!) { (success, error) in
                 performUIUpdatesOnMain {
                     if (success != nil) {
+                        
+                        self.activityIndicator.stopAnimating()
+                        // go back to location map view
+                        self.navigationController?.popToRootViewController(animated: true)
                         
                     } else {
                         
@@ -70,6 +83,10 @@ class LocationConfirmVC: UIViewController {
                 performUIUpdatesOnMain {
                     if (success != nil) {
                         
+                        self.activityIndicator.stopAnimating()
+                        // go back to location map view
+                        self.navigationController?.popToRootViewController(animated: true)
+                        
                     } else {
                         
                         self.getAlertView(title: "Failed to Overwrite Student Information", error: error! as! String)
@@ -79,9 +96,6 @@ class LocationConfirmVC: UIViewController {
             }
             
         }
-        
-        // go back to location map view
-        self.navigationController?.popToRootViewController(animated: true)
     }
 
 }
