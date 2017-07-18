@@ -208,7 +208,6 @@ class UdacityClient : NSObject {
         
         let urlString = "https://parse.udacity.com/parse/classes/StudentLocation/\(object_id)"
         let url = URL(string: urlString)
-        print("urlString", urlString)
         
         let request = NSMutableURLRequest(url: url!)
         
@@ -233,7 +232,8 @@ class UdacityClient : NSObject {
             
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                displayError("There was an error with your request: \(error!)")
+                
+                displayError("The Internet connection appears to be offline.")
                 return
             }
             
@@ -276,7 +276,7 @@ class UdacityClient : NSObject {
             
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                displayError("There was an error with your request: \(error!)")
+                displayError("The Internet connection appears to be offline.")
                 return
             }
             
@@ -345,4 +345,20 @@ class UdacityClient : NSObject {
     }
     
 }
+
+// MARK: CUSTOM ERROR MESSAGE
+
+public enum MyError: Error {
+    case networkError
+}
+
+extension MyError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .networkError:
+            return NSLocalizedString("The Internet connection appears to be offline.", comment: "Network error")
+        }
+    }
+}
+
 

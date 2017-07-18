@@ -75,7 +75,7 @@ class AddLocationVC: UIViewController {
         // validating url using regular expression (code below created based on the solution from http://urlregex.com/)
         let regexp = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
         guard let range = websiteTextField.text?.range(of:regexp, options: .regularExpression) else {
-            debugTextLabel.text = "Invalid URL...Please enter valid URL"
+            self.getAlertView(title: "Input Error", error: "Invalid URL...Please enter valid URL!!")
             return
         }
         
@@ -111,11 +111,14 @@ class AddLocationVC: UIViewController {
     
     private func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
         
+        print("function called")
+        self.activityIndicator.stopAnimating()
+        
         if error != nil {
             
             // Alert if geocoding fails
-            self.alertController = UIAlertController(title: "Geocoding Failed", message: "Please enter a valid address", preferredStyle: .alert)
-            let okayAction = UIAlertAction(title: "Okay", style: .cancel)
+            self.alertController = UIAlertController(title: "Geocoding Failed", message: "Please enter a valid address or check your Internet connection!!", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Dismiss", style: .cancel)
             
             self.alertController!.addAction(okayAction)
             self.present(self.alertController!, animated: true, completion: nil)
@@ -158,16 +161,13 @@ class AddLocationVC: UIViewController {
                 let controller = storyboard.instantiateViewController(withIdentifier: "LocationConfirmVC") as! LocationConfirmVC
                 
                 controller.results = self.results!
-                print("Print Result:", self.results!)
                 
                 self.navigationController?.pushViewController(controller,animated: true)
                 
             } else {
                 self.getAlertView(title: "No Matching Location Found", error: error as! String)
             }
-            
-            // Update View
-            self.activityIndicator.stopAnimating()
+    
         }
     }
 }
@@ -188,14 +188,12 @@ extension AddLocationVC: UITextFieldDelegate {
     func keyboardWillShow(_ notification: Notification) {
         if !keyboardOnScreen {
             view.frame.origin.y -= keyboardHeight(notification) - 80
-            // logoImageView.isHidden = true
         }
     }
     
     func keyboardWillHide(_ notification: Notification) {
         if keyboardOnScreen {
             view.frame.origin.y = 0
-            // logoImageView.isHidden = false
         }
     }
     
